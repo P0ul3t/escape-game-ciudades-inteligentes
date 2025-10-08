@@ -1,0 +1,2077 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escape Game: El Misterio de la Ciudad Inteligente</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #0a192f;
+            color: #e6f1ff;
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(100, 255, 218, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(100, 255, 218, 0.05) 0%, transparent 20%);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 30px;
+            background: rgba(16, 42, 87, 0.8);
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(100, 255, 218, 0.2);
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            color: #64ffda;
+            text-shadow: 0 0 15px rgba(100, 255, 218, 0.7);
+            background: linear-gradient(90deg, #64ffda, #a8ffeb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #64ffda;
+            text-shadow: 0 0 10px rgba(100, 255, 218, 0.5);
+        }
+
+        h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #a8ffeb;
+        }
+
+        p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .scene {
+            display: none;
+            background: rgba(16, 42, 87, 0.8);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(100, 255, 218, 0.2);
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .active {
+            display: block;
+        }
+
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #0a192f, #112240);
+            color: #64ffda;
+            padding: 14px 28px;
+            border: 1px solid #64ffda;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin: 10px 8px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn:hover {
+            background: #64ffda;
+            color: #0a192f;
+            box-shadow: 0 0 20px rgba(100, 255, 218, 0.7);
+            transform: translateY(-3px);
+        }
+
+        .btn:active {
+            transform: translateY(1px);
+        }
+
+        .btn-hint {
+            background: rgba(100, 255, 218, 0.1);
+            border: 1px solid #64ffda;
+            color: #64ffda;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin: 10px 0;
+            transition: all 0.3s ease;
+        }
+
+        .btn-hint:hover {
+            background: rgba(100, 255, 218, 0.2);
+        }
+
+        .btn-reset {
+            background: rgba(255, 107, 107, 0.1);
+            border: 1px solid #ff6b6b;
+            color: #ff6b6b;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin: 10px 0;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-reset:hover {
+            background: rgba(255, 107, 107, 0.2);
+        }
+
+        input, select, textarea {
+            background: rgba(10, 25, 47, 0.7);
+            border: 1px solid #64ffda;
+            color: #e6f1ff;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 1rem;
+            width: 100%;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            box-shadow: 0 0 10px rgba(100, 255, 218, 0.5);
+        }
+
+        .puzzle-container {
+            background: rgba(23, 42, 70, 0.9);
+            padding: 25px;
+            border-radius: 12px;
+            margin: 25px 0;
+            border: 1px solid #233554;
+            box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .timer {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(16, 42, 87, 0.9);
+            padding: 12px 18px;
+            border-radius: 8px;
+            border: 1px solid #64ffda;
+            font-size: 1.3rem;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            z-index: 100;
+        }
+
+        .hint {
+            background: rgba(100, 255, 218, 0.1);
+            border-left: 4px solid #64ffda;
+            padding: 15px;
+            margin: 20px 0;
+            font-style: italic;
+            border-radius: 0 8px 8px 0;
+            display: none;
+        }
+
+        .success {
+            color: #64ffda;
+            font-weight: bold;
+            text-align: center;
+            margin: 20px 0;
+            animation: pulse 2s infinite;
+            font-size: 1.2rem;
+        }
+
+        .error {
+            color: #ff6b6b;
+            font-weight: bold;
+            text-align: center;
+            margin: 20px 0;
+            font-size: 1.1rem;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.7; }
+            50% { opacity: 1; }
+            100% { opacity: 0.7; }
+        }
+
+        .code-display {
+            font-family: monospace;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border: 1px solid #233554;
+            font-size: 1.2rem;
+            text-align: center;
+        }
+
+        .grid-puzzle {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .grid-cell {
+            background: rgba(23, 42, 70, 0.9);
+            border: 1px solid #233554;
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.8rem;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+        }
+
+        .grid-cell:hover {
+            background: rgba(35, 53, 84, 0.9);
+            transform: scale(1.05);
+        }
+
+        .grid-cell.active {
+            background: rgba(100, 255, 218, 0.2);
+            border-color: #64ffda;
+            box-shadow: 0 0 15px rgba(100, 255, 218, 0.5);
+        }
+
+        .final-message {
+            text-align: center;
+            padding: 40px;
+            background: rgba(16, 42, 87, 0.9);
+            border-radius: 15px;
+            margin-top: 30px;
+            border: 1px solid rgba(100, 255, 218, 0.3);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .final-time {
+            font-size: 1.8rem;
+            color: #64ffda;
+            margin: 25px 0;
+            text-shadow: 0 0 10px rgba(100, 255, 218, 0.5);
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: rgba(23, 42, 70, 0.9);
+            border-radius: 5px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, #64ffda, #a8ffeb);
+            border-radius: 5px;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .bin {
+            min-height: 120px;
+            border: 2px dashed;
+            border-radius: 8px;
+            padding: 15px;
+            transition: all 0.3s ease;
+        }
+
+        .waste-item {
+            padding: 12px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 8px;
+            cursor: move;
+            margin: 5px;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .waste-item:hover {
+            background: rgba(255,255,255,0.2);
+            transform: translateY(-3px);
+        }
+
+        .image-puzzle {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 5px;
+            margin: 20px 0;
+        }
+
+        .puzzle-piece {
+            width: 100%;
+            aspect-ratio: 1;
+            background-size: 300% 300%;
+            border: 1px solid #233554;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .puzzle-piece:hover {
+            transform: scale(1.05);
+            border-color: #64ffda;
+        }
+
+        .sequence-item {
+            display: inline-block;
+            padding: 12px 20px;
+            margin: 8px;
+            background: rgba(23, 42, 70, 0.9);
+            border: 1px solid #233554;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        .sequence-item:hover {
+            background: rgba(35, 53, 84, 0.9);
+            transform: translateY(-3px);
+        }
+
+        .sequence-item.selected {
+            background: rgba(100, 255, 218, 0.2);
+            border-color: #64ffda;
+            box-shadow: 0 0 10px rgba(100, 255, 218, 0.5);
+        }
+
+        .option-group {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .option {
+            padding: 15px;
+            background: rgba(23, 42, 70, 0.9);
+            border: 1px solid #233554;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .option:hover {
+            background: rgba(35, 53, 84, 0.9);
+            transform: translateY(-3px);
+        }
+
+        .option.selected {
+            background: rgba(100, 255, 218, 0.2);
+            border-color: #64ffda;
+            box-shadow: 0 0 10px rgba(100, 255, 218, 0.5);
+        }
+
+        .matching-game {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .matching-item {
+            padding: 15px;
+            background: rgba(23, 42, 70, 0.9);
+            border: 1px solid #233554;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .matching-item:hover {
+            background: rgba(35, 53, 84, 0.9);
+        }
+
+        .matching-item.selected {
+            background: rgba(100, 255, 218, 0.2);
+            border-color: #64ffda;
+        }
+
+        .matching-item.matched {
+            background: rgba(100, 255, 218, 0.3);
+            border-color: #64ffda;
+            cursor: default;
+        }
+
+        .feedback-container {
+            min-height: 80px;
+            margin: 20px 0;
+        }
+
+        .reset-container {
+            display: flex;
+            justify-content: flex-end;
+            margin: 15px 0;
+        }
+
+        .waste-items-container {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            h2 {
+                font-size: 1.7rem;
+            }
+            
+            .timer {
+                position: static;
+                margin-bottom: 20px;
+                text-align: center;
+            }
+            
+            .grid-puzzle, .image-puzzle {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .matching-game {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .btn {
+                display: block;
+                width: 100%;
+                margin: 10px 0;
+            }
+            
+            .grid-puzzle, .image-puzzle {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="timer" id="timer">Tiempo: 00:00</div>
+    <div class="progress-bar">
+        <div class="progress" id="progress"></div>
+    </div>
+    
+    <div class="container">
+        <header>
+            <h1>Escape Game: El Misterio de la Ciudad Inteligente</h1>
+            <p>Ayuda a resolver los desafíos tecnológicos de una ciudad española inteligente</p>
+        </header>
+
+        <!-- Escena de introducción -->
+        <div id="scene-intro" class="scene active">
+            <h2>¡Bienvenido/a!</h2>
+            <p>Eres un/a consultor/a especializado/a en ciudades inteligentes. Has sido contratado/a por el ayuntamiento de una ciudad española para resolver una serie de problemas tecnológicos que están afectando a sus sistemas inteligentes.</p>
+            <p>Tu misión es resolver 20 desafíos relacionados con diferentes aspectos de una smart city para restaurar el funcionamiento completo de la ciudad.</p>
+            <p>Tienes un tiempo limitado antes de que los sistemas fallen completamente. ¡Demuestra tu expertise en tecnología urbana!</p>
+            <button class="btn" onclick="startGame()">Comenzar el Desafío</button>
+        </div>
+
+        <!-- Escena 1: Sistema de transporte -->
+        <div id="scene-1" class="scene">
+            <h2>Fase 1: Sistema de Transporte Inteligente</h2>
+            <p>El sistema de transporte público de la ciudad ha sufrido un fallo. Para reactivarlo, necesitas descifrar el código de acceso.</p>
+            
+            <div class="puzzle-container">
+                <p>Encuentra el patrón en esta secuencia de números relacionados con el transporte urbano:</p>
+                <div class="code-display">2, 4, 8, 16, 32, ?</div>
+                <p>¿Cuál es el siguiente número en la secuencia?</p>
+                <input type="text" id="transport-answer" placeholder="Ingresa tu respuesta">
+                <div class="feedback-container" id="transport-feedback"></div>
+                <button class="btn" id="transport-verify" onclick="checkTransportAnswer()">Verificar</button>
+                <button class="btn" id="transport-continue" onclick="nextSceneWithScroll()" style="display:none;">Continuar</button>
+            </div>
+            
+            <button class="btn-hint" onclick="toggleHint('hint-1')">¿Necesitas una pista?</button>
+            <div class="hint" id="hint-1">
+                <p>Pista: Piensa en cómo crecen las rutas de transporte cuando se expande una red.</p>
+            </div>
+        </div>
+
+        <!-- Escena 2: Gestión energética -->
+        <div id="scene-2" class="scene">
+            <h2>Fase 2: Gestión Energética Sostenible</h2>
+            <p>El sistema de gestión energética de la ciudad necesita recalibrarse. Debes resolver este acertijo sobre energía renovable.</p>
+            
+            <div class="puzzle-container">
+                <p>En una ciudad española, el 40% de la energía proviene de fuentes renovables. Si la ciudad consume 500 MWh diarios, ¿cuántos MWh provienen de fuentes renovables?</p>
+                <input type="text" id="energy-answer" placeholder="Ingresa tu respuesta en MWh">
+                <div class="feedback-container" id="energy-feedback"></div>
+                <button class="btn" id="energy-verify" onclick="checkEnergyAnswer()">Verificar</button>
+                <button class="btn" id="energy-continue" onclick="nextSceneWithScroll()" style="display:none;">Continuar</button>
+            </div>
+            
+            <button class="btn-hint" onclick="toggleHint('hint-2')">¿Necesitas una pista?</button>
+            <div class="hint" id="hint-2">
+                <p>Pista: Recuerda que el porcentaje representa una parte del total.</p>
+            </div>
+        </div>
+
+        <!-- Escena 3: Sistema de residuos -->
+        <div id="scene-3" class="scene">
+            <h2>Fase 3: Gestión Inteligente de Residuos</h2>
+            <p>Los sensores de los contenedores de reciclaje han dejado de funcionar. Para reactivarlos, debes ordenar correctamente los tipos de residuos.</p>
+            
+            <div class="puzzle-container">
+                <p>Arrastra los tipos de residuos a los contenedores correctos:</p>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap;">
+                    <div style="text-align: center; flex: 1; min-width: 150px; margin: 10px;">
+                        <div style="background: #ffeb3b; padding: 10px; border-radius: 5px; margin-bottom: 5px; color: #333; font-weight: bold;">Amarillo</div>
+                        <div id="yellow-bin" class="bin" ondrop="drop(event)" ondragover="allowDrop(event)" style="border-color: #ffeb3b;"></div>
+                    </div>
+                    <div style="text-align: center; flex: 1; min-width: 150px; margin: 10px;">
+                        <div style="background: #4caf50; padding: 10px; border-radius: 5px; margin-bottom: 5px; color: white; font-weight: bold;">Verde</div>
+                        <div id="green-bin" class="bin" ondrop="drop(event)" ondragover="allowDrop(event)" style="border-color: #4caf50;"></div>
+                    </div>
+                    <div style="text-align: center; flex: 1; min-width: 150px; margin: 10px;">
+                        <div style="background: #2196f3; padding: 10px; border-radius: 5px; margin-bottom: 5px; color: white; font-weight: bold;">Azul</div>
+                        <div id="blue-bin" class="bin" ondrop="drop(event)" ondragover="allowDrop(event)" style="border-color: #2196f3;"></div>
+                    </div>
+                </div>
+                
+                <div class="waste-items-container" id="waste-items-container-3">
+                    <div id="item1" class="waste-item" draggable="true" ondragstart="drag(event)">Botella de plástico</div>
+                    <div id="item2" class="waste-item" draggable="true" ondragstart="drag(event)">Periódico</div>
+                    <div id="item3" class="waste-item" draggable="true" ondragstart="drag(event)">Botella de vidrio</div>
+                    <div id="item4" class="waste-item" draggable="true" ondragstart="drag(event)">Lata de refresco</div>
+                    <div id="item5" class="waste-item" draggable="true" ondragstart="drag(event)">Revista</div>
+                </div>
+                
+                <div class="reset-container">
+                    <button class="btn-reset" onclick="resetScene3()">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M23 4v6h-6M1 20v-6h6M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                        </svg>
+                        Reiniciar
+                    </button>
+                </div>
+                
+                <div class="feedback-container" id="waste-feedback"></div>
+                <button class="btn" id="waste-verify" onclick="checkWasteAnswer()" style="margin-top: 20px;">Verificar</button>
+                <button class="btn" id="waste-continue" onclick="nextSceneWithScroll()" style="display:none;">Continuar</button>
+            </div>
+            
+            <button class="btn-hint" onclick="toggleHint('hint-3')">¿Necesitas una pista?</button>
+            <div class="hint" id="hint-3">
+                <p>Pista: Amarillo: envases de plástico, latas y briks. Azul: papel y cartón. Verde: vidrio.</p>
+            </div>
+        </div>
+
+        <!-- Escena 4: IoT y Sensores -->
+        <div id="scene-4" class="scene">
+            <h2>Fase 4: Red de Sensores IoT</h2>
+            <p>La red de sensores IoT de la ciudad ha detectado anomalías. Debes identificar el sensor que no pertenece al ecosistema.</p>
+            
+            <div class="puzzle-container">
+                <p>Selecciona el sensor que NO forma parte de una red de ciudad inteligente:</p>
+                <div class="option-group">
+                    <div class="option" onclick="selectOption(this, 'sensor')">Sensor de calidad del aire</div>
+                    <div class="option" onclick="selectOption(this, 'sensor')">Sensor de aparcamiento</div>
+                    <div class="option" onclick="selectOption(this, 'sensor')">Sensor de temperatura corporal</div>
+                    <div class="option" onclick="selectOption(this, 'sensor')">Sensor de nivel de contenedores</div>
+                    <div class="option" onclick="selectOption(this, 'sensor')">Sensor de tráfico</div>
+                    <div class="option" onclick="selectOption(this, 'sensor')">Sensor de intensidad lumínica</div>
+                </div>
+                <div class="feedback-container" id="sensor-feedback"></div>
+                <button class="btn" id="sensor-verify" onclick="checkSensorAnswer()">Verificar</button>
+                <button class="btn" id="sensor-continue" onclick="nextSceneWithScroll()" style="display:none;">Continuar</button>
+            </div>
+            
+            <button class="btn-hint" onclick="toggleHint('hint-4')">¿Necesitas una pista?</button>
+            <div class="hint" id="hint-4">
+                <p>Pista: Piensa en qué sensores se utilizan para monitorizar infraestructuras urbanas.</p>
+            </div>
+        </div>
+
+        <!-- Escena 5: Movilidad Eléctrica -->
+        <div id="scene-5" class="scene">
+            <h2>Fase 5: Movilidad Eléctrica</h2>
+            <p>El sistema de gestión de puntos de carga para vehículos eléctricos necesita reconfigurarse.</p>
+            
+            <div class="puzzle-container">
+                <p>Un coche eléctrico tiene una autonomía de 300 km. Si recorre 45 km diarios de media, ¿cuántos días puede circular sin necesidad de recargar?</p>
+                <input type="text" id="ev-answer" placeholder="Ingresa tu respuesta en días">
+                <div class="feedback-container" id="ev-feedback"></div>
+                <button class="btn" id="ev-verify" onclick="checkEvAnswer()">Verificar</button>
+                <button class="btn" id="ev-continue" onclick="nextSceneWithScroll()" style="display:none;">Continuar</button>
+            </div>
+            
+            <button class="btn-hint" onclick="toggleHint('hint-5')">¿Necesitas una pista?</button>
+            <div class="hint" id="hint-5">
+                <p>Pista: Divide la autonomía total entre el consumo diario.</p>
+            </div>
+        </div>
+
+        <!-- Escena 6: Big Data Urbano -->
+        <div id="scene-6" class="scene">
+            <h2>Fase 6: Análisis de Big Data Urbano</h2>
+            <p>El sistema de análisis de datos urbanos ha identificado un patrón anómalo. Debes interpretar los datos.</p>
+            
+            <div class="puzzle-container">
+                <p>Observa esta serie de datos de consumo energético en diferentes distritos:</p>
+                <div class="code-display">Distrito A: 125 MWh<br>Distrito B: 180 MWh<br>Distrito C: 95 MWh<br>Distrito D: 210 MWh<br>Distrito E: 140 MWh</div>
+                <p>¿Cuál es el consumo energético medio de estos distritos?</p>
+                <input type="text" id="data-answer" placeholder="Ingresa tu respuesta en MWh">
+                <div class="feedback-container" id="data-feedback"></div>
+                <button class="btn" id="data-verify" onclick="checkDataAnswer()">Verificar</button>
+                <button class="btn" id="data-continue" onclick="nextSceneWithScroll()" style="display:none;">Continuar</button>
+            </div>
+            
+            <button class="btn-hint" onclick="toggleHint('hint-6')">¿Necesitas una pista?</button>
+            <div class="hint" id="hint-6">
+                <p>Pista: Calcula la suma de todos los valores y divide entre el número de distritos.</p>
+            </div>
+        </div>
+
+        <!-- Escena 7: Conectividad 5G -->
+        <div id="scene-7" class="scene">
+            <h2>Fase 7: Red de Conectividad 5G</h2>
+            <p>La red 5G de la ciudad tiene problemas de cobertura. Debes optimizar la ubicación de las antenas.</p>
+            
+            <div class="puzzle-container">
+                <p>Selecciona la ubicación más adecuada para una nueva antena 5G considerando estos factores:</p>
+                <select id="antenna-answer">
+                    <option value="">Selecciona una opción</option>
+                    <option value="A">Zona residencial de baja densidad</option>
+                    <option value="B">Centro histórico con edificios altos</option>
+                    <option value="C">Parque industrial con naves bajas</option>
+                    <option value="D">Plaza central abierta con alta afluencia</option>
+                </select>
+                <div class="feedback-container" id="antenna-feedback"></div>
+                <button class="btn" id="antenna-verify" onclick="checkAntennaAnswer()">Verificar</button>
+                <button class="btn" id="antenna-continue" onclick="nextSceneWithScroll()" style="display:none;">Continuar</button>
+            </div>
+            
+            <button class="btn-hint" onclick="toggleHint('hint-7')">¿Necesitas una pista?</button>
+            <div class="hint" id="hint-7">
+                <p>Pista: Piensa en dónde se necesita mayor capacidad de red y cobertura.</p>
+            </div>
+        </div>
+
+        <!-- Escena 8: Edificios Inteligentes -->
+        <div id="scene-8" class="scene">
+            <h2>Fase 8: Gestión de Edificios Inteligentes</h2>
+            <p>El sistema de gestión energética de un edificio inteligente necesita reprogramación.</p>
+            
+            <div class="puzzle-container">
+                <p>Un edificio inteligente reduce su consumo energético un 15% tras una renovación. Si antes consumía 2000 kWh mensuales, ¿cuál es su nuevo consumo?</p>
+                <input type="text" id="building-answer" placeholder="Ingresa tu respuesta en kWh">
+                <div class="feedback-container" id="building-feedback"></div>
+                <button class="btn" id="building-verify" onclick="checkBuildingAnswer()">Verificar</button>
+                <button class="btn" id="building-continue" onclick="nextSceneWithScroll()" style="display:none;">Continuar</button>
+            </div>
+            
+            <button class="btn-hint" onclick="toggleHint('hint-8')">¿Necesitas una pista?</button>
+            <div class="hint" id="hint-8">
+                <p>Pista: Calcula el 15% de reducción y réstalo del consumo original.</p>
+            </div>
+        </div>
+
+        <!-- Escena 9: Plataforma de Participación Ciudadana -->
+        <div id="scene-9" class="scene">
+            <h2>Fase 9: Plataforma de Participación Ciudadana</h2>
+            <p>La plataforma digital de participación ciudadana necesita que clasifiques correctamente las propuestas recibidas.</p>
+            
+            <div class="puzzle-container">
+                <p>Relaciona cada propuesta ciudadana con la categoría correcta arrastrando las tarjetas:</p>
+                
+                <div class="matching-game">
+                    <div class="matching-column">
+                        <h3>Propuestas</h3>
+                        <div id="propuesta1" class="matching-item" draggable="true" ondragstart="dragMatch(event)">Más carriles bici protegidos</div>
+                        <div id="propuesta2" class="matching-item" draggable="true" ondragstart="dragMatch(event)">App para reportar incidencias urbanas</div>
+                        <div id="propuesta3" class="matching-item" draggable="true" ondragstart="dragMatch(event)">Instalación de puntos de recarga para VE</div>
+                        <div id="propuesta4" class="matching-item" draggable="true" ondragstart="dragMatch(event)">Más zonas verdes y arbolado</div>
+                    </div>
+                    <div class="matching-column">
+                        <h3>Categorías</h3>
+                        <div id="categoriaA" class="matching-item" ondrop="dropMatch(event)" ondragover="allowDrop(event)">Movilidad sostenible</div>
+                        <div id="categoriaB" class="matching-item" ondrop="dropMatch(event)" ondragover="allowDrop(event)">Gobierno digital</div>
+                        <div id="categoriaC" class="matching-item" ondrop="dropMatch(event)" ondragover="allowDrop(event)">Infraestructura verde</div>
+                        <div id="categoriaD" class="matching-item" ondrop="dropMatch(event)" ondragover="allowDrop(event)">Energía y medio ambiente</div>
+                    </div>
+                </div>
+                
+                <div class="reset-container">
+                    <button class="btn-reset" onclick="resetMatchingGame(9)">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M23 4v6h-6M1 20v-6h6M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                        </svg>
+                        Reiniciar
+                    </button>
+                </div>
+                
+                <div class="feedback-container" id="matching-feedback"></div>
+                <button class="btn" id="matching-verify" onclick="checkMatchingAnswer()">Verificar</button>
+                <button class="btn" id="matching-continue" onclick="nextSceneWithScroll()" style="display:none;">Continuar</button>
+            </div>
+            
+            <button class="btn-hint" onclick="toggleHint('hint-9')">¿Necesitas una pista?</button>
+            <div class="hint" id="hint-9">
+                <p>Pista: Analiza el objetivo principal de cada propuesta para determinar su categoría.</p>
+            </div>
+        </div>
+
+        <!-- Escena 10: Ciberseguridad Urbana -->
+        <div id="scene-10" class="scene">
+            <h2>Fase 10: Ciberseguridad Urbana</h2>
+            <p>El sistema de ciberseguridad de la ciudad ha detectado intentos de intrusión. Debes identificar la amenaza.</p>
+            
+            <div class="puzzle-container">
+                <p>¿Cuál de estas NO es una práctica recomendada de ciberseguridad para sistemas de ciudad inteligente?</p>
+                <div class="option-group">
+                    <div class="option" onclick="selectOption(this, 'security')">Actualizaciones regulares de software</div>
+                    <div class="option" onclick="selectOption(this, 'security')">Contraseñas únicas y complejas</div>
+                    <div class="option" onclick="selectOption(this, 'security')">Compartir credenciales entre departamentos</div>
+                    <div class="option" onclick="selectOption(this, 'security')">Cifrado de datos sensibles</div>
+                    <div class="option" onclick="selectOption(this, 'security')">Copias de seguridad periódicas</div>
+                </div>
+                <div class="feedback-container" id="security-feedback"></div>
+                <button class="btn" id="security-verify" onclick="checkSecurityAnswer()">Verificar</button>
+                <button class="btn" id="security-continue" onclick="nextSceneWithScroll()" style="display:none;">Continuar</button>
+            </div>
+            
+            <button class="btn-hint" onclick="toggleHint('hint-10')">¿Necesitas una pista?</button>
+            <div class="hint" id="hint-10">
+                <p>Pista: Piensa en prácticas que aumenten el riesgo de brechas de seguridad.</p>
+            </div>
+        </div>
+
+        <!-- Escena 11: Turismo Inteligente -->
+        <div id="scene-11" class="scene">
+            <h2>Fase 11: Sistema de Turismo Inteligente</h2>
+            <p>La plataforma de turismo inteligente necesita que identifiques las tecnologías más adecuadas.</p>
+            
+            <div class="puzzle-container">
+                <p>¿Cuál de estas tecnologías NO se utiliza típicamente en sistemas de turismo inteligente?</p>
+                <div class="option-group">
+                    <div class="option" onclick="selectOption(this, 'tourism')">Beacons para información contextual</div>
+                    <div class="option" onclick="selectOption(this, 'tourism')">Realidad aumentada en puntos de interés</div>
+                    <div class="option" onclick="selectOption(this, 'tourism')">Sensores de radiación nuclear</div>
+                    <div class="option" onclick="selectOption(this, 'tourism')">Apps con rutas personalizadas</div>
+                    <div class="option" onclick="selectOption(this, 'tourism')">Análisis de datos de afluencia</div>
+                </div>
+                <div class="feedback-container" id="tourism-feedback"></div>
+                <button class="btn" id="tourism-verify" onclick="checkTourismAnswer()">Verificar</button>
+                <button class="btn" id="tourism-continue" onclick="nextSceneWithScroll()" style="display:none;">Continuar</button>
+            </div>
+            
+            <button class="btn-hint" onclick="toggleHint('hint-11')">¿Necesitas una pista?</button>
+            <div class="hint" id="hint-11">
+                <p>Pista: Piensa en tecnologías relevantes para la experiencia turística.</p>
+            </div>
+        </div>
+
+        <!-- Escena 12: Salud Urbana -->
+        <div id="scene-12" class="scene">
+            <h2>Fase 12: Plataforma de Salud Urbana</h2>
+            <p>El sistema de monitorización de salud pública necesita configurarse correctamente.</p>
+            
+            <div class="puzzle-container">
+                <p>¿Cuál de estos NO es un indicador típico de salud urbana monitorizado en ciudades inteligentes?</p>
+                <div class="option-group">
+                    <div class="option" onclick="selectOption(this, 'health')">Calidad del aire</div>
+                    <div class="option" onclick="selectOption(this, 'health')">Niveles de ruido</div>
+                    <div class="option" onclick="selectOption(this, 'health')">Acceso a espacios verdes</div>
+                    <div class="option" onclick="selectOption(this, 'health')">Historial médico individual</div>
+                    <div class="option" onclick="selectOption(this, 'health')">Disponibilidad de agua potable</div>
+                </div>
+                <div class="feedback-container" id="health-feedback"></div>
+                <button class="btn" id="health-verify" onclick="checkHealthAnswer()">Verificar</button>
+                <button class="btn" id="health-continue" onclick="nextSceneWithScroll()" style="display:none;">Continuar</button>
+            </div>
+            
+            <button class="btn-hint" onclick="toggleHint('hint-12')">¿Necesitas una pista?</button>
+            <div class="hint" id="hint-12">
+                <p>Pista: Piensa en indicadores de salud pública, no datos médicos personales.</p>
+            </div>
+        </div>
+
+        <!-- Escena 13: Economía Circular -->
+        <div id="scene-13" class="scene">
+            <h2>Fase 13: Sistema de Economía Circular</h2>
+            <p>La plataforma de economía circular necesita que identifiques prácticas sostenibles.</p>
+            
+            <div class="puzzle-container">
+                <p>¿Cuál de estas NO es una práctica característica de economía circular?</p>
+                <div class="option-group">
+                    <div class="option" onclick="selectOption(this, 'circular')">Reciclaje de materiales</div>
+                    <div class="option" onclick="selectOption(this, 'circular')">Reparación y reutilización</div>
+                    <div class="option" onclick="selectOption(this, 'circular')">Vertido en landfill</div>
+                    <div class="option" onclick="selectOption(this, 'circular')">Compartición de recursos</div>
+                    <div class="option" onclick="selectOption(this, 'circular')">Diseño para la durabilidad</div>
+                </div>
+                <div class="feedback-container" id="circular-feedback"></div>
+                <button class="btn" id="circular-verify" onclick="checkCircularAnswer()">Verificar</button>
+                <button class="btn" id="circular-continue" onclick="nextSceneWithScroll()" style="display:none;">Continuar</button>
+            </div>
+            
+            <button class="btn-hint" onclick="toggleHint('hint-13')">¿Necesitas una pista?</button>
+            <div class="hint" id="hint-13">
+                <p>Pista: La economía circular busca eliminar los residuos y mantener los materiales en uso.</p>
+            </div>
+        </div>
+
+        <!-- Escena 14: Gobernanza de Datos -->
+        <div id="scene-14" class="scene">
+            <h2>Fase 14: Gobernanza de Datos Urbanos</h2>
+            <p>El sistema de gobernanza de datos necesita que identifiques principios éticos.</p>
+            
+            <div class="puzzle-container">
+                <p>¿Cuál de estos NO es un principio fundamental de la gobernanza de datos en ciudades inteligentes?</p>
+                <div class="option-group">
+                    <div class="option" onclick="selectOption(this, 'governance')">Transparencia</div>
+                    <div class="option" onclick="selectOption(this, 'governance')">Privacidad por diseño</div>
+                    <div class="option" onclick="selectOption(this, 'governance')">Venta de datos personales</div>
+                    <div class="option" onclick="selectOption(this, 'governance')">Participación ciudadana</div>
+                    <div class="option" onclick="selectOption(this, 'governance')">Seguridad de la información</div>
+                </div>
+                <div class="feedback-container" id="governance-feedback"></div>
+                <button class="btn" id="governance-verify" onclick="checkGovernanceAnswer()">Verificar</button>
+                <button class="btn" id="governance-continue" onclick="nextSceneWithScroll()" style="display:none;">Continuar</button>
+            </div>
+            
+            <button class="btn-hint" onclick="toggleHint('hint-14')">¿Necesitas una pista?</button>
+            <div class="hint" id="hint-14">
+                <p>Pista: Piensa en prácticas que respeten los derechos de los ciudadanos.</p>
+            </div>
+        </div>
+
+        <!-- Escena 15: Código de acceso final -->
+        <div id="scene-15" class="scene">
+            <h2>Fase 15: Código de Acceso Final</h2>
+            <p>¡Estás cerca de restaurar todos los sistemas! Solo necesitas descifrar el código final basado en datos de ciudades inteligentes españolas.</p>
+            
+            <div class="puzzle-container">
+                <p>Resuelve este acertijo para obtener el código final:</p>
+                <p>En España, hay una ciudad que es líder en implementación de tecnologías smart city. Su nombre tiene 9 letras y comienza con "B". ¿Cuál es la tercera letra de esta ciudad?</p>
+                <input type="text" id="city-answer" placeholder="Ingresa la tercera letra">
+                <div class="feedback-container" id="city-feedback"></div>
+                <button class="btn" id="city-verify" onclick="checkCityAnswer()">Verificar</button>
+                <button class="btn" id="city-continue" onclick="nextSceneWithScroll()" style="display:none;">Continuar</button>
+            </div>
+            
+            <button class="btn-hint" onclick="toggleHint('hint-15')">¿Necesitas una pista?</button>
+            <div class="hint" id="hint-15">
+                <p>Pista: Esta ciudad es la capital de una comunidad autónoma y es conocida por su proyecto "Smart City".</p>
+            </div>
+        </div>
+
+        <!-- Escena 16: Reciclaje de RAEE -->
+        <div id="scene-16" class="scene">
+            <h2>Fase 16: Gestión de Residuos Electrónicos</h2>
+            <p>El sistema de gestión de RAEE (Residuos de Aparatos Eléctricos y Electrónicos) necesita configuración.</p>
+            
+            <div class="puzzle-container">
+                <p>Arrastra cada dispositivo electrónico al punto de recogida correcto:</p>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap;">
+                    <div style="text-align: center; flex: 1; min-width: 150px; margin: 10px;">
+                        <div style="background: #9c27b0; padding: 10px; border-radius: 5px; margin-bottom: 5px; color: white; font-weight: bold;">Punto Limpio</div>
+                        <div id="punto-limpio" class="bin" ondrop="drop(event)" ondragover="allowDrop(event)" style="border-color: #9c27b0;"></div>
+                    </div>
+                    <div style="text-align: center; flex: 1; min-width: 150px; margin: 10px;">
+                        <div style="background: #ff9800; padding: 10px; border-radius: 5px; margin-bottom: 5px; color: white; font-weight: bold;">Tienda</div>
+                        <div id="tienda" class="bin" ondrop="drop(event)" ondragover="allowDrop(event)" style="border-color: #ff9800;"></div>
+                    </div>
+                    <div style="text-align: center; flex: 1; min-width: 150px; margin: 10px;">
+                        <div style="background: #795548; padding: 10px; border-radius: 5px; margin-bottom: 5px; color: white; font-weight: bold;">Reparación</div>
+                        <div id="reparacion" class="bin" ondrop="drop(event)" ondragover="allowDrop(event)" style="border-color: #795548;"></div>
+                    </div>
+                </div>
+                
+                <div class="waste-items-container" id="waste-items-container-16">
+                    <div id="raee1" class="waste-item" draggable="true" ondragstart="drag(event)">Teléfono móvil roto</div>
+                    <div id="raee2" class="waste-item" draggable="true" ondragstart="drag(event)">Ordenador portátil viejo</div>
+                    <div id="raee3" class="waste-item" draggable="true" ondragstart="drag(event)">Tablet con pantalla rota</div>
+                    <div id="raee4" class="waste-item" draggable="true" ondragstart="drag(event)">Cargador de móvil</div>
+                    <div id="raee5" class="waste-item" draggable="true" ondragstart="drag(event)">Televisor antiguo</div>
+                </div>
+                
+                <div class="reset-container">
+                    <button class="btn-reset" onclick="resetScene16()">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M23 4v6h-6M1 20v-6h6M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                        </svg>
+                        Reiniciar
+                    </button>
+                </div>
+                
+                <div class="feedback-container" id="raee-feedback"></div>
+                <button class="btn" id="raee-verify" onclick="checkRaeeAnswer()" style="margin-top: 20px;">Verificar</button>
+                <button class="btn" id="raee-continue" onclick="nextSceneWithScroll()" style="display:none;">Continuar</button>
+            </div>
+            
+            <button class="btn-hint" onclick="toggleHint('hint-16')">¿Necesitas una pista?</button>
+            <div class="hint" id="hint-16">
+                <p>Pista: Punto Limpio: dispositivos grandes o muy antiguos. Tienda: al comprar uno nuevo. Reparación: si es reparable.</p>
+            </div>
+        </div>
+
+        <!-- Escena 17: Separación de residuos orgánicos -->
+        <div id="scene-17" class="scene">
+            <h2>Fase 17: Gestión de Residuos Orgánicos</h2>
+            <p>El nuevo sistema de recogida de residuos orgánicos necesita que identifiques correctamente los materiales compostables.</p>
+            
+            <div class="puzzle-container">
+                <p>Selecciona los residuos que SÍ pueden ir al contenedor de orgánica (marrón):</p>
+                <div class="option-group">
+                    <div class="option" onclick="toggleSelection(this, 'organica')">Restos de fruta y verdura</div>
+                    <div class="option" onclick="toggleSelection(this, 'organica')">Papel de cocina usado</div>
+                    <div class="option" onclick="toggleSelection(this, 'organica')">Huesos de carne</div>
+                    <div class="option" onclick="toggleSelection(this, 'organica')">Botella de plástico</div>
+                    <div class="option" onclick="toggleSelection(this, 'organica')">Cáscaras de huevo</div>
+                    <div class="option" onclick="toggleSelection(this, 'organica')">Bolsas de plástico</div>
+                    <div class="option" onclick="toggleSelection(this, 'organica')">Posos de café</div>
+                    <div class="option" onclick="toggleSelection(this, 'organica')">Pelo y uñas</div>
+                </div>
+                
+                <div class="feedback-container" id="organica-feedback"></div>
+                <button class="btn" id="organica-verify" onclick="checkOrganicaAnswer()">Verificar</button>
+                <button class="btn" id="organica-continue" onclick="nextSceneWithScroll()" style="display:none;">Continuar</button>
+            </div>
+            
+            <button class="btn-hint" onclick="toggleHint('hint-17')">¿Necesitas una pista?</button>
+            <div class="hint" id="hint-17">
+                <p>Pista: Los residuos orgánicos son materiales biodegradables que pueden convertirse en compost.</p>
+            </div>
+        </div>
+
+        <!-- Escena 18: Reciclaje de pilas y baterías -->
+        <div id="scene-18" class="scene">
+            <h2>Fase 18: Gestión de Pilas y Baterías</h2>
+            <p>El sistema de recogida de pilas y baterías necesita que identifiques los puntos de reciclaje adecuados.</p>
+            
+            <div class="puzzle-container">
+                <p>Relaciona cada tipo de pila/batería con su punto de reciclaje correcto:</p>
+                
+                <div class="matching-game">
+                    <div class="matching-column">
+                        <h3>Tipos de pilas/baterías</h3>
+                        <div id="pila1" class="matching-item" draggable="true" ondragstart="dragMatch(event)">Pilas AA/AAA</div>
+                        <div id="pila2" class="matching-item" draggable="true" ondragstart="dragMatch(event)">Batería de coche</div>
+                        <div id="pila3" class="matching-item" draggable="true" ondragstart="dragMatch(event)">Batería de móvil</div>
+                        <div id="pila4" class="matching-item" draggable="true" ondragstart="dragMatch(event)">Batería de ordenador portátil</div>
+                    </div>
+                    <div class="matching-column">
+                        <h3>Puntos de reciclaje</h3>
+                        <div id="puntoA" class="matching-item" ondrop="dropMatch(event)" ondragover="allowDrop(event)">Contenedor específico en supermercados</div>
+                        <div id="puntoB" class="matching-item" ondrop="dropMatch(event)" ondragover="allowDrop(event)">Taller mecánico o punto limpio</div>
+                        <div id="puntoC" class="matching-item" ondrop="dropMatch(event)" ondragover="allowDrop(event)">Tienda de electrónica o punto limpio</div>
+                        <div id="puntoD" class="matching-item" ondrop="dropMatch(event)" ondragover="allowDrop(event)">Punto limpio o tienda especializada</div>
+                    </div>
+                </div>
+                
+                <div class="reset-container">
+                    <button class="btn-reset" onclick="resetMatchingGame(18)">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M23 4v6h-6M1 20v-6h6M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                        </svg>
+                        Reiniciar
+                    </button>
+                </div>
+                
+                <div class="feedback-container" id="pilas-feedback"></div>
+                <button class="btn" id="pilas-verify" onclick="checkPilasAnswer()">Verificar</button>
+                <button class="btn" id="pilas-continue" onclick="nextSceneWithScroll()" style="display:none;">Continuar</button>
+            </div>
+            
+            <button class="btn-hint" onclick="toggleHint('hint-18')">¿Necesitas una pista?</button>
+            <div class="hint" id="hint-18">
+                <p>Pista: Considera el tamaño, toxicidad y valor de reutilización de cada tipo de pila/batería.</p>
+            </div>
+        </div>
+
+        <!-- Escena 19: Planificación Urbana Sostenible -->
+        <div id="scene-19" class="scene">
+            <h2>Fase 19: Planificación Urbana Sostenible</h2>
+            <p>El sistema de planificación urbana necesita que priorices proyectos según criterios de sostenibilidad.</p>
+            
+            <div class="puzzle-container">
+                <p>Ordena estos proyectos de planificación urbana del más prioritario (1) al menos prioritario (4) arrastrando los números:</p>
+                
+                <div id="planificacion-container" style="display: grid; grid-template-columns: 1fr; gap: 15px; margin: 20px 0;">
+                    <div style="display: flex; align-items: center; background: rgba(23, 42, 70, 0.9); padding: 15px; border-radius: 8px;">
+                        <div id="pos1" class="position-marker" style="margin-right: 15px; font-size: 1.5rem; color: #64ffda;">1</div>
+                        <div id="proyecto1" class="matching-item" style="flex: 1; cursor: move;" draggable="true" ondragstart="dragPlanificacion(event)">Crear corredores verdes que conecten parques urbanos</div>
+                    </div>
+                    <div style="display: flex; align-items: center; background: rgba(23, 42, 70, 0.9); padding: 15px; border-radius: 8px;">
+                        <div id="pos2" class="position-marker" style="margin-right: 15px; font-size: 1.5rem; color: #64ffda;">2</div>
+                        <div id="proyecto2" class="matching-item" style="flex: 1; cursor: move;" draggable="true" ondragstart="dragPlanificacion(event)">Implementar sistema de recogida neumática de residuos</div>
+                    </div>
+                    <div style="display: flex; align-items: center; background: rgba(23, 42, 70, 0.9); padding: 15px; border-radius: 8px;">
+                        <div id="pos3" class="position-marker" style="margin-right: 15px; font-size: 1.5rem; color: #64ffda;">3</div>
+                        <div id="proyecto3" class="matching-item" style="flex: 1; cursor: move;" draggable="true" ondragstart="dragPlanificacion(event)">Instalar paneles solares en edificios municipales</div>
+                    </div>
+                    <div style="display: flex; align-items: center; background: rgba(23, 42, 70, 0.9); padding: 15px; border-radius: 8px;">
+                        <div id="pos4" class="position-marker" style="margin-right: 15px; font-size: 1.5rem; color: #64ffda;">4</div>
+                        <div id="proyecto4" class="matching-item" style="flex: 1; cursor: move;" draggable="true" ondragstart="dragPlanificacion(event)">Digitalizar trámites municipales</div>
+                    </div>
+                </div>
+                
+                <div class="reset-container">
+                    <button class="btn-reset" onclick="resetPlanificacion()">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M23 4v6h-6M1 20v-6h6M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                        </svg>
+                        Reiniciar
+                    </button>
+                </div>
+                
+                <div class="feedback-container" id="planificacion-feedback"></div>
+                <button class="btn" id="planificacion-verify" onclick="checkPlanificacionAnswer()">Verificar</button>
+                <button class="btn" id="planificacion-continue" onclick="nextSceneWithScroll()" style="display:none;">Continuar</button>
+            </div>
+            
+            <button class="btn-hint" onclick="toggleHint('hint-19')">¿Necesitas una pista?</button>
+            <div class="hint" id="hint-19">
+                <p>Pista: Considera el impacto ambiental directo, la resiliencia climática y la mejora de calidad de vida.</p>
+            </div>
+        </div>
+
+        <!-- Escena 20: Movilidad como Servicio (MaaS) -->
+        <div id="scene-20" class="scene">
+            <h2>Fase 20: Plataforma de Movilidad como Servicio</h2>
+            <p>La plataforma MaaS (Mobility as a Service) necesita integrar correctamente los diferentes modos de transporte.</p>
+            
+            <div class="puzzle-container">
+                <p>Relaciona cada característica de MaaS con su beneficio correspondiente:</p>
+                
+                <div class="matching-game">
+                    <div class="matching-column">
+                        <h3>Características de MaaS</h3>
+                        <div id="caracteristica1" class="matching-item" draggable="true" ondragstart="dragMatch(event)">Unificación de pagos</div>
+                        <div id="caracteristica2" class="matching-item" draggable="true" ondragstart="dragMatch(event)">Planificación de rutas multimodales</div>
+                        <div id="caracteristica3" class="matching-item" draggable="true" ondragstart="dragMatch(event)">Información en tiempo real</div>
+                        <div id="caracteristica4" class="matching-item" draggable="true" ondragstart="dragMatch(event)">Sistema de reservas integrado</div>
+                    </div>
+                    <div class="matching-column">
+                        <h3>Beneficios</h3>
+                        <div id="beneficioA" class="matching-item" ondrop="dropMatch(event)" ondragover="allowDrop(event)">Facilita el uso combinado de transporte público y privado</div>
+                        <div id="beneficioB" class="matching-item" ondrop="dropMatch(event)" ondragover="allowDrop(event)">Permite optimizar tiempos de viaje</div>
+                        <div id="beneficioC" class="matching-item" ondrop="dropMatch(event)" ondragover="allowDrop(event)">Elimina la necesidad de múltiples apps y suscripciones</div>
+                        <div id="beneficioD" class="matching-item" ondrop="dropMatch(event)" ondragover="allowDrop(event)">Garantiza disponibilidad de medios de transporte</div>
+                    </div>
+                </div>
+                
+                <div class="reset-container">
+                    <button class="btn-reset" onclick="resetMatchingGame(20)">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M23 4v6h-6M1 20v-6h6M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                        </svg>
+                        Reiniciar
+                    </button>
+                </div>
+                
+                <div class="feedback-container" id="maas-feedback"></div>
+                <button class="btn" id="maas-verify" onclick="checkMaasAnswer()">Verificar</button>
+                <button class="btn" id="maas-continue" onclick="nextSceneWithScroll()" style="display:none;">Continuar</button>
+            </div>
+            
+            <button class="btn-hint" onclick="toggleHint('hint-20')">¿Necesitas una pista?</button>
+            <div class="hint" id="hint-20">
+                <p>Pista: Piensa en cómo cada característica resuelve un problema específico de movilidad urbana.</p>
+            </div>
+        </div>
+
+        <!-- Escena final -->
+        <div id="scene-final" class="scene">
+            <div class="final-message">
+                <h2>¡Felicidades!</h2>
+                <p>Has logrado restaurar todos los sistemas de la ciudad inteligente.</p>
+                <p>Gracias a tu expertise, la ciudad ahora funciona de manera más eficiente, sostenible y conectada.</p>
+                <div class="final-time" id="final-time"></div>
+                <p>Comparte tu logro con otros amantes de la tecnología urbana.</p>
+                <button class="btn" onclick="restartGame()">Jugar de Nuevo</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Variables del juego
+        let currentScene = 0;
+        let totalScenes = 20;
+        let startTime;
+        let timerInterval;
+        let wasteAnswers = {
+            yellow: [],
+            green: [],
+            blue: []
+        };
+        let raeeAnswers = {
+            'punto-limpio': [],
+            'tienda': [],
+            'reparacion': []
+        };
+        let selectedOption = {
+            sensor: null,
+            security: null,
+            tourism: null,
+            health: null,
+            circular: null,
+            governance: null
+        };
+        let selectedOrganica = [];
+        let matchingPairs = {};
+        let planificacionOrder = {
+            'proyecto1': '1',
+            'proyecto2': '2', 
+            'proyecto3': '3',
+            'proyecto4': '4'
+        };
+
+        // Iniciar el juego
+        function startGame() {
+            currentScene = 1;
+            document.getElementById('scene-intro').classList.remove('active');
+            document.getElementById('scene-1').classList.add('active');
+            startTime = new Date();
+            startTimer();
+            updateProgress();
+            
+            // Desplazar al inicio de la escena
+            setTimeout(() => {
+                document.getElementById(`scene-1`).scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 300);
+        }
+
+        // Temporizador
+        function startTimer() {
+            timerInterval = setInterval(function() {
+                const now = new Date();
+                const elapsed = new Date(now - startTime);
+                const minutes = elapsed.getMinutes().toString().padStart(2, '0');
+                const seconds = elapsed.getSeconds().toString().padStart(2, '0');
+                document.getElementById('timer').textContent = `Tiempo: ${minutes}:${seconds}`;
+            }, 1000);
+        }
+
+        // Actualizar barra de progreso
+        function updateProgress() {
+            const progress = (currentScene / totalScenes) * 100;
+            document.getElementById('progress').style.width = `${progress}%`;
+        }
+
+        // Avanzar a la siguiente escena con desplazamiento
+        function nextSceneWithScroll() {
+            document.getElementById(`scene-${currentScene}`).classList.remove('active');
+            currentScene++;
+            
+            if (currentScene <= totalScenes) {
+                document.getElementById(`scene-${currentScene}`).classList.add('active');
+                updateProgress();
+                // Ocultar todas las pistas al cambiar de escena
+                document.querySelectorAll('.hint').forEach(hint => {
+                    hint.style.display = 'none';
+                });
+                
+                // Desplazar al inicio de la nueva escena
+                setTimeout(() => {
+                    document.getElementById(`scene-${currentScene}`).scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 300);
+            } else {
+                // Juego completado
+                document.getElementById('scene-final').classList.add('active');
+                const now = new Date();
+                const elapsed = new Date(now - startTime);
+                const minutes = elapsed.getMinutes().toString().padStart(2, '0');
+                const seconds = elapsed.getSeconds().toString().padStart(2, '0');
+                document.getElementById('final-time').textContent = `Tiempo total: ${minutes}:${seconds}`;
+                clearInterval(timerInterval);
+                
+                // Desplazar a la escena final
+                setTimeout(() => {
+                    document.getElementById('scene-final').scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }, 300);
+            }
+        }
+
+        // Mostrar/ocultar pista
+        function toggleHint(hintId) {
+            const hint = document.getElementById(hintId);
+            hint.style.display = hint.style.display === 'block' ? 'none' : 'block';
+        }
+
+        // Mostrar botón continuar y desplazar pantalla
+        function showContinueButton(sceneNumber) {
+            document.getElementById(`${sceneNumber}-verify`).style.display = 'none';
+            document.getElementById(`${sceneNumber}-continue`).style.display = 'inline-block';
+            
+            // Desplazar pantalla hacia el feedback
+            const feedbackElement = document.getElementById(`${sceneNumber}-feedback`);
+            feedbackElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // Reiniciar escena 3 (residuos) - CORREGIDO
+        function resetScene3() {
+            wasteAnswers = {
+                yellow: [],
+                green: [],
+                blue: []
+            };
+            
+            // Vaciar contenedores
+            document.getElementById('yellow-bin').innerHTML = '';
+            document.getElementById('green-bin').innerHTML = '';
+            document.getElementById('blue-bin').innerHTML = '';
+            
+            // Volver a colocar los elementos de residuos en su contenedor original
+            const wasteItemsContainer = document.getElementById('waste-items-container-3');
+            document.querySelectorAll('#scene-3 .waste-item').forEach(item => {
+                wasteItemsContainer.appendChild(item);
+            });
+            
+            // Resetear feedback
+            document.getElementById('waste-feedback').innerHTML = '';
+            
+            // Mostrar botón verificar
+            document.getElementById('waste-verify').style.display = 'inline-block';
+            document.getElementById('waste-continue').style.display = 'none';
+        }
+
+        // Reiniciar escena 16 (RAEE) - CORREGIDO
+        function resetScene16() {
+            raeeAnswers = {
+                'punto-limpio': [],
+                'tienda': [],
+                'reparacion': []
+            };
+            
+            // Vaciar contenedores
+            document.getElementById('punto-limpio').innerHTML = '';
+            document.getElementById('tienda').innerHTML = '';
+            document.getElementById('reparacion').innerHTML = '';
+            
+            // Volver a colocar los elementos de residuos en su contenedor original
+            const raeeItemsContainer = document.getElementById('waste-items-container-16');
+            document.querySelectorAll('#scene-16 .waste-item').forEach(item => {
+                raeeItemsContainer.appendChild(item);
+            });
+            
+            // Resetear feedback
+            document.getElementById('raee-feedback').innerHTML = '';
+            
+            // Mostrar botón verificar
+            document.getElementById('raee-verify').style.display = 'inline-block';
+            document.getElementById('raee-continue').style.display = 'none';
+        }
+
+        // Reiniciar juego de emparejamiento
+        function resetMatchingGame(sceneNumber) {
+            matchingPairs = {};
+            
+            // Restaurar elementos de emparejamiento según la escena
+            if (sceneNumber === 9) {
+                document.querySelectorAll('#scene-9 .matching-item').forEach(item => {
+                    item.classList.remove('matched');
+                    item.style.display = 'block';
+                    
+                    // Restaurar texto original
+                    if (item.id === 'categoriaA') item.textContent = 'Movilidad sostenible';
+                    if (item.id === 'categoriaB') item.textContent = 'Gobierno digital';
+                    if (item.id === 'categoriaC') item.textContent = 'Infraestructura verde';
+                    if (item.id === 'categoriaD') item.textContent = 'Energía y medio ambiente';
+                });
+            } else if (sceneNumber === 18) {
+                document.querySelectorAll('#scene-18 .matching-item').forEach(item => {
+                    item.classList.remove('matched');
+                    item.style.display = 'block';
+                    
+                    // Restaurar texto original
+                    if (item.id === 'puntoA') item.textContent = 'Contenedor específico en supermercados';
+                    if (item.id === 'puntoB') item.textContent = 'Taller mecánico o punto limpio';
+                    if (item.id === 'puntoC') item.textContent = 'Tienda de electrónica o punto limpio';
+                    if (item.id === 'puntoD') item.textContent = 'Punto limpio o tienda especializada';
+                });
+            } else if (sceneNumber === 20) {
+                document.querySelectorAll('#scene-20 .matching-item').forEach(item => {
+                    item.classList.remove('matched');
+                    item.style.display = 'block';
+                    
+                    // Restaurar texto original
+                    if (item.id === 'beneficioA') item.textContent = 'Facilita el uso combinado de transporte público y privado';
+                    if (item.id === 'beneficioB') item.textContent = 'Permite optimizar tiempos de viaje';
+                    if (item.id === 'beneficioC') item.textContent = 'Elimina la necesidad de múltiples apps y suscripciones';
+                    if (item.id === 'beneficioD') item.textContent = 'Garantiza disponibilidad de medios de transporte';
+                });
+            }
+            
+            // Resetear feedback
+            document.getElementById(`${getScenePrefix(sceneNumber)}-feedback`).innerHTML = '';
+            
+            // Mostrar botón verificar
+            document.getElementById(`${getScenePrefix(sceneNumber)}-verify`).style.display = 'inline-block';
+            document.getElementById(`${getScenePrefix(sceneNumber)}-continue`).style.display = 'none';
+        }
+
+        // Reiniciar planificación (escena 19)
+        function resetPlanificacion() {
+            planificacionOrder = {
+                'proyecto1': '1',
+                'proyecto2': '2', 
+                'proyecto3': '3',
+                'proyecto4': '4'
+            };
+            
+            // Restaurar orden original
+            const container = document.getElementById('planificacion-container');
+            container.innerHTML = `
+                <div style="display: flex; align-items: center; background: rgba(23, 42, 70, 0.9); padding: 15px; border-radius: 8px;">
+                    <div id="pos1" class="position-marker" style="margin-right: 15px; font-size: 1.5rem; color: #64ffda;">1</div>
+                    <div id="proyecto1" class="matching-item" style="flex: 1; cursor: move;" draggable="true" ondragstart="dragPlanificacion(event)">Crear corredores verdes que conecten parques urbanos</div>
+                </div>
+                <div style="display: flex; align-items: center; background: rgba(23, 42, 70, 0.9); padding: 15px; border-radius: 8px;">
+                    <div id="pos2" class="position-marker" style="margin-right: 15px; font-size: 1.5rem; color: #64ffda;">2</div>
+                    <div id="proyecto2" class="matching-item" style="flex: 1; cursor: move;" draggable="true" ondragstart="dragPlanificacion(event)">Implementar sistema de recogida neumática de residuos</div>
+                </div>
+                <div style="display: flex; align-items: center; background: rgba(23, 42, 70, 0.9); padding: 15px; border-radius: 8px;">
+                    <div id="pos3" class="position-marker" style="margin-right: 15px; font-size: 1.5rem; color: #64ffda;">3</div>
+                    <div id="proyecto3" class="matching-item" style="flex: 1; cursor: move;" draggable="true" ondragstart="dragPlanificacion(event)">Instalar paneles solares en edificios municipales</div>
+                </div>
+                <div style="display: flex; align-items: center; background: rgba(23, 42, 70, 0.9); padding: 15px; border-radius: 8px;">
+                    <div id="pos4" class="position-marker" style="margin-right: 15px; font-size: 1.5rem; color: #64ffda;">4</div>
+                    <div id="proyecto4" class="matching-item" style="flex: 1; cursor: move;" draggable="true" ondragstart="dragPlanificacion(event)">Digitalizar trámites municipales</div>
+                </div>
+            `;
+            
+            // Resetear feedback
+            document.getElementById('planificacion-feedback').innerHTML = '';
+            
+            // Mostrar botón verificar
+            document.getElementById('planificacion-verify').style.display = 'inline-block';
+            document.getElementById('planificacion-continue').style.display = 'none';
+        }
+
+        // Obtener prefijo de escena para IDs
+        function getScenePrefix(sceneNumber) {
+            switch(sceneNumber) {
+                case 9: return 'matching';
+                case 18: return 'pilas';
+                case 20: return 'maas';
+                default: return 'matching';
+            }
+        }
+
+        // Verificar respuesta del transporte
+        function checkTransportAnswer() {
+            const answer = document.getElementById('transport-answer').value.trim();
+            const feedback = document.getElementById('transport-feedback');
+            
+            if (answer === '64') {
+                feedback.innerHTML = '<div class="success">¡Correcto! El patrón es multiplicar por 2 cada vez: 2×2=4, 4×2=8, 8×2=16, 16×2=32, 32×2=64.</div>';
+                showContinueButton('transport');
+            } else {
+                feedback.innerHTML = '<div class="error">Incorrecto. Intenta nuevamente. Recuerda que es una progresión geométrica.</div>';
+                feedback.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        // Verificar respuesta de energía
+        function checkEnergyAnswer() {
+            const answer = document.getElementById('energy-answer').value.trim();
+            const feedback = document.getElementById('energy-feedback');
+            
+            if (answer === '200') {
+                feedback.innerHTML = '<div class="success">¡Correcto! 40% de 500 MWh es 200 MWh. El sistema energético se ha recalibrado.</div>';
+                showContinueButton('energy');
+            } else {
+                feedback.innerHTML = '<div class="error">Incorrecto. Recuerda: porcentaje × total / 100.</div>';
+                feedback.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        // Funciones para el puzzle de arrastrar
+        function allowDrop(ev) {
+            ev.preventDefault();
+        }
+
+        function drag(ev) {
+            ev.dataTransfer.setData("text", ev.target.id);
+        }
+
+        function drop(ev) {
+            ev.preventDefault();
+            const data = ev.dataTransfer.getData("text");
+            const draggedElement = document.getElementById(data);
+            
+            // Solo permitir soltar en contenedores
+            if (ev.target.classList.contains('bin')) {
+                ev.target.appendChild(draggedElement);
+                
+                // Actualizar respuestas según la escena
+                const binId = ev.target.id;
+                const itemId = draggedElement.id;
+                
+                if (currentScene === 3) {
+                    // Limpiar de otros contenedores
+                    Object.keys(wasteAnswers).forEach(color => {
+                        const index = wasteAnswers[color].indexOf(itemId);
+                        if (index > -1) {
+                            wasteAnswers[color].splice(index, 1);
+                        }
+                    });
+                    
+                    // Añadir al contenedor actual
+                    if (binId === 'yellow-bin') wasteAnswers.yellow.push(itemId);
+                    if (binId === 'green-bin') wasteAnswers.green.push(itemId);
+                    if (binId === 'blue-bin') wasteAnswers.blue.push(itemId);
+                } else if (currentScene === 16) {
+                    // Limpiar de otros contenedores
+                    Object.keys(raeeAnswers).forEach(tipo => {
+                        const index = raeeAnswers[tipo].indexOf(itemId);
+                        if (index > -1) {
+                            raeeAnswers[tipo].splice(index, 1);
+                        }
+                    });
+                    
+                    // Añadir al contenedor actual
+                    raeeAnswers[binId].push(itemId);
+                }
+            }
+        }
+
+        // Verificar respuesta de residuos
+        function checkWasteAnswer() {
+            const feedback = document.getElementById('waste-feedback');
+            
+            // Respuestas correctas
+            const correctAnswers = {
+                yellow: ['item1', 'item4'], // Botella de plástico, Lata de refresco
+                green: ['item3'],  // Botella de vidrio
+                blue: ['item2', 'item5']    // Periódico, Revista
+            };
+            
+            // Verificar respuestas
+            let correct = true;
+            Object.keys(correctAnswers).forEach(color => {
+                if (wasteAnswers[color].length !== correctAnswers[color].length || 
+                    !correctAnswers[color].every(item => wasteAnswers[color].includes(item))) {
+                    correct = false;
+                }
+            });
+            
+            if (correct) {
+                feedback.innerHTML = '<div class="success">¡Correcto! Has clasificado correctamente los residuos. Los sensores se han reactivado.</div>';
+                showContinueButton('waste');
+            } else {
+                feedback.innerHTML = '<div class="error">Clasificación incorrecta. Revisa en qué contenedor va cada residuo.</div>';
+                feedback.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        // Verificar respuesta de RAEE
+        function checkRaeeAnswer() {
+            const feedback = document.getElementById('raee-feedback');
+            
+            // Respuestas correctas
+            const correctAnswers = {
+                'punto-limpio': ['raee2', 'raee5'], // Ordenador portátil viejo, Televisor antiguo
+                'tienda': ['raee4'],  // Cargador de móvil
+                'reparacion': ['raee1', 'raee3']    // Teléfono móvil roto, Tablet con pantalla rota
+            };
+            
+            // Verificar respuestas
+            let correct = true;
+            Object.keys(correctAnswers).forEach(tipo => {
+                if (raeeAnswers[tipo].length !== correctAnswers[tipo].length || 
+                    !correctAnswers[tipo].every(item => raeeAnswers[tipo].includes(item))) {
+                    correct = false;
+                }
+            });
+            
+            if (correct) {
+                feedback.innerHTML = '<div class="success">¡Correcto! Has gestionado correctamente los residuos electrónicos.</div>';
+                showContinueButton('raee');
+            } else {
+                feedback.innerHTML = '<div class="error">Clasificación incorrecta. Revisa dónde debe ir cada dispositivo.</div>';
+                feedback.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        // Seleccionar opción en preguntas de opción múltiple
+        function selectOption(element, type) {
+            // Deseleccionar otras opciones del mismo tipo
+            document.querySelectorAll(`.option[data-type="${type}"]`).forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            // Seleccionar la nueva opción
+            element.classList.add('selected');
+            element.setAttribute('data-type', type);
+            selectedOption[type] = element.textContent;
+        }
+
+        // Alternar selección para preguntas de múltiple selección
+        function toggleSelection(element, type) {
+            if (element.classList.contains('selected')) {
+                element.classList.remove('selected');
+                const index = selectedOrganica.indexOf(element.textContent);
+                if (index > -1) {
+                    selectedOrganica.splice(index, 1);
+                }
+            } else {
+                element.classList.add('selected');
+                selectedOrganica.push(element.textContent);
+            }
+        }
+
+        // Verificar respuesta de residuos orgánicos
+        function checkOrganicaAnswer() {
+            const feedback = document.getElementById('organica-feedback');
+            
+            // Respuestas correctas
+            const correctAnswers = [
+                'Restos de fruta y verdura',
+                'Papel de cocina usado',
+                'Huesos de carne',
+                'Cáscaras de huevo',
+                'Posos de café',
+                'Pelo y uñas'
+            ];
+            
+            // Verificar respuestas
+            let correct = true;
+            if (selectedOrganica.length !== correctAnswers.length) {
+                correct = false;
+            } else {
+                correctAnswers.forEach(answer => {
+                    if (!selectedOrganica.includes(answer)) {
+                        correct = false;
+                    }
+                });
+            }
+            
+            if (correct) {
+                feedback.innerHTML = '<div class="success">¡Correcto! Has identificado correctamente los residuos orgánicos.</div>';
+                showContinueButton('organica');
+            } else {
+                feedback.innerHTML = '<div class="error">Selección incorrecta. Revisa qué materiales son compostables.</div>';
+                feedback.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        // Verificar respuesta de sensores
+        function checkSensorAnswer() {
+            const feedback = document.getElementById('sensor-feedback');
+            
+            if (selectedOption.sensor === 'Sensor de temperatura corporal') {
+                feedback.innerHTML = '<div class="success">¡Correcto! El sensor de temperatura corporal no se utiliza típicamente en redes de ciudad inteligente.</div>';
+                showContinueButton('sensor');
+            } else {
+                feedback.innerHTML = '<div class="error">Incorrecto. Piensa en qué sensores se utilizan para monitorizar infraestructuras urbanas.</div>';
+                feedback.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        // Verificar respuesta de vehículo eléctrico
+        function checkEvAnswer() {
+            const answer = document.getElementById('ev-answer').value.trim();
+            const feedback = document.getElementById('ev-feedback');
+            
+            if (answer === '6' || answer === '6.67' || answer === '7') {
+                feedback.innerHTML = '<div class="success">¡Correcto! 300 km / 45 km/día ≈ 6.67 días. El sistema de carga se ha reconfigurado.</div>';
+                showContinueButton('ev');
+            } else {
+                feedback.innerHTML = '<div class="error">Incorrecto. Divide la autonomía total entre el consumo diario.</div>';
+                feedback.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        // Verificar respuesta de análisis de datos
+        function checkDataAnswer() {
+            const answer = document.getElementById('data-answer').value.trim();
+            const feedback = document.getElementById('data-feedback');
+            
+            if (answer === '150') {
+                feedback.innerHTML = '<div class="success">¡Correcto! (125+180+95+210+140)/5 = 150 MWh. El análisis de datos se ha completado.</div>';
+                showContinueButton('data');
+            } else {
+                feedback.innerHTML = '<div class="error">Incorrecto. Calcula la suma de todos los valores y divide entre 5.</div>';
+                feedback.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        // Verificar respuesta de antena 5G
+        function checkAntennaAnswer() {
+            const answer = document.getElementById('antenna-answer').value;
+            const feedback = document.getElementById('antenna-feedback');
+            
+            if (answer === 'D') {
+                feedback.innerHTML = '<div class="success">¡Correcto! La plaza central con alta afluencia necesita mayor capacidad de red.</div>';
+                showContinueButton('antenna');
+            } else {
+                feedback.innerHTML = '<div class="error">Incorrecto. Piensa en dónde se necesita mayor capacidad de red.</div>';
+                feedback.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        // Verificar respuesta de edificios inteligentes
+        function checkBuildingAnswer() {
+            const answer = document.getElementById('building-answer').value.trim();
+            const feedback = document.getElementById('building-feedback');
+            
+            if (answer === '1700') {
+                feedback.innerHTML = '<div class="success">¡Correcto! 2000 kWh - 15% = 1700 kWh. El sistema de gestión se ha reprogramado.</div>';
+                showContinueButton('building');
+            } else {
+                feedback.innerHTML = '<div class="error">Incorrecto. Calcula el 15% de 2000 y réstalo.</div>';
+                feedback.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        // Funciones para el juego de emparejamiento
+        function dragMatch(ev) {
+            ev.dataTransfer.setData("text", ev.target.id);
+        }
+
+        function dropMatch(ev) {
+            ev.preventDefault();
+            const data = ev.dataTransfer.getData("text");
+            const draggedElement = document.getElementById(data);
+            const targetElement = ev.target;
+            
+            if (targetElement.classList.contains('matching-item') && 
+                !targetElement.id.startsWith(data.substring(0, 3))) {
+                
+                // Guardar el emparejamiento
+                matchingPairs[draggedElement.id] = targetElement.id;
+                
+                // Mostrar visualmente el emparejamiento
+                targetElement.textContent += ` ← ${draggedElement.textContent}`;
+                targetElement.classList.add('matched');
+                draggedElement.style.display = 'none';
+            }
+        }
+
+        // Funciones para la planificación (escena 19)
+        function dragPlanificacion(ev) {
+            ev.dataTransfer.setData("text", ev.target.id);
+        }
+
+        function allowDropPlanificacion(ev) {
+            ev.preventDefault();
+        }
+
+        function dropPlanificacion(ev) {
+            ev.preventDefault();
+            const data = ev.dataTransfer.getData("text");
+            const draggedElement = document.getElementById(data);
+            const targetContainer = document.getElementById('planificacion-container');
+            
+            // Encontrar el elemento sobre el que se está soltando
+            let targetElement = ev.target;
+            while (targetElement && !targetElement.classList.contains('matching-item') && targetElement !== targetContainer) {
+                targetElement = targetElement.parentElement;
+            }
+            
+            // Si el objetivo es un elemento de proyecto, intercambiar posiciones
+            if (targetElement && targetElement.classList.contains('matching-item') && targetElement !== draggedElement) {
+                const draggedParent = draggedElement.parentElement;
+                const targetParent = targetElement.parentElement;
+                
+                // Intercambiar los números de posición
+                const draggedPosition = draggedParent.querySelector('.position-marker');
+                const targetPosition = targetParent.querySelector('.position-marker');
+                
+                const tempPosition = draggedPosition.textContent;
+                draggedPosition.textContent = targetPosition.textContent;
+                targetPosition.textContent = tempPosition;
+                
+                // Actualizar el orden en nuestra variable
+                planificacionOrder[draggedElement.id] = draggedPosition.textContent;
+                planificacionOrder[targetElement.id] = targetPosition.textContent;
+            }
+        }
+
+        // Verificar respuesta del juego de emparejamiento
+        function checkMatchingAnswer() {
+            const feedback = document.getElementById('matching-feedback');
+            
+            // Respuestas correctas según la escena
+            let correctPairs = {};
+            
+            if (currentScene === 9) {
+                correctPairs = {
+                    'propuesta1': 'categoriaA', // Carriles bici -> Movilidad sostenible
+                    'propuesta2': 'categoriaB', // App incidencias -> Gobierno digital
+                    'propuesta3': 'categoriaD', // Puntos recarga -> Energía y medio ambiente
+                    'propuesta4': 'categoriaC'  // Zonas verdes -> Infraestructura verde
+                };
+            } else if (currentScene === 18) {
+                correctPairs = {
+                    'pila1': 'puntoA', // Pilas AA/AAA -> Contenedor específico en supermercados
+                    'pila2': 'puntoB', // Batería de coche -> Taller mecánico o punto limpio
+                    'pila3': 'puntoC', // Batería de móvil -> Tienda de electrónica o punto limpio
+                    'pila4': 'puntoD'  // Batería de ordenador portátil -> Punto limpio o tienda especializada
+                };
+            } else if (currentScene === 20) {
+                correctPairs = {
+                    'caracteristica1': 'beneficioC', // Unificación de pagos -> Elimina la necesidad de múltiples apps
+                    'caracteristica2': 'beneficioA', // Planificación de rutas multimodales -> Facilita uso combinado
+                    'caracteristica3': 'beneficioB', // Información en tiempo real -> Permite optimizar tiempos
+                    'caracteristica4': 'beneficioD'  // Sistema de reservas integrado -> Garantiza disponibilidad
+                };
+            }
+            
+            // Verificar si todos los emparejamientos son correctos
+            let correct = true;
+            for (const [item, target] of Object.entries(correctPairs)) {
+                if (matchingPairs[item] !== target) {
+                    correct = false;
+                    break;
+                }
+            }
+            
+            if (correct && Object.keys(matchingPairs).length === 4) {
+                let successMessage = '';
+                if (currentScene === 9) {
+                    successMessage = '¡Correcto! Has categorizado correctamente todas las propuestas ciudadanas.';
+                } else if (currentScene === 18) {
+                    successMessage = '¡Correcto! Has identificado correctamente los puntos de reciclaje para cada tipo de pila/batería.';
+                } else if (currentScene === 20) {
+                    successMessage = '¡Correcto! Has relacionado correctamente las características de MaaS con sus beneficios.';
+                }
+                
+                feedback.innerHTML = `<div class="success">${successMessage}</div>`;
+                showContinueButton(getScenePrefix(currentScene));
+            } else {
+                feedback.innerHTML = '<div class="error">Emparejamientos incorrectos o incompletos. Intenta nuevamente.</div>';
+                feedback.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        // Verificar respuesta de planificación (escena 19)
+        function checkPlanificacionAnswer() {
+            const feedback = document.getElementById('planificacion-feedback');
+            
+            // Respuesta correcta (orden de prioridad)
+            const correctOrder = {
+                'proyecto1': '1', // Corredores verdes -> 1
+                'proyecto3': '2', // Paneles solares -> 2
+                'proyecto2': '3', // Recogida neumática -> 3
+                'proyecto4': '4'  // Digitalización trámites -> 4
+            };
+            
+            // Verificar si el orden es correcto
+            let correct = true;
+            for (const [proyecto, orden] of Object.entries(correctOrder)) {
+                if (planificacionOrder[proyecto] !== orden) {
+                    correct = false;
+                    break;
+                }
+            }
+            
+            if (correct) {
+                feedback.innerHTML = '<div class="success">¡Correcto! Has priorizado correctamente los proyectos según criterios de sostenibilidad.</div>';
+                showContinueButton('planificacion');
+            } else {
+                feedback.innerHTML = '<div class="error">Orden incorrecto. Revisa la prioridad de cada proyecto según su impacto ambiental.</div>';
+                feedback.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        // Verificar respuesta de ciberseguridad
+        function checkSecurityAnswer() {
+            const feedback = document.getElementById('security-feedback');
+            
+            if (selectedOption.security === 'Compartir credenciales entre departamentos') {
+                feedback.innerHTML = '<div class="success">¡Correcto! Compartir credenciales aumenta el riesgo de brechas de seguridad.</div>';
+                showContinueButton('security');
+            } else {
+                feedback.innerHTML = '<div class="error">Incorrecto. Piensa en prácticas que aumenten el riesgo de seguridad.</div>';
+                feedback.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        // Verificar respuesta de turismo
+        function checkTourismAnswer() {
+            const feedback = document.getElementById('tourism-feedback');
+            
+            if (selectedOption.tourism === 'Sensores de radiación nuclear') {
+                feedback.innerHTML = '<div class="success">¡Correcto! Los sensores de radiación nuclear no son relevantes para el turismo inteligente.</div>';
+                showContinueButton('tourism');
+            } else {
+                feedback.innerHTML = '<div class="error">Incorrecto. Piensa en tecnologías relevantes para la experiencia turística.</div>';
+                feedback.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        // Verificar respuesta de salud
+        function checkHealthAnswer() {
+            const feedback = document.getElementById('health-feedback');
+            
+            if (selectedOption.health === 'Historial médico individual') {
+                feedback.innerHTML = '<div class="success">¡Correcto! El historial médico individual no es un indicador de salud urbana monitorizado públicamente.</div>';
+                showContinueButton('health');
+            } else {
+                feedback.innerHTML = '<div class="error">Incorrecto. Piensa en indicadores de salud pública, no datos médicos personales.</div>';
+                feedback.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        // Verificar respuesta de economía circular
+        function checkCircularAnswer() {
+            const feedback = document.getElementById('circular-feedback');
+            
+            if (selectedOption.circular === 'Vertido en landfill') {
+                feedback.innerHTML = '<div class="success">¡Correcto! El vertido en landfill es contrario a los principios de economía circular.</div>';
+                showContinueButton('circular');
+            } else {
+                feedback.innerHTML = '<div class="error">Incorrecto. La economía circular busca eliminar los residuos.</div>';
+                feedback.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        // Verificar respuesta de gobernanza
+        function checkGovernanceAnswer() {
+            const feedback = document.getElementById('governance-feedback');
+            
+            if (selectedOption.governance === 'Venta de datos personales') {
+                feedback.innerHTML = '<div class="success">¡Correcto! La venta de datos personales viola principios éticos de gobernanza.</div>';
+                showContinueButton('governance');
+            } else {
+                feedback.innerHTML = '<div class="error">Incorrecto. Piensa en prácticas que respeten los derechos de los ciudadanos.</div>';
+                feedback.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        // Verificar respuesta de la ciudad
+        function checkCityAnswer() {
+            const answer = document.getElementById('city-answer').value.trim().toLowerCase();
+            const feedback = document.getElementById('city-feedback');
+            
+            if (answer === 'r' || answer === 'R') {
+                feedback.innerHTML = '<div class="success">¡Correcto! La ciudad es Barcelona. Has descifrado el código final.</div>';
+                showContinueButton('city');
+            } else {
+                feedback.innerHTML = '<div class="error">Incorrecto. La tercera letra de Barcelona es "r".</div>';
+                feedback.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        // Verificar respuesta de pilas y baterías
+        function checkPilasAnswer() {
+            const feedback = document.getElementById('pilas-feedback');
+            
+            // Respuestas correctas
+            const correctPairs = {
+                'pila1': 'puntoA', // Pilas AA/AAA -> Contenedor específico en supermercados
+                'pila2': 'puntoB', // Batería de coche -> Taller mecánico o punto limpio
+                'pila3': 'puntoC', // Batería de móvil -> Tienda de electrónica o punto limpio
+                'pila4': 'puntoD'  // Batería de ordenador portátil -> Punto limpio o tienda especializada
+            };
+            
+            // Verificar si todos los emparejamientos son correctos
+            let correct = true;
+            for (const [item, target] of Object.entries(correctPairs)) {
+                if (matchingPairs[item] !== target) {
+                    correct = false;
+                    break;
+                }
+            }
+            
+            if (correct && Object.keys(matchingPairs).length === 4) {
+                feedback.innerHTML = '<div class="success">¡Correcto! Has identificado correctamente los puntos de reciclaje para cada tipo de pila/batería.</div>';
+                showContinueButton('pilas');
+            } else {
+                feedback.innerHTML = '<div class="error">Emparejamientos incorrectos o incompletos. Intenta nuevamente.</div>';
+                feedback.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        // Verificar respuesta de MaaS
+        function checkMaasAnswer() {
+            const feedback = document.getElementById('maas-feedback');
+            
+            // Respuestas correctas
+            const correctPairs = {
+                'caracteristica1': 'beneficioC', // Unificación de pagos -> Elimina la necesidad de múltiples apps
+                'caracteristica2': 'beneficioA', // Planificación de rutas multimodales -> Facilita uso combinado
+                'caracteristica3': 'beneficioB', // Información en tiempo real -> Permite optimizar tiempos
+                'caracteristica4': 'beneficioD'  // Sistema de reservas integrado -> Garantiza disponibilidad
+            };
+            
+            // Verificar si todos los emparejamientos son correctos
+            let correct = true;
+            for (const [item, target] of Object.entries(correctPairs)) {
+                if (matchingPairs[item] !== target) {
+                    correct = false;
+                    break;
+                }
+            }
+            
+            if (correct && Object.keys(matchingPairs).length === 4) {
+                feedback.innerHTML = '<div class="success">¡Correcto! Has relacionado correctamente las características de MaaS con sus beneficios.</div>';
+                showContinueButton('maas');
+            } else {
+                feedback.innerHTML = '<div class="error">Emparejamientos incorrectos o incompletos. Intenta nuevamente.</div>';
+                feedback.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }
+
+        // Reiniciar juego
+        function restartGame() {
+            currentScene = 0;
+            wasteAnswers = {
+                yellow: [],
+                green: [],
+                blue: []
+            };
+            raeeAnswers = {
+                'punto-limpio': [],
+                'tienda': [],
+                'reparacion': []
+            };
+            selectedOption = {
+                sensor: null,
+                security: null,
+                tourism: null,
+                health: null,
+                circular: null,
+                governance: null
+            };
+            selectedOrganica = [];
+            matchingPairs = {};
+            planificacionOrder = {
+                'proyecto1': '1',
+                'proyecto2': '2', 
+                'proyecto3': '3',
+                'proyecto4': '4'
+            };
+            
+            // Resetear todas las escenas
+            document.querySelectorAll('.scene').forEach(scene => {
+                scene.classList.remove('active');
+            });
+            
+            document.getElementById('scene-intro').classList.add('active');
+            
+            // Resetear inputs
+            document.querySelectorAll('input, select').forEach(input => {
+                input.value = '';
+            });
+            
+            // Resetear contenedores de residuos
+            document.querySelectorAll('.bin').forEach(bin => {
+                bin.innerHTML = '';
+            });
+            
+            // Volver a colocar los elementos de residuos en sus contenedores originales
+            const scene3Container = document.getElementById('waste-items-container-3');
+            document.querySelectorAll('#scene-3 .waste-item').forEach(item => {
+                scene3Container.appendChild(item);
+            });
+            
+            const scene16Container = document.getElementById('waste-items-container-16');
+            document.querySelectorAll('#scene-16 .waste-item').forEach(item => {
+                scene16Container.appendChild(item);
+            });
+            
+            // Resetear selecciones
+            document.querySelectorAll('.selected').forEach(el => {
+                el.classList.remove('selected');
+            });
+            
+            // Resetear juego de emparejamiento
+            document.querySelectorAll('.matching-item').forEach(item => {
+                item.classList.remove('matched');
+                item.style.display = 'block';
+                
+                // Restaurar texto original según la escena
+                if (item.id.startsWith('categoria')) {
+                    if (item.id === 'categoriaA') item.textContent = 'Movilidad sostenible';
+                    if (item.id === 'categoriaB') item.textContent = 'Gobierno digital';
+                    if (item.id === 'categoriaC') item.textContent = 'Infraestructura verde';
+                    if (item.id === 'categoriaD') item.textContent = 'Energía y medio ambiente';
+                } else if (item.id.startsWith('punto')) {
+                    if (item.id === 'puntoA') item.textContent = 'Contenedor específico en supermercados';
+                    if (item.id === 'puntoB') item.textContent = 'Taller mecánico o punto limpio';
+                    if (item.id === 'puntoC') item.textContent = 'Tienda de electrónica o punto limpio';
+                    if (item.id === 'puntoD') item.textContent = 'Punto limpio o tienda especializada';
+                } else if (item.id.startsWith('beneficio')) {
+                    if (item.id === 'beneficioA') item.textContent = 'Facilita el uso combinado de transporte público y privado';
+                    if (item.id === 'beneficioB') item.textContent = 'Permite optimizar tiempos de viaje';
+                    if (item.id === 'beneficioC') item.textContent = 'Elimina la necesidad de múltiples apps y suscripciones';
+                    if (item.id === 'beneficioD') item.textContent = 'Garantiza disponibilidad de medios de transporte';
+                }
+            });
+            
+            // Resetear planificación
+            resetPlanificacion();
+            
+            // Resetear feedback
+            document.querySelectorAll('[id$="feedback"]').forEach(el => {
+                el.innerHTML = '';
+            });
+            
+            // Resetear botones
+            document.querySelectorAll('[id$="verify"]').forEach(btn => {
+                btn.style.display = 'inline-block';
+            });
+            document.querySelectorAll('[id$="continue"]').forEach(btn => {
+                btn.style.display = 'none';
+            });
+            
+            // Resetear progreso
+            document.getElementById('progress').style.width = '0%';
+            
+            // Ocultar todas las pistas
+            document.querySelectorAll('.hint').forEach(hint => {
+                hint.style.display = 'none';
+            });
+            
+            // Desplazar al inicio
+            setTimeout(() => {
+                document.getElementById('scene-intro').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }, 300);
+        }
+
+        // Inicializar eventos de arrastrar y soltar para planificación
+        document.addEventListener('DOMContentLoaded', function() {
+            // Añadir eventos a los contenedores de planificación
+            const planificacionContainer = document.getElementById('planificacion-container');
+            if (planificacionContainer) {
+                planificacionContainer.addEventListener('drop', dropPlanificacion);
+                planificacionContainer.addEventListener('dragover', allowDropPlanificacion);
+            }
+        });
+    </script>
+</body>
+</html>
