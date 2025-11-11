@@ -44,7 +44,7 @@
             color: #64ffda;
             text-shadow: 0 0 15px rgba(100, 255, 218, 0.7);
             background: linear-gradient(90deg, #64ffda, #a8ffeb);
-            -webkit-background-clip: text;
+            background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
@@ -129,22 +129,61 @@
         }
 
         .btn-reset {
-            background: rgba(255, 107, 107, 0.1);
-            border: 1px solid #ff6b6b;
-            color: #ff6b6b;
-            padding: 10px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 1rem;
-            margin: 10px 0;
-            transition: all 0.3s ease;
             display: inline-flex;
             align-items: center;
             gap: 8px;
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.1), rgba(255, 107, 107, 0.05));
+            color: #ff6b6b;
+            padding: 12px 20px;
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            margin: 10px 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.1);
+            backdrop-filter: blur(5px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-reset::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 107, 107, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn-reset:hover::before {
+            left: 100%;
         }
 
         .btn-reset:hover {
-            background: rgba(255, 107, 107, 0.2);
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.2), rgba(255, 107, 107, 0.1));
+            color: #ff6b6b;
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.3);
+            transform: translateY(-3px);
+            border-color: rgba(255, 107, 107, 0.5);
+        }
+
+        .btn-reset:active {
+            transform: translateY(1px);
+            box-shadow: 0 2px 10px rgba(255, 107, 107, 0.2);
+        }
+
+        .btn-reset svg {
+            width: 16px;
+            height: 16px;
+            transition: transform 0.5s ease;
+        }
+
+        .btn-reset:hover svg {
+            transform: rotate(360deg);
         }
 
         input, select, textarea {
@@ -231,70 +270,6 @@
             text-align: center;
         }
 
-        .grid-puzzle {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
-            margin: 25px 0;
-        }
-
-        .grid-cell {
-            background: rgba(23, 42, 70, 0.9);
-            border: 1px solid #233554;
-            aspect-ratio: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            font-size: 1.8rem;
-            transition: all 0.3s ease;
-            border-radius: 8px;
-        }
-
-        .grid-cell:hover {
-            background: rgba(35, 53, 84, 0.9);
-            transform: scale(1.05);
-        }
-
-        .grid-cell.active {
-            background: rgba(100, 255, 218, 0.2);
-            border-color: #64ffda;
-            box-shadow: 0 0 15px rgba(100, 255, 218, 0.5);
-        }
-
-        .final-message {
-            text-align: center;
-            padding: 40px;
-            background: rgba(16, 42, 87, 0.9);
-            border-radius: 15px;
-            margin-top: 30px;
-            border: 1px solid rgba(100, 255, 218, 0.3);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-        }
-
-        .final-time {
-            font-size: 1.8rem;
-            color: #64ffda;
-            margin: 25px 0;
-            text-shadow: 0 0 10px rgba(100, 255, 218, 0.5);
-        }
-
-        .progress-bar {
-            height: 10px;
-            background: rgba(23, 42, 70, 0.9);
-            border-radius: 5px;
-            margin: 20px 0;
-            overflow: hidden;
-        }
-
-        .progress {
-            height: 100%;
-            background: linear-gradient(90deg, #64ffda, #a8ffeb);
-            border-radius: 5px;
-            width: 0%;
-            transition: width 0.5s ease;
-        }
-
         .bin {
             min-height: 120px;
             border: 2px dashed;
@@ -316,50 +291,6 @@
         .waste-item:hover {
             background: rgba(255,255,255,0.2);
             transform: translateY(-3px);
-        }
-
-        .image-puzzle {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 5px;
-            margin: 20px 0;
-        }
-
-        .puzzle-piece {
-            width: 100%;
-            aspect-ratio: 1;
-            background-size: 300% 300%;
-            border: 1px solid #233554;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .puzzle-piece:hover {
-            transform: scale(1.05);
-            border-color: #64ffda;
-        }
-
-        .sequence-item {
-            display: inline-block;
-            padding: 12px 20px;
-            margin: 8px;
-            background: rgba(23, 42, 70, 0.9);
-            border: 1px solid #233554;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 1.2rem;
-        }
-
-        .sequence-item:hover {
-            background: rgba(35, 53, 84, 0.9);
-            transform: translateY(-3px);
-        }
-
-        .sequence-item.selected {
-            background: rgba(100, 255, 218, 0.2);
-            border-color: #64ffda;
-            box-shadow: 0 0 10px rgba(100, 255, 218, 0.5);
         }
 
         .option-group {
@@ -429,7 +360,9 @@
         .reset-container {
             display: flex;
             justify-content: flex-end;
-            margin: 15px 0;
+            margin: 20px 0;
+            padding: 10px 0;
+            border-top: 1px solid rgba(100, 255, 218, 0.1);
         }
 
         .waste-items-container {
@@ -437,6 +370,39 @@
             justify-content: space-around;
             margin-top: 20px;
             flex-wrap: wrap;
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: rgba(23, 42, 70, 0.9);
+            border-radius: 5px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress {
+            height: 100%;
+            background: linear-gradient(90deg, #64ffda, #a8ffeb);
+            border-radius: 5px;
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+
+        .final-message {
+            text-align: center;
+            padding: 40px;
+            background: rgba(16, 42, 87, 0.9);
+            border-radius: 15px;
+            margin-top: 30px;
+            border: 1px solid rgba(100, 255, 218, 0.3);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .final-time {
+            font-size: 1.8rem;
+            color: #64ffda;
+            margin: 25px 0;
+            text-shadow: 0 0 10px rgba(100, 255, 218, 0.5);
         }
 
         @media (max-width: 768px) {
@@ -458,10 +424,6 @@
                 text-align: center;
             }
             
-            .grid-puzzle, .image-puzzle {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
             .matching-game {
                 grid-template-columns: 1fr;
             }
@@ -476,10 +438,6 @@
                 display: block;
                 width: 100%;
                 margin: 10px 0;
-            }
-            
-            .grid-puzzle, .image-puzzle {
-                grid-template-columns: 1fr;
             }
         }
     </style>
@@ -500,7 +458,7 @@
         <div id="scene-intro" class="scene active">
             <h2>¡Bienvenido/a!</h2>
             <p>Eres un/a consultor/a especializado/a en ciudades inteligentes. Has sido contratado/a por el ayuntamiento de una ciudad española para resolver una serie de problemas tecnológicos que están afectando a sus sistemas inteligentes.</p>
-            <p>Tu misión es resolver 20 desafíos relacionados con diferentes aspectos de una smart city para restaurar el funcionamiento completo de la ciudad.</p>
+            <p>Tu misión es resolver 30 desafíos relacionados con diferentes aspectos de una smart city para restaurar el funcionamiento completo de la ciudad.</p>
             <p>Tienes un tiempo limitado antes de que los sistemas fallen completamente. ¡Demuestra tu expertise en tecnología urbana!</p>
             <button class="btn" onclick="startGame()">Comenzar el Desafío</button>
         </div>
@@ -568,20 +526,7 @@
                 </div>
                 
                 <div class="waste-items-container" id="waste-items-container-3">
-                    <div id="item1" class="waste-item" draggable="true" ondragstart="drag(event)">Botella de plástico</div>
-                    <div id="item2" class="waste-item" draggable="true" ondragstart="drag(event)">Periódico</div>
-                    <div id="item3" class="waste-item" draggable="true" ondragstart="drag(event)">Botella de vidrio</div>
-                    <div id="item4" class="waste-item" draggable="true" ondragstart="drag(event)">Lata de refresco</div>
-                    <div id="item5" class="waste-item" draggable="true" ondragstart="drag(event)">Revista</div>
-                </div>
-                
-                <div class="reset-container">
-                    <button class="btn-reset" onclick="resetScene3()">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M23 4v6h-6M1 20v-6h6M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
-                        </svg>
-                        Reiniciar
-                    </button>
+                    <!-- Los elementos se generarán aleatoriamente -->
                 </div>
                 
                 <div class="feedback-container" id="waste-feedback"></div>
@@ -602,13 +547,8 @@
             
             <div class="puzzle-container">
                 <p>Selecciona el sensor que NO forma parte de una red de ciudad inteligente:</p>
-                <div class="option-group">
-                    <div class="option" onclick="selectOption(this, 'sensor')">Sensor de calidad del aire</div>
-                    <div class="option" onclick="selectOption(this, 'sensor')">Sensor de aparcamiento</div>
-                    <div class="option" onclick="selectOption(this, 'sensor')">Sensor de temperatura corporal</div>
-                    <div class="option" onclick="selectOption(this, 'sensor')">Sensor de nivel de contenedores</div>
-                    <div class="option" onclick="selectOption(this, 'sensor')">Sensor de tráfico</div>
-                    <div class="option" onclick="selectOption(this, 'sensor')">Sensor de intensidad lumínica</div>
+                <div class="option-group" id="sensor-options">
+                    <!-- Las opciones se generarán aleatoriamente -->
                 </div>
                 <div class="feedback-container" id="sensor-feedback"></div>
                 <button class="btn" id="sensor-verify" onclick="checkSensorAnswer()">Verificar</button>
@@ -670,10 +610,7 @@
                 <p>Selecciona la ubicación más adecuada para una nueva antena 5G considerando estos factores:</p>
                 <select id="antenna-answer">
                     <option value="">Selecciona una opción</option>
-                    <option value="A">Zona residencial de baja densidad</option>
-                    <option value="B">Centro histórico con edificios altos</option>
-                    <option value="C">Parque industrial con naves bajas</option>
-                    <option value="D">Plaza central abierta con alta afluencia</option>
+                    <!-- Las opciones se generarán aleatoriamente -->
                 </select>
                 <div class="feedback-container" id="antenna-feedback"></div>
                 <button class="btn" id="antenna-verify" onclick="checkAntennaAnswer()">Verificar</button>
@@ -716,10 +653,9 @@
                 <div class="matching-game">
                     <div class="matching-column">
                         <h3>Propuestas</h3>
-                        <div id="propuesta1" class="matching-item" draggable="true" ondragstart="dragMatch(event)">Más carriles bici protegidos</div>
-                        <div id="propuesta2" class="matching-item" draggable="true" ondragstart="dragMatch(event)">App para reportar incidencias urbanas</div>
-                        <div id="propuesta3" class="matching-item" draggable="true" ondragstart="dragMatch(event)">Instalación de puntos de recarga para VE</div>
-                        <div id="propuesta4" class="matching-item" draggable="true" ondragstart="dragMatch(event)">Más zonas verdes y arbolado</div>
+                        <div id="propuestas-container-9">
+                            <!-- Las propuestas se generarán aleatoriamente -->
+                        </div>
                     </div>
                     <div class="matching-column">
                         <h3>Categorías</h3>
@@ -757,12 +693,8 @@
             
             <div class="puzzle-container">
                 <p>¿Cuál de estas NO es una práctica recomendada de ciberseguridad para sistemas de ciudad inteligente?</p>
-                <div class="option-group">
-                    <div class="option" onclick="selectOption(this, 'security')">Actualizaciones regulares de software</div>
-                    <div class="option" onclick="selectOption(this, 'security')">Contraseñas únicas y complejas</div>
-                    <div class="option" onclick="selectOption(this, 'security')">Compartir credenciales entre departamentos</div>
-                    <div class="option" onclick="selectOption(this, 'security')">Cifrado de datos sensibles</div>
-                    <div class="option" onclick="selectOption(this, 'security')">Copias de seguridad periódicas</div>
+                <div class="option-group" id="security-options">
+                    <!-- Las opciones se generarán aleatoriamente -->
                 </div>
                 <div class="feedback-container" id="security-feedback"></div>
                 <button class="btn" id="security-verify" onclick="checkSecurityAnswer()">Verificar</button>
@@ -782,12 +714,8 @@
             
             <div class="puzzle-container">
                 <p>¿Cuál de estas tecnologías NO se utiliza típicamente en sistemas de turismo inteligente?</p>
-                <div class="option-group">
-                    <div class="option" onclick="selectOption(this, 'tourism')">Beacons para información contextual</div>
-                    <div class="option" onclick="selectOption(this, 'tourism')">Realidad aumentada en puntos de interés</div>
-                    <div class="option" onclick="selectOption(this, 'tourism')">Sensores de radiación nuclear</div>
-                    <div class="option" onclick="selectOption(this, 'tourism')">Apps con rutas personalizadas</div>
-                    <div class="option" onclick="selectOption(this, 'tourism')">Análisis de datos de afluencia</div>
+                <div class="option-group" id="tourism-options">
+                    <!-- Las opciones se generarán aleatoriamente -->
                 </div>
                 <div class="feedback-container" id="tourism-feedback"></div>
                 <button class="btn" id="tourism-verify" onclick="checkTourismAnswer()">Verificar</button>
@@ -807,12 +735,8 @@
             
             <div class="puzzle-container">
                 <p>¿Cuál de estos NO es un indicador típico de salud urbana monitorizado en ciudades inteligentes?</p>
-                <div class="option-group">
-                    <div class="option" onclick="selectOption(this, 'health')">Calidad del aire</div>
-                    <div class="option" onclick="selectOption(this, 'health')">Niveles de ruido</div>
-                    <div class="option" onclick="selectOption(this, 'health')">Acceso a espacios verdes</div>
-                    <div class="option" onclick="selectOption(this, 'health')">Historial médico individual</div>
-                    <div class="option" onclick="selectOption(this, 'health')">Disponibilidad de agua potable</div>
+                <div class="option-group" id="health-options">
+                    <!-- Las opciones se generarán aleatoriamente -->
                 </div>
                 <div class="feedback-container" id="health-feedback"></div>
                 <button class="btn" id="health-verify" onclick="checkHealthAnswer()">Verificar</button>
@@ -832,12 +756,8 @@
             
             <div class="puzzle-container">
                 <p>¿Cuál de estas NO es una práctica característica de economía circular?</p>
-                <div class="option-group">
-                    <div class="option" onclick="selectOption(this, 'circular')">Reciclaje de materiales</div>
-                    <div class="option" onclick="selectOption(this, 'circular')">Reparación y reutilización</div>
-                    <div class="option" onclick="selectOption(this, 'circular')">Vertido en landfill</div>
-                    <div class="option" onclick="selectOption(this, 'circular')">Compartición de recursos</div>
-                    <div class="option" onclick="selectOption(this, 'circular')">Diseño para la durabilidad</div>
+                <div class="option-group" id="circular-options">
+                    <!-- Las opciones se generarán aleatoriamente -->
                 </div>
                 <div class="feedback-container" id="circular-feedback"></div>
                 <button class="btn" id="circular-verify" onclick="checkCircularAnswer()">Verificar</button>
@@ -857,12 +777,8 @@
             
             <div class="puzzle-container">
                 <p>¿Cuál de estos NO es un principio fundamental de la gobernanza de datos en ciudades inteligentes?</p>
-                <div class="option-group">
-                    <div class="option" onclick="selectOption(this, 'governance')">Transparencia</div>
-                    <div class="option" onclick="selectOption(this, 'governance')">Privacidad por diseño</div>
-                    <div class="option" onclick="selectOption(this, 'governance')">Venta de datos personales</div>
-                    <div class="option" onclick="selectOption(this, 'governance')">Participación ciudadana</div>
-                    <div class="option" onclick="selectOption(this, 'governance')">Seguridad de la información</div>
+                <div class="option-group" id="governance-options">
+                    <!-- Las opciones se generarán aleatoriamente -->
                 </div>
                 <div class="feedback-container" id="governance-feedback"></div>
                 <button class="btn" id="governance-verify" onclick="checkGovernanceAnswer()">Verificar</button>
@@ -918,20 +834,7 @@
                 </div>
                 
                 <div class="waste-items-container" id="waste-items-container-16">
-                    <div id="raee1" class="waste-item" draggable="true" ondragstart="drag(event)">Teléfono móvil roto</div>
-                    <div id="raee2" class="waste-item" draggable="true" ondragstart="drag(event)">Ordenador portátil viejo</div>
-                    <div id="raee3" class="waste-item" draggable="true" ondragstart="drag(event)">Tablet con pantalla rota</div>
-                    <div id="raee4" class="waste-item" draggable="true" ondragstart="drag(event)">Cargador de móvil</div>
-                    <div id="raee5" class="waste-item" draggable="true" ondragstart="drag(event)">Televisor antiguo</div>
-                </div>
-                
-                <div class="reset-container">
-                    <button class="btn-reset" onclick="resetScene16()">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M23 4v6h-6M1 20v-6h6M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
-                        </svg>
-                        Reiniciar
-                    </button>
+                    <!-- Los elementos se generarán aleatoriamente -->
                 </div>
                 
                 <div class="feedback-container" id="raee-feedback"></div>
@@ -951,16 +854,9 @@
             <p>El nuevo sistema de recogida de residuos orgánicos necesita que identifiques correctamente los materiales compostables.</p>
             
             <div class="puzzle-container">
-                <p>Selecciona los residuos que SÍ pueden ir al contenedor de orgánica (marrón):</p>
-                <div class="option-group">
-                    <div class="option" onclick="toggleSelection(this, 'organica')">Restos de fruta y verdura</div>
-                    <div class="option" onclick="toggleSelection(this, 'organica')">Papel de cocina usado</div>
-                    <div class="option" onclick="toggleSelection(this, 'organica')">Huesos de carne</div>
-                    <div class="option" onclick="toggleSelection(this, 'organica')">Botella de plástico</div>
-                    <div class="option" onclick="toggleSelection(this, 'organica')">Cáscaras de huevo</div>
-                    <div class="option" onclick="toggleSelection(this, 'organica')">Bolsas de plástico</div>
-                    <div class="option" onclick="toggleSelection(this, 'organica')">Posos de café</div>
-                    <div class="option" onclick="toggleSelection(this, 'organica')">Pelo y uñas</div>
+                <p>Selecciona los residuos que SÍ pueden ir al contenedor de orgánica (marrón) (6 respuestas correctas):</p>
+                <div class="option-group" id="organica-options">
+                    <!-- Las opciones se generarán aleatoriamente -->
                 </div>
                 
                 <div class="feedback-container" id="organica-feedback"></div>
@@ -985,10 +881,9 @@
                 <div class="matching-game">
                     <div class="matching-column">
                         <h3>Tipos de pilas/baterías</h3>
-                        <div id="pila1" class="matching-item" draggable="true" ondragstart="dragMatch(event)">Pilas AA/AAA</div>
-                        <div id="pila2" class="matching-item" draggable="true" ondragstart="dragMatch(event)">Batería de coche</div>
-                        <div id="pila3" class="matching-item" draggable="true" ondragstart="dragMatch(event)">Batería de móvil</div>
-                        <div id="pila4" class="matching-item" draggable="true" ondragstart="dragMatch(event)">Batería de ordenador portátil</div>
+                        <div id="pilas-container-18">
+                            <!-- Las pilas se generarán aleatoriamente -->
+                        </div>
                     </div>
                     <div class="matching-column">
                         <h3>Puntos de reciclaje</h3>
@@ -1025,25 +920,10 @@
             <p>El sistema de planificación urbana necesita que priorices proyectos según criterios de sostenibilidad.</p>
             
             <div class="puzzle-container">
-                <p>Ordena estos proyectos de planificación urbana del más prioritario (1) al menos prioritario (4) arrastrando los números:</p>
+                <p>Ordena estos proyectos de planificación urbana del más prioritario (1) al menos prioritario (4) arrastrando los proyectos (no los números):</p>
                 
                 <div id="planificacion-container" style="display: grid; grid-template-columns: 1fr; gap: 15px; margin: 20px 0;">
-                    <div style="display: flex; align-items: center; background: rgba(23, 42, 70, 0.9); padding: 15px; border-radius: 8px;">
-                        <div id="pos1" class="position-marker" style="margin-right: 15px; font-size: 1.5rem; color: #64ffda;">1</div>
-                        <div id="proyecto1" class="matching-item" style="flex: 1; cursor: move;" draggable="true" ondragstart="dragPlanificacion(event)">Crear corredores verdes que conecten parques urbanos</div>
-                    </div>
-                    <div style="display: flex; align-items: center; background: rgba(23, 42, 70, 0.9); padding: 15px; border-radius: 8px;">
-                        <div id="pos2" class="position-marker" style="margin-right: 15px; font-size: 1.5rem; color: #64ffda;">2</div>
-                        <div id="proyecto2" class="matching-item" style="flex: 1; cursor: move;" draggable="true" ondragstart="dragPlanificacion(event)">Implementar sistema de recogida neumática de residuos</div>
-                    </div>
-                    <div style="display: flex; align-items: center; background: rgba(23, 42, 70, 0.9); padding: 15px; border-radius: 8px;">
-                        <div id="pos3" class="position-marker" style="margin-right: 15px; font-size: 1.5rem; color: #64ffda;">3</div>
-                        <div id="proyecto3" class="matching-item" style="flex: 1; cursor: move;" draggable="true" ondragstart="dragPlanificacion(event)">Instalar paneles solares en edificios municipales</div>
-                    </div>
-                    <div style="display: flex; align-items: center; background: rgba(23, 42, 70, 0.9); padding: 15px; border-radius: 8px;">
-                        <div id="pos4" class="position-marker" style="margin-right: 15px; font-size: 1.5rem; color: #64ffda;">4</div>
-                        <div id="proyecto4" class="matching-item" style="flex: 1; cursor: move;" draggable="true" ondragstart="dragPlanificacion(event)">Digitalizar trámites municipales</div>
-                    </div>
+                    <!-- Los proyectos se generarán aleatoriamente -->
                 </div>
                 
                 <div class="reset-container">
@@ -1077,10 +957,9 @@
                 <div class="matching-game">
                     <div class="matching-column">
                         <h3>Características de MaaS</h3>
-                        <div id="caracteristica1" class="matching-item" draggable="true" ondragstart="dragMatch(event)">Unificación de pagos</div>
-                        <div id="caracteristica2" class="matching-item" draggable="true" ondragstart="dragMatch(event)">Planificación de rutas multimodales</div>
-                        <div id="caracteristica3" class="matching-item" draggable="true" ondragstart="dragMatch(event)">Información en tiempo real</div>
-                        <div id="caracteristica4" class="matching-item" draggable="true" ondragstart="dragMatch(event)">Sistema de reservas integrado</div>
+                        <div id="caracteristicas-container-20">
+                            <!-- Las características se generarán aleatoriamente -->
+                        </div>
                     </div>
                     <div class="matching-column">
                         <h3>Beneficios</h3>
@@ -1111,6 +990,230 @@
             </div>
         </div>
 
+        <!-- NUEVAS PRUEBAS TIPO 7 (Selección) -->
+
+        <!-- Escena 21: Gestión del Agua -->
+        <div id="scene-21" class="scene">
+            <h2>Fase 21: Sistema Inteligente de Gestión del Agua</h2>
+            <p>El sistema de gestión de agua potable necesita optimización para reducir pérdidas.</p>
+            
+            <div class="puzzle-container">
+                <p>¿Cuál de estas tecnologías es MÁS efectiva para detectar fugas en la red de distribución de agua?</p>
+                <select id="water-answer">
+                    <option value="">Selecciona una opción</option>
+                    <!-- Las opciones se generarán aleatoriamente -->
+                </select>
+                <div class="feedback-container" id="water-feedback"></div>
+                <button class="btn" id="water-verify" onclick="checkWaterAnswer()">Verificar</button>
+                <button class="btn" id="water-continue" onclick="nextSceneWithScroll()" style="display:none;">Continuar</button>
+            </div>
+            
+            <button class="btn-hint" onclick="toggleHint('hint-21')">¿Necesitas una pista?</button>
+            <div class="hint" id="hint-21">
+                <p>Pista: Piensa en tecnologías que permitan monitorización continua y detección temprana.</p>
+            </div>
+        </div>
+
+        <!-- Escena 22: Alumbrado Público -->
+        <div id="scene-22" class="scene">
+            <h2>Fase 22: Sistema de Alumbrado Público Inteligente</h2>
+            <p>El sistema de alumbrado necesita ser optimizado para ahorrar energía.</p>
+            
+            <div class="puzzle-container">
+                <p>¿Cuál de estas estrategias es MÁS eficiente para reducir el consumo energético del alumbrado público?</p>
+                <select id="lighting-answer">
+                    <option value="">Selecciona una opción</option>
+                    <!-- Las opciones se generarán aleatoriamente -->
+                </select>
+                <div class="feedback-container" id="lighting-feedback"></div>
+                <button class="btn" id="lighting-verify" onclick="checkLightingAnswer()">Verificar</button>
+                <button class="btn" id="lighting-continue" onclick="nextSceneWithScroll()" style="display:none;">Continuar</button>
+            </div>
+            
+            <button class="btn-hint" onclick="toggleHint('hint-22')">¿Necesitas una pista?</button>
+            <div class="hint" id="hint-22">
+                <p>Pista: Considera tecnologías que adapten el consumo a las necesidades reales.</p>
+            </div>
+        </div>
+
+        <!-- Escena 23: Movilidad Sostenible -->
+        <div id="scene-23" class="scene">
+            <h2>Fase 23: Plan de Movilidad Sostenible</h2>
+            <p>La ciudad necesita elegir la mejor estrategia para promover la movilidad sostenible.</p>
+            
+            <div class="puzzle-container">
+                <p>¿Cuál de estas medidas tiene MAYOR impacto en la reducción del uso del coche privado en el centro urbano?</p>
+                <select id="mobility-answer">
+                    <option value="">Selecciona una opción</option>
+                    <!-- Las opciones se generarán aleatoriamente -->
+                </select>
+                <div class="feedback-container" id="mobility-feedback"></div>
+                <button class="btn" id="mobility-verify" onclick="checkMobilityAnswer()">Verificar</button>
+                <button class="btn" id="mobility-continue" onclick="nextSceneWithScroll()" style="display:none;">Continuar</button>
+            </div>
+            
+            <button class="btn-hint" onclick="toggleHint('hint-23')">¿Necesitas una pista?</button>
+            <div class="hint" id="hint-23">
+                <p>Pista: Piensa en medidas que ofrezcan alternativas reales y atractivas al coche.</p>
+            </div>
+        </div>
+
+        <!-- Escena 24: Espacios Verdes -->
+        <div id="scene-24" class="scene">
+            <h2>Fase 24: Gestión de Espacios Verdes Urbanos</h2>
+            <p>El sistema de riego de parques y jardines necesita ser optimizado.</p>
+            
+            <div class="puzzle-container">
+                <p>¿Cuál de estos sistemas es MÁS eficiente para el riego de zonas verdes urbanas?</p>
+                <select id="green-answer">
+                    <option value="">Selecciona una opción</option>
+                    <!-- Las opciones se generarán aleatoriamente -->
+                </select>
+                <div class="feedback-container" id="green-feedback"></div>
+                <button class="btn" id="green-verify" onclick="checkGreenAnswer()">Verificar</button>
+                <button class="btn" id="green-continue" onclick="nextSceneWithScroll()" style="display:none;">Continuar</button>
+            </div>
+            
+            <button class="btn-hint" onclick="toggleHint('hint-24')">¿Necesitas una pista?</button>
+            <div class="hint" id="hint-24">
+                <p>Pista: Considera sistemas que adapten el riego a las condiciones reales del suelo y clima.</p>
+            </div>
+        </div>
+
+        <!-- Escena 25: Energías Renovables -->
+        <div id="scene-25" class="scene">
+            <h2>Fase 25: Integración de Energías Renovables</h2>
+            <p>La ciudad debe elegir la mejor ubicación para una nueva instalación de energía renovable.</p>
+            
+            <div class="puzzle-container">
+                <p>¿Cuál de estas ubicaciones es MÁS adecuada para una planta de energía solar fotovoltaica?</p>
+                <select id="solar-answer">
+                    <option value="">Selecciona una opción</option>
+                    <!-- Las opciones se generarán aleatoriamente -->
+                </select>
+                <div class="feedback-container" id="solar-feedback"></div>
+                <button class="btn" id="solar-verify" onclick="checkSolarAnswer()">Verificar</button>
+                <button class="btn" id="solar-continue" onclick="nextSceneWithScroll()" style="display:none;">Continuar</button>
+            </div>
+            
+            <button class="btn-hint" onclick="toggleHint('hint-25')">¿Necesitas una pista?</button>
+            <div class="hint" id="hint-25">
+                <p>Pista: Piensa en ubicaciones con máxima exposición solar y mínimo impacto ambiental.</p>
+            </div>
+        </div>
+
+        <!-- NUEVAS PRUEBAS TIPO 17 (Selección múltiple) -->
+
+        <!-- Escena 26: Compostaje Urbano -->
+        <div id="scene-26" class="scene">
+            <h2>Fase 26: Sistema de Compostaje Urbano</h2>
+            <p>El nuevo programa de compostaje comunitario necesita identificar materiales adecuados.</p>
+            
+            <div class="puzzle-container">
+                <p>Selecciona los materiales que SÍ pueden compostarse en un sistema de compostaje urbano (4 respuestas correctas):</p>
+                <div class="option-group" id="compost-options">
+                    <!-- Las opciones se generarán aleatoriamente -->
+                </div>
+                
+                <div class="feedback-container" id="compost-feedback"></div>
+                <button class="btn" id="compost-verify" onclick="checkCompostAnswer()">Verificar</button>
+                <button class="btn" id="compost-continue" onclick="nextSceneWithScroll()" style="display:none;">Continuar</button>
+            </div>
+            
+            <button class="btn-hint" onclick="toggleHint('hint-26')">¿Necesitas una pista?</button>
+            <div class="hint" id="hint-26">
+                <p>Pista: Solo materiales orgánicos biodegradables pueden compostarse.</p>
+            </div>
+        </div>
+
+        <!-- Escena 27: Huertos Urbanos -->
+        <div id="scene-27" class="scene">
+            <h2>Fase 27: Gestión de Huertos Urbanos</h2>
+            <p>El programa de huertos urbanos necesita identificar prácticas sostenibles.</p>
+            
+            <div class="puzzle-container">
+                <p>Selecciona las prácticas que SÍ son sostenibles para huertos urbanos (5 respuestas correctas):</p>
+                <div class="option-group" id="garden-options">
+                    <!-- Las opciones se generarán aleatoriamente -->
+                </div>
+                
+                <div class="feedback-container" id="garden-feedback"></div>
+                <button class="btn" id="garden-verify" onclick="checkGardenAnswer()">Verificar</button>
+                <button class="btn" id="garden-continue" onclick="nextSceneWithScroll()" style="display:none;">Continuar</button>
+            </div>
+            
+            <button class="btn-hint" onclick="toggleHint('hint-27')">¿Necesitas una pista?</button>
+            <div class="hint" id="hint-27">
+                <p>Pista: Las prácticas sostenibles respetan el medio ambiente y promueven la biodiversidad.</p>
+            </div>
+        </div>
+
+        <!-- Escena 28: Movilidad Activa -->
+        <div id="scene-28" class="scene">
+            <h2>Fase 28: Fomento de la Movilidad Activa</h2>
+            <p>El plan de movilidad activa necesita identificar infraestructuras adecuadas.</p>
+            
+            <div class="puzzle-container">
+                <p>Selecciona las infraestructuras que SÍ fomentan la movilidad activa (caminar y bicicleta) (4 respuestas correctas):</p>
+                <div class="option-group" id="active-options">
+                    <!-- Las opciones se generarán aleatoriamente -->
+                </div>
+                
+                <div class="feedback-container" id="active-feedback"></div>
+                <button class="btn" id="active-verify" onclick="checkActiveAnswer()">Verificar</button>
+                <button class="btn" id="active-continue" onclick="nextSceneWithScroll()" style="display:none;">Continuar</button>
+            </div>
+            
+            <button class="btn-hint" onclick="toggleHint('hint-28')">¿Necesitas una pista?</button>
+            <div class="hint" id="hint-28">
+                <p>Pista: Piensa en infraestructuras que hagan más seguros y atractivos los desplazamientos a pie y en bici.</p>
+            </div>
+        </div>
+
+        <!-- Escena 29: Eficiencia Energética -->
+        <div id="scene-29" class="scene">
+            <h2>Fase 29: Medidas de Eficiencia Energética</h2>
+            <p>El plan de eficiencia energética necesita identificar medidas efectivas.</p>
+            
+            <div class="puzzle-container">
+                <p>Selecciona las medidas que SÍ mejoran la eficiencia energética en edificios (6 respuestas correctas):</p>
+                <div class="option-group" id="efficiency-options">
+                    <!-- Las opciones se generarán aleatoriamente -->
+                </div>
+                
+                <div class="feedback-container" id="efficiency-feedback"></div>
+                <button class="btn" id="efficiency-verify" onclick="checkEfficiencyAnswer()">Verificar</button>
+                <button class="btn" id="efficiency-continue" onclick="nextSceneWithScroll()" style="display:none;">Continuar</button>
+            </div>
+            
+            <button class="btn-hint" onclick="toggleHint('hint-29')">¿Necesitas una pista?</button>
+            <div class="hint" id="hint-29">
+                <p>Pista: Las medidas de eficiencia reducen el consumo energético sin disminuir el confort.</p>
+            </div>
+        </div>
+
+        <!-- Escena 30: Biodiversidad Urbana -->
+        <div id="scene-30" class="scene">
+            <h2>Fase 30: Fomento de la Biodiversidad Urbana</h2>
+            <p>El plan de biodiversidad necesita identificar acciones beneficiosas.</p>
+            
+            <div class="puzzle-container">
+                <p>Selecciona las acciones que SÍ fomentan la biodiversidad en entornos urbanos (5 respuestas correctas):</p>
+                <div class="option-group" id="biodiversity-options">
+                    <!-- Las opciones se generarán aleatoriamente -->
+                </div>
+                
+                <div class="feedback-container" id="biodiversity-feedback"></div>
+                <button class="btn" id="biodiversity-verify" onclick="checkBiodiversityAnswer()">Verificar</button>
+                <button class="btn" id="biodiversity-continue" onclick="nextSceneWithScroll()" style="display:none;">Continuar</button>
+            </div>
+            
+            <button class="btn-hint" onclick="toggleHint('hint-30')">¿Necesitas una pista?</button>
+            <div class="hint" id="hint-30">
+                <p>Pista: Las acciones que favorecen la biodiversidad crean habitats para diferentes especies.</p>
+            </div>
+        </div>
+
         <!-- Escena final -->
         <div id="scene-final" class="scene">
             <div class="final-message">
@@ -1127,7 +1230,7 @@
     <script>
         // Variables del juego
         let currentScene = 0;
-        let totalScenes = 20;
+        let totalScenes = 30;
         let startTime;
         let timerInterval;
         let wasteAnswers = {
@@ -1149,13 +1252,13 @@
             governance: null
         };
         let selectedOrganica = [];
+        let selectedCompost = [];
+        let selectedGarden = [];
+        let selectedActive = [];
+        let selectedEfficiency = [];
+        let selectedBiodiversity = [];
         let matchingPairs = {};
-        let planificacionOrder = {
-            'proyecto1': '1',
-            'proyecto2': '2', 
-            'proyecto3': '3',
-            'proyecto4': '4'
-        };
+        let planificacionOrder = {};
 
         // Iniciar el juego
         function startGame() {
@@ -1166,10 +1269,538 @@
             startTimer();
             updateProgress();
             
+            // Inicializar escenas con opciones aleatorias
+            initializeRandomOptions();
+            
             // Desplazar al inicio de la escena
             setTimeout(() => {
                 document.getElementById(`scene-1`).scrollIntoView({ behavior: 'smooth', block: 'start' });
             }, 300);
+        }
+
+        // Función para mezclar arrays
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        // Inicializar opciones aleatorias
+        function initializeRandomOptions() {
+            // Escena 3: Residuos (mezclar elementos)
+            const wasteItems = [
+                {id: 'item1', text: 'Botella de plástico', correct: 'yellow'},
+                {id: 'item2', text: 'Periódico', correct: 'blue'},
+                {id: 'item3', text: 'Botella de vidrio', correct: 'green'},
+                {id: 'item4', text: 'Lata de refresco', correct: 'yellow'},
+                {id: 'item5', text: 'Revista', correct: 'blue'}
+            ];
+            shuffleArray(wasteItems);
+            const wasteContainer = document.getElementById('waste-items-container-3');
+            wasteContainer.innerHTML = '';
+            wasteItems.forEach(item => {
+                const div = document.createElement('div');
+                div.id = item.id;
+                div.className = 'waste-item';
+                div.draggable = true;
+                div.ondragstart = drag;
+                div.textContent = item.text;
+                wasteContainer.appendChild(div);
+            });
+
+            // Escena 4: Sensores (mezclar opciones)
+            const sensorOptions = [
+                {text: 'Sensor de calidad del aire', correct: false},
+                {text: 'Sensor de aparcamiento', correct: false},
+                {text: 'Sensor de temperatura corporal', correct: true},
+                {text: 'Sensor de nivel de contenedores', correct: false},
+                {text: 'Sensor de tráfico', correct: false},
+                {text: 'Sensor de intensidad lumínica', correct: false}
+            ];
+            shuffleArray(sensorOptions);
+            const sensorContainer = document.getElementById('sensor-options');
+            sensorContainer.innerHTML = '';
+            sensorOptions.forEach(option => {
+                const div = document.createElement('div');
+                div.className = 'option';
+                div.onclick = function() { selectOption(this, 'sensor'); };
+                div.textContent = option.text;
+                sensorContainer.appendChild(div);
+            });
+
+            // Escena 7: Antena 5G (mezclar opciones)
+            const antennaOptions = [
+                {value: 'A', text: 'Zona residencial de baja densidad', correct: false},
+                {value: 'B', text: 'Centro histórico con edificios altos', correct: false},
+                {value: 'C', text: 'Parque industrial con naves bajas', correct: false},
+                {value: 'D', text: 'Plaza central abierta con alta afluencia', correct: true}
+            ];
+            shuffleArray(antennaOptions);
+            const antennaSelect = document.getElementById('antenna-answer');
+            antennaSelect.innerHTML = '<option value="">Selecciona una opción</option>';
+            antennaOptions.forEach(option => {
+                const opt = document.createElement('option');
+                opt.value = option.value;
+                opt.textContent = option.text;
+                antennaSelect.appendChild(opt);
+            });
+
+            // Escena 9: Emparejamiento - Propuestas mezcladas
+            const propuestas9 = [
+                {id: 'propuesta1', text: 'Más carriles bici protegidos', correct: 'categoriaA'},
+                {id: 'propuesta2', text: 'App para reportar incidencias urbanas', correct: 'categoriaB'},
+                {id: 'propuesta3', text: 'Instalación de puntos de recarga para VE', correct: 'categoriaD'},
+                {id: 'propuesta4', text: 'Más zonas verdes y arbolado', correct: 'categoriaC'}
+            ];
+            shuffleArray(propuestas9);
+            const propuestasContainer9 = document.getElementById('propuestas-container-9');
+            propuestasContainer9.innerHTML = '';
+            propuestas9.forEach(propuesta => {
+                const div = document.createElement('div');
+                div.id = propuesta.id;
+                div.className = 'matching-item';
+                div.draggable = true;
+                div.ondragstart = dragMatch;
+                div.textContent = propuesta.text;
+                propuestasContainer9.appendChild(div);
+            });
+
+            // Escena 10: Ciberseguridad (mezclar opciones)
+            const securityOptions = [
+                {text: 'Actualizaciones regulares de software', correct: false},
+                {text: 'Contraseñas únicas y complejas', correct: false},
+                {text: 'Compartir credenciales entre departamentos', correct: true},
+                {text: 'Cifrado de datos sensibles', correct: false},
+                {text: 'Copias de seguridad periódicas', correct: false}
+            ];
+            shuffleArray(securityOptions);
+            const securityContainer = document.getElementById('security-options');
+            securityContainer.innerHTML = '';
+            securityOptions.forEach(option => {
+                const div = document.createElement('div');
+                div.className = 'option';
+                div.onclick = function() { selectOption(this, 'security'); };
+                div.textContent = option.text;
+                securityContainer.appendChild(div);
+            });
+
+            // Escena 11: Turismo (mezclar opciones)
+            const tourismOptions = [
+                {text: 'Beacons para información contextual', correct: false},
+                {text: 'Realidad aumentada en puntos de interés', correct: false},
+                {text: 'Sensores de radiación nuclear', correct: true},
+                {text: 'Apps con rutas personalizadas', correct: false},
+                {text: 'Análisis de datos de afluencia', correct: false}
+            ];
+            shuffleArray(tourismOptions);
+            const tourismContainer = document.getElementById('tourism-options');
+            tourismContainer.innerHTML = '';
+            tourismOptions.forEach(option => {
+                const div = document.createElement('div');
+                div.className = 'option';
+                div.onclick = function() { selectOption(this, 'tourism'); };
+                div.textContent = option.text;
+                tourismContainer.appendChild(div);
+            });
+
+            // Escena 12: Salud (mezclar opciones)
+            const healthOptions = [
+                {text: 'Calidad del aire', correct: false},
+                {text: 'Niveles de ruido', correct: false},
+                {text: 'Acceso a espacios verdes', correct: false},
+                {text: 'Historial médico individual', correct: true},
+                {text: 'Disponibilidad de agua potable', correct: false}
+            ];
+            shuffleArray(healthOptions);
+            const healthContainer = document.getElementById('health-options');
+            healthContainer.innerHTML = '';
+            healthOptions.forEach(option => {
+                const div = document.createElement('div');
+                div.className = 'option';
+                div.onclick = function() { selectOption(this, 'health'); };
+                div.textContent = option.text;
+                healthContainer.appendChild(div);
+            });
+
+            // Escena 13: Economía circular (mezclar opciones)
+            const circularOptions = [
+                {text: 'Reciclaje de materiales', correct: false},
+                {text: 'Reparación y reutilización', correct: false},
+                {text: 'Vertido en landfill', correct: true},
+                {text: 'Compartición de recursos', correct: false},
+                {text: 'Diseño para la durabilidad', correct: false}
+            ];
+            shuffleArray(circularOptions);
+            const circularContainer = document.getElementById('circular-options');
+            circularContainer.innerHTML = '';
+            circularOptions.forEach(option => {
+                const div = document.createElement('div');
+                div.className = 'option';
+                div.onclick = function() { selectOption(this, 'circular'); };
+                div.textContent = option.text;
+                circularContainer.appendChild(div);
+            });
+
+            // Escena 14: Gobernanza (mezclar opciones)
+            const governanceOptions = [
+                {text: 'Transparencia', correct: false},
+                {text: 'Privacidad por diseño', correct: false},
+                {text: 'Venta de datos personales', correct: true},
+                {text: 'Participación ciudadana', correct: false},
+                {text: 'Seguridad de la información', correct: false}
+            ];
+            shuffleArray(governanceOptions);
+            const governanceContainer = document.getElementById('governance-options');
+            governanceContainer.innerHTML = '';
+            governanceOptions.forEach(option => {
+                const div = document.createElement('div');
+                div.className = 'option';
+                div.onclick = function() { selectOption(this, 'governance'); };
+                div.textContent = option.text;
+                governanceContainer.appendChild(div);
+            });
+
+            // Escena 16: RAEE (mezclar elementos)
+            const raeeItems = [
+                {id: 'raee1', text: 'Teléfono móvil roto', correct: 'reparacion'},
+                {id: 'raee2', text: 'Ordenador portátil viejo', correct: 'punto-limpio'},
+                {id: 'raee3', text: 'Tablet con pantalla rota', correct: 'reparacion'},
+                {id: 'raee4', text: 'Cargador de móvil', correct: 'tienda'},
+                {id: 'raee5', text: 'Televisor antiguo', correct: 'punto-limpio'}
+            ];
+            shuffleArray(raeeItems);
+            const raeeContainer = document.getElementById('waste-items-container-16');
+            raeeContainer.innerHTML = '';
+            raeeItems.forEach(item => {
+                const div = document.createElement('div');
+                div.id = item.id;
+                div.className = 'waste-item';
+                div.draggable = true;
+                div.ondragstart = drag;
+                div.textContent = item.text;
+                raeeContainer.appendChild(div);
+            });
+
+            // Escena 17: Orgánica (mezclar opciones)
+            const organicaOptions = [
+                {text: 'Restos de fruta y verdura', correct: true},
+                {text: 'Papel de cocina usado', correct: true},
+                {text: 'Huesos de carne', correct: true},
+                {text: 'Botella de plástico', correct: false},
+                {text: 'Cáscaras de huevo', correct: true},
+                {text: 'Bolsas de plástico', correct: false},
+                {text: 'Posos de café', correct: true},
+                {text: 'Pelo y uñas', correct: true}
+            ];
+            shuffleArray(organicaOptions);
+            const organicaContainer = document.getElementById('organica-options');
+            organicaContainer.innerHTML = '';
+            organicaOptions.forEach(option => {
+                const div = document.createElement('div');
+                div.className = 'option';
+                div.onclick = function() { toggleSelection(this, 'organica'); };
+                div.textContent = option.text;
+                organicaContainer.appendChild(div);
+            });
+
+            // Escena 18: Emparejamiento - Pilas mezcladas
+            const pilas18 = [
+                {id: 'pila1', text: 'Pilas AA/AAA', correct: 'puntoA'},
+                {id: 'pila2', text: 'Batería de coche', correct: 'puntoB'},
+                {id: 'pila3', text: 'Batería de móvil', correct: 'puntoC'},
+                {id: 'pila4', text: 'Batería de ordenador portátil', correct: 'puntoD'}
+            ];
+            shuffleArray(pilas18);
+            const pilasContainer18 = document.getElementById('pilas-container-18');
+            pilasContainer18.innerHTML = '';
+            pilas18.forEach(pila => {
+                const div = document.createElement('div');
+                div.id = pila.id;
+                div.className = 'matching-item';
+                div.draggable = true;
+                div.ondragstart = dragMatch;
+                div.textContent = pila.text;
+                pilasContainer18.appendChild(div);
+            });
+
+            // Escena 19: Planificación - Proyectos mezclados
+            const proyectos19 = [
+                {id: 'proyecto1', text: 'Crear corredores verdes que conecten parques urbanos', correctOrder: '1'},
+                {id: 'proyecto2', text: 'Implementar sistema de recogida neumática de residuos', correctOrder: '3'},
+                {id: 'proyecto3', text: 'Instalar paneles solares en edificios municipales', correctOrder: '2'},
+                {id: 'proyecto4', text: 'Digitalizar trámites municipales', correctOrder: '4'}
+            ];
+            shuffleArray(proyectos19);
+            const planificacionContainer = document.getElementById('planificacion-container');
+            planificacionContainer.innerHTML = '';
+            
+            // Inicializar orden actual
+            planificacionOrder = {};
+            
+            proyectos19.forEach((proyecto, index) => {
+                const div = document.createElement('div');
+                div.style.display = 'flex';
+                div.style.alignItems = 'center';
+                div.style.background = 'rgba(23, 42, 70, 0.9)';
+                div.style.padding = '15px';
+                div.style.borderRadius = '8px';
+                div.style.marginBottom = '10px';
+                
+                const positionMarker = document.createElement('div');
+                positionMarker.className = 'position-marker';
+                positionMarker.style.marginRight = '15px';
+                positionMarker.style.fontSize = '1.5rem';
+                positionMarker.style.color = '#64ffda';
+                positionMarker.style.minWidth = '30px';
+                positionMarker.style.textAlign = 'center';
+                positionMarker.style.fontWeight = 'bold';
+                positionMarker.textContent = (index + 1).toString();
+                
+                const projectDiv = document.createElement('div');
+                projectDiv.id = proyecto.id;
+                projectDiv.className = 'matching-item';
+                projectDiv.style.flex = '1';
+                projectDiv.style.cursor = 'move';
+                projectDiv.draggable = true;
+                projectDiv.ondragstart = dragPlanificacion;
+                projectDiv.textContent = proyecto.text;
+                
+                div.appendChild(positionMarker);
+                div.appendChild(projectDiv);
+                planificacionContainer.appendChild(div);
+                
+                // Guardar el orden actual basado en la posición del número
+                planificacionOrder[proyecto.id] = (index + 1).toString();
+            });
+
+            // Escena 20: Emparejamiento - Características mezcladas
+            const caracteristicas20 = [
+                {id: 'caracteristica1', text: 'Unificación de pagos', correct: 'beneficioC'},
+                {id: 'caracteristica2', text: 'Planificación de rutas multimodales', correct: 'beneficioA'},
+                {id: 'caracteristica3', text: 'Información en tiempo real', correct: 'beneficioB'},
+                {id: 'caracteristica4', text: 'Sistema de reservas integrado', correct: 'beneficioD'}
+            ];
+            shuffleArray(caracteristicas20);
+            const caracteristicasContainer20 = document.getElementById('caracteristicas-container-20');
+            caracteristicasContainer20.innerHTML = '';
+            caracteristicas20.forEach(caracteristica => {
+                const div = document.createElement('div');
+                div.id = caracteristica.id;
+                div.className = 'matching-item';
+                div.draggable = true;
+                div.ondragstart = dragMatch;
+                div.textContent = caracteristica.text;
+                caracteristicasContainer20.appendChild(div);
+            });
+
+            // Inicializar nuevas escenas tipo 7
+            initializeNewType7Scenes();
+            
+            // Inicializar nuevas escenas tipo 17
+            initializeNewType17Scenes();
+        }
+
+        // Inicializar nuevas escenas tipo 7 (selección)
+        function initializeNewType7Scenes() {
+            // Escena 21: Gestión del Agua
+            const waterOptions = [
+                {value: 'A', text: 'Sensores de presión en tiempo real', correct: true},
+                {value: 'B', text: 'Inspecciones visuales anuales', correct: false},
+                {value: 'C', text: 'Encuestas a usuarios', correct: false},
+                {value: 'D', text: 'Análisis químico mensual del agua', correct: false}
+            ];
+            shuffleArray(waterOptions);
+            const waterSelect = document.getElementById('water-answer');
+            waterSelect.innerHTML = '<option value="">Selecciona una opción</option>';
+            waterOptions.forEach(option => {
+                const opt = document.createElement('option');
+                opt.value = option.value;
+                opt.textContent = option.text;
+                waterSelect.appendChild(opt);
+            });
+
+            // Escena 22: Alumbrado Público
+            const lightingOptions = [
+                {value: 'A', text: 'LEDs con regulación inteligente según tráfico y condiciones ambientales', correct: true},
+                {value: 'B', text: 'Lámparas de sodio de alta presión programadas con horario fijo', correct: false},
+                {value: 'C', text: 'Halógenos con sensores de movimiento básicos', correct: false},
+                {value: 'D', text: 'Fluorescentes con interruptores manuales', correct: false}
+            ];
+            shuffleArray(lightingOptions);
+            const lightingSelect = document.getElementById('lighting-answer');
+            lightingSelect.innerHTML = '<option value="">Selecciona una opción</option>';
+            lightingOptions.forEach(option => {
+                const opt = document.createElement('option');
+                opt.value = option.value;
+                opt.textContent = option.text;
+                lightingSelect.appendChild(opt);
+            });
+
+            // Escena 23: Movilidad Sostenible
+            const mobilityOptions = [
+                {value: 'A', text: 'Zona de bajas emisiones con transporte público frecuente y carriles bici protegidos', correct: true},
+                {value: 'B', text: 'Campañas publicitarias sobre conducción eficiente', correct: false},
+                {value: 'C', text: 'Aparcamientos disuasorios en las afueras sin conexión directa al centro', correct: false},
+                {value: 'D', text: 'Peatonalización parcial los domingos por la mañana', correct: false}
+            ];
+            shuffleArray(mobilityOptions);
+            const mobilitySelect = document.getElementById('mobility-answer');
+            mobilitySelect.innerHTML = '<option value="">Selecciona una opción</option>';
+            mobilityOptions.forEach(option => {
+                const opt = document.createElement('option');
+                opt.value = option.value;
+                opt.textContent = option.text;
+                mobilitySelect.appendChild(opt);
+            });
+
+            // Escena 24: Espacios Verdes
+            const greenOptions = [
+                {value: 'A', text: 'Riego por goteo con sensores de humedad del suelo y previsión meteorológica', correct: true},
+                {value: 'B', text: 'Aspersores programados por horario fijo', correct: false},
+                {value: 'C', text: 'Riego manual según disponibilidad del personal', correct: false},
+                {value: 'D', text: 'Mangueras con temporizadores básicos', correct: false}
+            ];
+            shuffleArray(greenOptions);
+            const greenSelect = document.getElementById('green-answer');
+            greenSelect.innerHTML = '<option value="">Selecciona una opción</option>';
+            greenOptions.forEach(option => {
+                const opt = document.createElement('option');
+                opt.value = option.value;
+                opt.textContent = option.text;
+                greenSelect.appendChild(opt);
+            });
+
+            // Escena 25: Energías Renovables
+            const solarOptions = [
+                {value: 'A', text: 'Cubiertas de naves industriales en polígonos', correct: true},
+                {value: 'B', text: 'Zonas boscosas protegidas', correct: false},
+                {value: 'C', text: 'Centro histórico con edificios catalogados', correct: false},
+                {value: 'D', text: 'Humerales con alta biodiversidad', correct: false}
+            ];
+            shuffleArray(solarOptions);
+            const solarSelect = document.getElementById('solar-answer');
+            solarSelect.innerHTML = '<option value="">Selecciona una opción</option>';
+            solarOptions.forEach(option => {
+                const opt = document.createElement('option');
+                opt.value = option.value;
+                opt.textContent = option.text;
+                solarSelect.appendChild(opt);
+            });
+        }
+
+        // Inicializar nuevas escenas tipo 17 (selección múltiple)
+        function initializeNewType17Scenes() {
+            // Escena 26: Compostaje
+            const compostOptions = [
+                {text: 'Restos de poda de jardín', correct: true},
+                {text: 'Cenizas de carbón', correct: false},
+                {text: 'Cartón sin tintas tóxicas', correct: true},
+                {text: 'Productos lácteos', correct: false},
+                {text: 'Cáscaras de frutos secos', correct: true},
+                {text: 'Aceite de cocina usado', correct: false},
+                {text: 'Hojas secas', correct: true},
+                {text: 'Carne y pescado', correct: false}
+            ];
+            shuffleArray(compostOptions);
+            const compostContainer = document.getElementById('compost-options');
+            compostContainer.innerHTML = '';
+            compostOptions.forEach(option => {
+                const div = document.createElement('div');
+                div.className = 'option';
+                div.onclick = function() { toggleSelection(this, 'compost'); };
+                div.textContent = option.text;
+                compostContainer.appendChild(div);
+            });
+
+            // Escena 27: Huertos Urbanos
+            const gardenOptions = [
+                {text: 'Rotación de cultivos', correct: true},
+                {text: 'Uso exclusivo de pesticidas químicos', correct: false},
+                {text: 'Asociación de plantas compatibles', correct: true},
+                {text: 'Riego con agua potable sin recoger agua de lluvia', correct: false},
+                {text: 'Compostaje in situ de restos vegetales', correct: true},
+                {text: 'Monocultivo intensivo', correct: false},
+                {text: 'Control biológico de plagas', correct: true},
+                {text: 'Uso de plantas autóctonas', correct: true}
+            ];
+            shuffleArray(gardenOptions);
+            const gardenContainer = document.getElementById('garden-options');
+            gardenContainer.innerHTML = '';
+            gardenOptions.forEach(option => {
+                const div = document.createElement('div');
+                div.className = 'option';
+                div.onclick = function() { toggleSelection(this, 'garden'); };
+                div.textContent = option.text;
+                gardenContainer.appendChild(div);
+            });
+
+            // Escena 28: Movilidad Activa
+            const activeOptions = [
+                {text: 'Carriles bici segregados del tráfico', correct: true},
+                {text: 'Aceras estrechas y obstruidas', correct: false},
+                {text: 'Pasos de peatones elevados', correct: true},
+                {text: 'Calles sin semáforos peatonales', correct: false},
+                {text: 'Zonas 30 con prioridad peatonal', correct: true},
+                {text: 'Aparcamiento en aceras', correct: false},
+                {text: 'Señalización clara para ciclistas', correct: true},
+                {text: 'Cruces peatonales muy separados', correct: false}
+            ];
+            shuffleArray(activeOptions);
+            const activeContainer = document.getElementById('active-options');
+            activeContainer.innerHTML = '';
+            activeOptions.forEach(option => {
+                const div = document.createElement('div');
+                div.className = 'option';
+                div.onclick = function() { toggleSelection(this, 'active'); };
+                div.textContent = option.text;
+                activeContainer.appendChild(div);
+            });
+
+            // Escena 29: Eficiencia Energética
+            const efficiencyOptions = [
+                {text: 'Aislamiento térmico en fachadas y cubiertas', correct: true},
+                {text: 'Ventanas de doble acristalamiento', correct: true},
+                {text: 'Sistemas de calefacción eléctrica por resistencia', correct: false},
+                {text: 'Ventilación natural cruzada', correct: true},
+                {text: 'Iluminación LED con sensores de presencia', correct: true},
+                {text: 'Mantenimiento de equipos obsoletos', correct: false},
+                {text: 'Orientación optimizada para ganancia solar pasiva', correct: true},
+                {text: 'Electrodomésticos de alta eficiencia energética', correct: true}
+            ];
+            shuffleArray(efficiencyOptions);
+            const efficiencyContainer = document.getElementById('efficiency-options');
+            efficiencyContainer.innerHTML = '';
+            efficiencyOptions.forEach(option => {
+                const div = document.createElement('div');
+                div.className = 'option';
+                div.onclick = function() { toggleSelection(this, 'efficiency'); };
+                div.textContent = option.text;
+                efficiencyContainer.appendChild(div);
+            });
+
+            // Escena 30: Biodiversidad Urbana
+            const biodiversityOptions = [
+                {text: 'Hoteles de insectos', correct: true},
+                {text: 'Césped intensivo con corte frecuente', correct: false},
+                {text: 'Setos con especies autóctonas', correct: true},
+                {text: 'Pavimentación completa de solares', correct: false},
+                {text: 'Charcas para anfibios', correct: true},
+                {text: 'Uso exclusivo de especies exóticas ornamentales', correct: false},
+                {text: 'Corredores verdes entre espacios naturales', correct: true},
+                {text: 'Nidales para aves y murciélagos', correct: true}
+            ];
+            shuffleArray(biodiversityOptions);
+            const biodiversityContainer = document.getElementById('biodiversity-options');
+            biodiversityContainer.innerHTML = '';
+            biodiversityOptions.forEach(option => {
+                const div = document.createElement('div');
+                div.className = 'option';
+                div.onclick = function() { toggleSelection(this, 'biodiversity'); };
+                div.textContent = option.text;
+                biodiversityContainer.appendChild(div);
+            });
         }
 
         // Temporizador
@@ -1193,6 +1824,9 @@
         function nextSceneWithScroll() {
             document.getElementById(`scene-${currentScene}`).classList.remove('active');
             currentScene++;
+
+            // LIMPIAR matchingPairs al cambiar de escena
+            matchingPairs = {};
             
             if (currentScene <= totalScenes) {
                 document.getElementById(`scene-${currentScene}`).classList.add('active');
@@ -1237,184 +1871,6 @@
             // Desplazar pantalla hacia el feedback
             const feedbackElement = document.getElementById(`${sceneNumber}-feedback`);
             feedbackElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-        }
-
-        // Reiniciar escena 3 (residuos) - CORREGIDO
-        function resetScene3() {
-            wasteAnswers = {
-                yellow: [],
-                green: [],
-                blue: []
-            };
-            
-            // Vaciar contenedores
-            document.getElementById('yellow-bin').innerHTML = '';
-            document.getElementById('green-bin').innerHTML = '';
-            document.getElementById('blue-bin').innerHTML = '';
-            
-            // Volver a colocar los elementos de residuos en su contenedor original
-            const wasteItemsContainer = document.getElementById('waste-items-container-3');
-            document.querySelectorAll('#scene-3 .waste-item').forEach(item => {
-                wasteItemsContainer.appendChild(item);
-            });
-            
-            // Resetear feedback
-            document.getElementById('waste-feedback').innerHTML = '';
-            
-            // Mostrar botón verificar
-            document.getElementById('waste-verify').style.display = 'inline-block';
-            document.getElementById('waste-continue').style.display = 'none';
-        }
-
-        // Reiniciar escena 16 (RAEE) - CORREGIDO
-        function resetScene16() {
-            raeeAnswers = {
-                'punto-limpio': [],
-                'tienda': [],
-                'reparacion': []
-            };
-            
-            // Vaciar contenedores
-            document.getElementById('punto-limpio').innerHTML = '';
-            document.getElementById('tienda').innerHTML = '';
-            document.getElementById('reparacion').innerHTML = '';
-            
-            // Volver a colocar los elementos de residuos en su contenedor original
-            const raeeItemsContainer = document.getElementById('waste-items-container-16');
-            document.querySelectorAll('#scene-16 .waste-item').forEach(item => {
-                raeeItemsContainer.appendChild(item);
-            });
-            
-            // Resetear feedback
-            document.getElementById('raee-feedback').innerHTML = '';
-            
-            // Mostrar botón verificar
-            document.getElementById('raee-verify').style.display = 'inline-block';
-            document.getElementById('raee-continue').style.display = 'none';
-        }
-
-        // Reiniciar juego de emparejamiento
-        function resetMatchingGame(sceneNumber) {
-            matchingPairs = {};
-            
-            // Restaurar elementos de emparejamiento según la escena
-            if (sceneNumber === 9) {
-                document.querySelectorAll('#scene-9 .matching-item').forEach(item => {
-                    item.classList.remove('matched');
-                    item.style.display = 'block';
-                    
-                    // Restaurar texto original
-                    if (item.id === 'categoriaA') item.textContent = 'Movilidad sostenible';
-                    if (item.id === 'categoriaB') item.textContent = 'Gobierno digital';
-                    if (item.id === 'categoriaC') item.textContent = 'Infraestructura verde';
-                    if (item.id === 'categoriaD') item.textContent = 'Energía y medio ambiente';
-                });
-            } else if (sceneNumber === 18) {
-                document.querySelectorAll('#scene-18 .matching-item').forEach(item => {
-                    item.classList.remove('matched');
-                    item.style.display = 'block';
-                    
-                    // Restaurar texto original
-                    if (item.id === 'puntoA') item.textContent = 'Contenedor específico en supermercados';
-                    if (item.id === 'puntoB') item.textContent = 'Taller mecánico o punto limpio';
-                    if (item.id === 'puntoC') item.textContent = 'Tienda de electrónica o punto limpio';
-                    if (item.id === 'puntoD') item.textContent = 'Punto limpio o tienda especializada';
-                });
-            } else if (sceneNumber === 20) {
-                document.querySelectorAll('#scene-20 .matching-item').forEach(item => {
-                    item.classList.remove('matched');
-                    item.style.display = 'block';
-                    
-                    // Restaurar texto original
-                    if (item.id === 'beneficioA') item.textContent = 'Facilita el uso combinado de transporte público y privado';
-                    if (item.id === 'beneficioB') item.textContent = 'Permite optimizar tiempos de viaje';
-                    if (item.id === 'beneficioC') item.textContent = 'Elimina la necesidad de múltiples apps y suscripciones';
-                    if (item.id === 'beneficioD') item.textContent = 'Garantiza disponibilidad de medios de transporte';
-                });
-            }
-            
-            // Resetear feedback
-            document.getElementById(`${getScenePrefix(sceneNumber)}-feedback`).innerHTML = '';
-            
-            // Mostrar botón verificar
-            document.getElementById(`${getScenePrefix(sceneNumber)}-verify`).style.display = 'inline-block';
-            document.getElementById(`${getScenePrefix(sceneNumber)}-continue`).style.display = 'none';
-        }
-
-        // Reiniciar planificación (escena 19)
-        function resetPlanificacion() {
-            planificacionOrder = {
-                'proyecto1': '1',
-                'proyecto2': '2', 
-                'proyecto3': '3',
-                'proyecto4': '4'
-            };
-            
-            // Restaurar orden original
-            const container = document.getElementById('planificacion-container');
-            container.innerHTML = `
-                <div style="display: flex; align-items: center; background: rgba(23, 42, 70, 0.9); padding: 15px; border-radius: 8px;">
-                    <div id="pos1" class="position-marker" style="margin-right: 15px; font-size: 1.5rem; color: #64ffda;">1</div>
-                    <div id="proyecto1" class="matching-item" style="flex: 1; cursor: move;" draggable="true" ondragstart="dragPlanificacion(event)">Crear corredores verdes que conecten parques urbanos</div>
-                </div>
-                <div style="display: flex; align-items: center; background: rgba(23, 42, 70, 0.9); padding: 15px; border-radius: 8px;">
-                    <div id="pos2" class="position-marker" style="margin-right: 15px; font-size: 1.5rem; color: #64ffda;">2</div>
-                    <div id="proyecto2" class="matching-item" style="flex: 1; cursor: move;" draggable="true" ondragstart="dragPlanificacion(event)">Implementar sistema de recogida neumática de residuos</div>
-                </div>
-                <div style="display: flex; align-items: center; background: rgba(23, 42, 70, 0.9); padding: 15px; border-radius: 8px;">
-                    <div id="pos3" class="position-marker" style="margin-right: 15px; font-size: 1.5rem; color: #64ffda;">3</div>
-                    <div id="proyecto3" class="matching-item" style="flex: 1; cursor: move;" draggable="true" ondragstart="dragPlanificacion(event)">Instalar paneles solares en edificios municipales</div>
-                </div>
-                <div style="display: flex; align-items: center; background: rgba(23, 42, 70, 0.9); padding: 15px; border-radius: 8px;">
-                    <div id="pos4" class="position-marker" style="margin-right: 15px; font-size: 1.5rem; color: #64ffda;">4</div>
-                    <div id="proyecto4" class="matching-item" style="flex: 1; cursor: move;" draggable="true" ondragstart="dragPlanificacion(event)">Digitalizar trámites municipales</div>
-                </div>
-            `;
-            
-            // Resetear feedback
-            document.getElementById('planificacion-feedback').innerHTML = '';
-            
-            // Mostrar botón verificar
-            document.getElementById('planificacion-verify').style.display = 'inline-block';
-            document.getElementById('planificacion-continue').style.display = 'none';
-        }
-
-        // Obtener prefijo de escena para IDs
-        function getScenePrefix(sceneNumber) {
-            switch(sceneNumber) {
-                case 9: return 'matching';
-                case 18: return 'pilas';
-                case 20: return 'maas';
-                default: return 'matching';
-            }
-        }
-
-        // Verificar respuesta del transporte
-        function checkTransportAnswer() {
-            const answer = document.getElementById('transport-answer').value.trim();
-            const feedback = document.getElementById('transport-feedback');
-            
-            if (answer === '64') {
-                feedback.innerHTML = '<div class="success">¡Correcto! El patrón es multiplicar por 2 cada vez: 2×2=4, 4×2=8, 8×2=16, 16×2=32, 32×2=64.</div>';
-                showContinueButton('transport');
-            } else {
-                feedback.innerHTML = '<div class="error">Incorrecto. Intenta nuevamente. Recuerda que es una progresión geométrica.</div>';
-                feedback.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-        }
-
-        // Verificar respuesta de energía
-        function checkEnergyAnswer() {
-            const answer = document.getElementById('energy-answer').value.trim();
-            const feedback = document.getElementById('energy-feedback');
-            
-            if (answer === '200') {
-                feedback.innerHTML = '<div class="success">¡Correcto! 40% de 500 MWh es 200 MWh. El sistema energético se ha recalibrado.</div>';
-                showContinueButton('energy');
-            } else {
-                feedback.innerHTML = '<div class="error">Incorrecto. Recuerda: porcentaje × total / 100.</div>';
-                feedback.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
         }
 
         // Funciones para el puzzle de arrastrar
@@ -1467,195 +1923,6 @@
             }
         }
 
-        // Verificar respuesta de residuos
-        function checkWasteAnswer() {
-            const feedback = document.getElementById('waste-feedback');
-            
-            // Respuestas correctas
-            const correctAnswers = {
-                yellow: ['item1', 'item4'], // Botella de plástico, Lata de refresco
-                green: ['item3'],  // Botella de vidrio
-                blue: ['item2', 'item5']    // Periódico, Revista
-            };
-            
-            // Verificar respuestas
-            let correct = true;
-            Object.keys(correctAnswers).forEach(color => {
-                if (wasteAnswers[color].length !== correctAnswers[color].length || 
-                    !correctAnswers[color].every(item => wasteAnswers[color].includes(item))) {
-                    correct = false;
-                }
-            });
-            
-            if (correct) {
-                feedback.innerHTML = '<div class="success">¡Correcto! Has clasificado correctamente los residuos. Los sensores se han reactivado.</div>';
-                showContinueButton('waste');
-            } else {
-                feedback.innerHTML = '<div class="error">Clasificación incorrecta. Revisa en qué contenedor va cada residuo.</div>';
-                feedback.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-        }
-
-        // Verificar respuesta de RAEE
-        function checkRaeeAnswer() {
-            const feedback = document.getElementById('raee-feedback');
-            
-            // Respuestas correctas
-            const correctAnswers = {
-                'punto-limpio': ['raee2', 'raee5'], // Ordenador portátil viejo, Televisor antiguo
-                'tienda': ['raee4'],  // Cargador de móvil
-                'reparacion': ['raee1', 'raee3']    // Teléfono móvil roto, Tablet con pantalla rota
-            };
-            
-            // Verificar respuestas
-            let correct = true;
-            Object.keys(correctAnswers).forEach(tipo => {
-                if (raeeAnswers[tipo].length !== correctAnswers[tipo].length || 
-                    !correctAnswers[tipo].every(item => raeeAnswers[tipo].includes(item))) {
-                    correct = false;
-                }
-            });
-            
-            if (correct) {
-                feedback.innerHTML = '<div class="success">¡Correcto! Has gestionado correctamente los residuos electrónicos.</div>';
-                showContinueButton('raee');
-            } else {
-                feedback.innerHTML = '<div class="error">Clasificación incorrecta. Revisa dónde debe ir cada dispositivo.</div>';
-                feedback.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-        }
-
-        // Seleccionar opción en preguntas de opción múltiple
-        function selectOption(element, type) {
-            // Deseleccionar otras opciones del mismo tipo
-            document.querySelectorAll(`.option[data-type="${type}"]`).forEach(opt => {
-                opt.classList.remove('selected');
-            });
-            
-            // Seleccionar la nueva opción
-            element.classList.add('selected');
-            element.setAttribute('data-type', type);
-            selectedOption[type] = element.textContent;
-        }
-
-        // Alternar selección para preguntas de múltiple selección
-        function toggleSelection(element, type) {
-            if (element.classList.contains('selected')) {
-                element.classList.remove('selected');
-                const index = selectedOrganica.indexOf(element.textContent);
-                if (index > -1) {
-                    selectedOrganica.splice(index, 1);
-                }
-            } else {
-                element.classList.add('selected');
-                selectedOrganica.push(element.textContent);
-            }
-        }
-
-        // Verificar respuesta de residuos orgánicos
-        function checkOrganicaAnswer() {
-            const feedback = document.getElementById('organica-feedback');
-            
-            // Respuestas correctas
-            const correctAnswers = [
-                'Restos de fruta y verdura',
-                'Papel de cocina usado',
-                'Huesos de carne',
-                'Cáscaras de huevo',
-                'Posos de café',
-                'Pelo y uñas'
-            ];
-            
-            // Verificar respuestas
-            let correct = true;
-            if (selectedOrganica.length !== correctAnswers.length) {
-                correct = false;
-            } else {
-                correctAnswers.forEach(answer => {
-                    if (!selectedOrganica.includes(answer)) {
-                        correct = false;
-                    }
-                });
-            }
-            
-            if (correct) {
-                feedback.innerHTML = '<div class="success">¡Correcto! Has identificado correctamente los residuos orgánicos.</div>';
-                showContinueButton('organica');
-            } else {
-                feedback.innerHTML = '<div class="error">Selección incorrecta. Revisa qué materiales son compostables.</div>';
-                feedback.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-        }
-
-        // Verificar respuesta de sensores
-        function checkSensorAnswer() {
-            const feedback = document.getElementById('sensor-feedback');
-            
-            if (selectedOption.sensor === 'Sensor de temperatura corporal') {
-                feedback.innerHTML = '<div class="success">¡Correcto! El sensor de temperatura corporal no se utiliza típicamente en redes de ciudad inteligente.</div>';
-                showContinueButton('sensor');
-            } else {
-                feedback.innerHTML = '<div class="error">Incorrecto. Piensa en qué sensores se utilizan para monitorizar infraestructuras urbanas.</div>';
-                feedback.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-        }
-
-        // Verificar respuesta de vehículo eléctrico
-        function checkEvAnswer() {
-            const answer = document.getElementById('ev-answer').value.trim();
-            const feedback = document.getElementById('ev-feedback');
-            
-            if (answer === '6' || answer === '6.67' || answer === '7') {
-                feedback.innerHTML = '<div class="success">¡Correcto! 300 km / 45 km/día ≈ 6.67 días. El sistema de carga se ha reconfigurado.</div>';
-                showContinueButton('ev');
-            } else {
-                feedback.innerHTML = '<div class="error">Incorrecto. Divide la autonomía total entre el consumo diario.</div>';
-                feedback.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-        }
-
-        // Verificar respuesta de análisis de datos
-        function checkDataAnswer() {
-            const answer = document.getElementById('data-answer').value.trim();
-            const feedback = document.getElementById('data-feedback');
-            
-            if (answer === '150') {
-                feedback.innerHTML = '<div class="success">¡Correcto! (125+180+95+210+140)/5 = 150 MWh. El análisis de datos se ha completado.</div>';
-                showContinueButton('data');
-            } else {
-                feedback.innerHTML = '<div class="error">Incorrecto. Calcula la suma de todos los valores y divide entre 5.</div>';
-                feedback.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-        }
-
-        // Verificar respuesta de antena 5G
-        function checkAntennaAnswer() {
-            const answer = document.getElementById('antenna-answer').value;
-            const feedback = document.getElementById('antenna-feedback');
-            
-            if (answer === 'D') {
-                feedback.innerHTML = '<div class="success">¡Correcto! La plaza central con alta afluencia necesita mayor capacidad de red.</div>';
-                showContinueButton('antenna');
-            } else {
-                feedback.innerHTML = '<div class="error">Incorrecto. Piensa en dónde se necesita mayor capacidad de red.</div>';
-                feedback.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-        }
-
-        // Verificar respuesta de edificios inteligentes
-        function checkBuildingAnswer() {
-            const answer = document.getElementById('building-answer').value.trim();
-            const feedback = document.getElementById('building-feedback');
-            
-            if (answer === '1700') {
-                feedback.innerHTML = '<div class="success">¡Correcto! 2000 kWh - 15% = 1700 kWh. El sistema de gestión se ha reprogramado.</div>';
-                showContinueButton('building');
-            } else {
-                feedback.innerHTML = '<div class="error">Incorrecto. Calcula el 15% de 2000 y réstalo.</div>';
-                feedback.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-        }
-
         // Funciones para el juego de emparejamiento
         function dragMatch(ev) {
             ev.dataTransfer.setData("text", ev.target.id);
@@ -1693,64 +1960,213 @@
             ev.preventDefault();
             const data = ev.dataTransfer.getData("text");
             const draggedElement = document.getElementById(data);
-            const targetContainer = document.getElementById('planificacion-container');
             
-            // Encontrar el elemento sobre el que se está soltando
+            // Encontrar el contenedor objetivo (el que tiene el matching-item)
             let targetElement = ev.target;
-            while (targetElement && !targetElement.classList.contains('matching-item') && targetElement !== targetContainer) {
+            while (targetElement && !targetElement.classList.contains('matching-item') && targetElement.id !== 'planificacion-container') {
                 targetElement = targetElement.parentElement;
             }
             
-            // Si el objetivo es un elemento de proyecto, intercambiar posiciones
+            // Si el objetivo es un elemento de proyecto y no es el mismo que el arrastrado
             if (targetElement && targetElement.classList.contains('matching-item') && targetElement !== draggedElement) {
-                const draggedParent = draggedElement.parentElement;
-                const targetParent = targetElement.parentElement;
-                
-                // Intercambiar los números de posición
-                const draggedPosition = draggedParent.querySelector('.position-marker');
-                const targetPosition = targetParent.querySelector('.position-marker');
-                
-                const tempPosition = draggedPosition.textContent;
-                draggedPosition.textContent = targetPosition.textContent;
-                targetPosition.textContent = tempPosition;
+                // Intercambiar solo el texto entre los dos elementos
+                const tempText = draggedElement.textContent;
+                draggedElement.textContent = targetElement.textContent;
+                targetElement.textContent = tempText;
                 
                 // Actualizar el orden en nuestra variable
-                planificacionOrder[draggedElement.id] = draggedPosition.textContent;
-                planificacionOrder[targetElement.id] = targetPosition.textContent;
+                // Los números permanecen fijos, intercambiamos el contenido
+                const draggedId = draggedElement.id;
+                const targetId = targetElement.id;
+                
+                // Intercambiar los IDs temporalmente para mantener la lógica
+                const tempId = draggedElement.id;
+                draggedElement.id = targetElement.id;
+                targetElement.id = tempId;
+                
+                // Actualizar el orden basado en la posición visual (los números fijos)
+                const allProjects = document.querySelectorAll('#planificacion-container .matching-item');
+                allProjects.forEach((project, index) => {
+                    planificacionOrder[project.id] = (index + 1).toString();
+                });
             }
         }
 
-        // Verificar respuesta del juego de emparejamiento
+        // Seleccionar opción en preguntas de opción múltiple
+        function selectOption(element, type) {
+            // Deseleccionar otras opciones del mismo tipo
+            document.querySelectorAll(`.option[data-type="${type}"]`).forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            // Seleccionar la nueva opción
+            element.classList.add('selected');
+            element.setAttribute('data-type', type);
+            selectedOption[type] = element.textContent;
+        }
+
+        // Alternar selección para preguntas de múltiple selección
+        function toggleSelection(element, type) {
+            if (element.classList.contains('selected')) {
+                element.classList.remove('selected');
+                const index = getSelectedArray(type).indexOf(element.textContent);
+                if (index > -1) {
+                    getSelectedArray(type).splice(index, 1);
+                }
+            } else {
+                element.classList.add('selected');
+                getSelectedArray(type).push(element.textContent);
+            }
+        }
+
+        // Obtener el array de selección correspondiente
+        function getSelectedArray(type) {
+            switch(type) {
+                case 'organica': return selectedOrganica;
+                case 'compost': return selectedCompost;
+                case 'garden': return selectedGarden;
+                case 'active': return selectedActive;
+                case 'efficiency': return selectedEfficiency;
+                case 'biodiversity': return selectedBiodiversity;
+                default: return [];
+            }
+        }
+
+        // FUNCIONES DE VERIFICACIÓN DE RESPUESTAS
+
+        function checkTransportAnswer() {
+            const answer = document.getElementById('transport-answer').value.trim();
+            const feedback = document.getElementById('transport-feedback');
+            
+            if (answer === '64') {
+                feedback.innerHTML = '<div class="success">¡Correcto! El patrón es multiplicar por 2 cada vez.</div>';
+                showContinueButton('transport');
+            } else {
+                feedback.innerHTML = '<div class="error">Incorrecto. Intenta nuevamente.</div>';
+            }
+        }
+
+        function checkEnergyAnswer() {
+            const answer = document.getElementById('energy-answer').value.trim();
+            const feedback = document.getElementById('energy-feedback');
+            
+            if (answer === '200') {
+                feedback.innerHTML = '<div class="success">¡Correcto! 40% de 500 MWh es 200 MWh.</div>';
+                showContinueButton('energy');
+            } else {
+                feedback.innerHTML = '<div class="error">Incorrecto. Recuerda: porcentaje × total / 100.</div>';
+            }
+        }
+
+        function checkWasteAnswer() {
+            const feedback = document.getElementById('waste-feedback');
+            const correctAnswers = {
+                yellow: ['item1', 'item4'],
+                green: ['item3'],
+                blue: ['item2', 'item5']
+            };
+            
+            let correct = true;
+            Object.keys(correctAnswers).forEach(color => {
+                if (wasteAnswers[color].length !== correctAnswers[color].length || 
+                    !correctAnswers[color].every(item => wasteAnswers[color].includes(item))) {
+                    correct = false;
+                }
+            });
+            
+            if (correct) {
+                feedback.innerHTML = '<div class="success">¡Correcto! Has clasificado correctamente los residuos.</div>';
+                showContinueButton('waste');
+            } else {
+                feedback.innerHTML = '<div class="error">Clasificación incorrecta. Revisa en qué contenedor va cada residuo.</div>';
+            }
+        }
+
+        function checkSensorAnswer() {
+            const feedback = document.getElementById('sensor-feedback');
+            if (selectedOption.sensor === 'Sensor de temperatura corporal') {
+                feedback.innerHTML = '<div class="success">¡Correcto! El sensor de temperatura corporal no se utiliza en redes de ciudad inteligente.</div>';
+                showContinueButton('sensor');
+            } else {
+                feedback.innerHTML = '<div class="error">Incorrecto. Piensa en qué sensores se utilizan para monitorizar infraestructuras urbanas.</div>';
+            }
+        }
+
+        function checkEvAnswer() {
+            const answer = document.getElementById('ev-answer').value.trim();
+            const feedback = document.getElementById('ev-feedback');
+            
+            if (answer === '6' || answer === '6.67' || answer === '7') {
+                feedback.innerHTML = '<div class="success">¡Correcto! 300 km / 45 km/día ≈ 6.67 días.</div>';
+                showContinueButton('ev');
+            } else {
+                feedback.innerHTML = '<div class="error">Incorrecto. Divide la autonomía total entre el consumo diario.</div>';
+            }
+        }
+
+        function checkDataAnswer() {
+            const answer = document.getElementById('data-answer').value.trim();
+            const feedback = document.getElementById('data-feedback');
+            
+            if (answer === '150') {
+                feedback.innerHTML = '<div class="success">¡Correcto! (125+180+95+210+140)/5 = 150 MWh.</div>';
+                showContinueButton('data');
+            } else {
+                feedback.innerHTML = '<div class="error">Incorrecto. Calcula la suma de todos los valores y divide entre 5.</div>';
+            }
+        }
+
+        function checkAntennaAnswer() {
+            const answer = document.getElementById('antenna-answer').value;
+            const feedback = document.getElementById('antenna-feedback');
+            
+            if (answer === 'D') {
+                feedback.innerHTML = '<div class="success">¡Correcto! La plaza central con alta afluencia necesita mayor capacidad de red.</div>';
+                showContinueButton('antenna');
+            } else {
+                feedback.innerHTML = '<div class="error">Incorrecto. Piensa en dónde se necesita mayor capacidad de red.</div>';
+            }
+        }
+
+        function checkBuildingAnswer() {
+            const answer = document.getElementById('building-answer').value.trim();
+            const feedback = document.getElementById('building-feedback');
+            
+            if (answer === '1700') {
+                feedback.innerHTML = '<div class="success">¡Correcto! 2000 kWh - 15% = 1700 kWh.</div>';
+                showContinueButton('building');
+            } else {
+                feedback.innerHTML = '<div class="error">Incorrecto. Calcula el 15% de 2000 y réstalo.</div>';
+            }
+        }
+
         function checkMatchingAnswer() {
             const feedback = document.getElementById('matching-feedback');
-            
-            // Respuestas correctas según la escena
             let correctPairs = {};
             
             if (currentScene === 9) {
                 correctPairs = {
-                    'propuesta1': 'categoriaA', // Carriles bici -> Movilidad sostenible
-                    'propuesta2': 'categoriaB', // App incidencias -> Gobierno digital
-                    'propuesta3': 'categoriaD', // Puntos recarga -> Energía y medio ambiente
-                    'propuesta4': 'categoriaC'  // Zonas verdes -> Infraestructura verde
+                    'propuesta1': 'categoriaA',
+                    'propuesta2': 'categoriaB',
+                    'propuesta3': 'categoriaD',
+                    'propuesta4': 'categoriaC'
                 };
             } else if (currentScene === 18) {
                 correctPairs = {
-                    'pila1': 'puntoA', // Pilas AA/AAA -> Contenedor específico en supermercados
-                    'pila2': 'puntoB', // Batería de coche -> Taller mecánico o punto limpio
-                    'pila3': 'puntoC', // Batería de móvil -> Tienda de electrónica o punto limpio
-                    'pila4': 'puntoD'  // Batería de ordenador portátil -> Punto limpio o tienda especializada
+                    'pila1': 'puntoA',
+                    'pila2': 'puntoB',
+                    'pila3': 'puntoC',
+                    'pila4': 'puntoD'
                 };
             } else if (currentScene === 20) {
                 correctPairs = {
-                    'caracteristica1': 'beneficioC', // Unificación de pagos -> Elimina la necesidad de múltiples apps
-                    'caracteristica2': 'beneficioA', // Planificación de rutas multimodales -> Facilita uso combinado
-                    'caracteristica3': 'beneficioB', // Información en tiempo real -> Permite optimizar tiempos
-                    'caracteristica4': 'beneficioD'  // Sistema de reservas integrado -> Garantiza disponibilidad
+                    'caracteristica1': 'beneficioC',
+                    'caracteristica2': 'beneficioA',
+                    'caracteristica3': 'beneficioB',
+                    'caracteristica4': 'beneficioD'
                 };
             }
             
-            // Verificar si todos los emparejamientos son correctos
             let correct = true;
             for (const [item, target] of Object.entries(correctPairs)) {
                 if (matchingPairs[item] !== target) {
@@ -1759,37 +2175,160 @@
                 }
             }
             
-            if (correct && Object.keys(matchingPairs).length === 4) {
-                let successMessage = '';
-                if (currentScene === 9) {
-                    successMessage = '¡Correcto! Has categorizado correctamente todas las propuestas ciudadanas.';
-                } else if (currentScene === 18) {
-                    successMessage = '¡Correcto! Has identificado correctamente los puntos de reciclaje para cada tipo de pila/batería.';
-                } else if (currentScene === 20) {
-                    successMessage = '¡Correcto! Has relacionado correctamente las características de MaaS con sus beneficios.';
-                }
-                
-                feedback.innerHTML = `<div class="success">${successMessage}</div>`;
-                showContinueButton(getScenePrefix(currentScene));
+            if (correct && Object.keys(matchingPairs).length === Object.keys(correctPairs).length) {
+                feedback.innerHTML = '<div class="success">¡Correcto! Has relacionado correctamente todos los elementos.</div>';
+                showContinueButton('matching');
             } else {
                 feedback.innerHTML = '<div class="error">Emparejamientos incorrectos o incompletos. Intenta nuevamente.</div>';
-                feedback.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
         }
 
-        // Verificar respuesta de planificación (escena 19)
-        function checkPlanificacionAnswer() {
-            const feedback = document.getElementById('planificacion-feedback');
+        function checkSecurityAnswer() {
+            const feedback = document.getElementById('security-feedback');
+            if (selectedOption.security === 'Compartir credenciales entre departamentos') {
+                feedback.innerHTML = '<div class="success">¡Correcto! Compartir credenciales aumenta el riesgo de brechas de seguridad.</div>';
+                showContinueButton('security');
+            } else {
+                feedback.innerHTML = '<div class="error">Incorrecto. Piensa en prácticas que aumenten el riesgo de seguridad.</div>';
+            }
+        }
+
+        function checkTourismAnswer() {
+            const feedback = document.getElementById('tourism-feedback');
+            if (selectedOption.tourism === 'Sensores de radiación nuclear') {
+                feedback.innerHTML = '<div class="success">¡Correcto! Los sensores de radiación nuclear no son relevantes para el turismo inteligente.</div>';
+                showContinueButton('tourism');
+            } else {
+                feedback.innerHTML = '<div class="error">Incorrecto. Piensa en tecnologías relevantes para la experiencia turística.</div>';
+            }
+        }
+
+        function checkHealthAnswer() {
+            const feedback = document.getElementById('health-feedback');
+            if (selectedOption.health === 'Historial médico individual') {
+                feedback.innerHTML = '<div class="success">¡Correcto! El historial médico individual no es un indicador de salud urbana.</div>';
+                showContinueButton('health');
+            } else {
+                feedback.innerHTML = '<div class="error">Incorrecto. Piensa en indicadores de salud pública, no datos médicos personales.</div>';
+            }
+        }
+
+        function checkCircularAnswer() {
+            const feedback = document.getElementById('circular-feedback');
+            if (selectedOption.circular === 'Vertido en landfill') {
+                feedback.innerHTML = '<div class="success">¡Correcto! El vertido en landfill es contrario a los principios de economía circular.</div>';
+                showContinueButton('circular');
+            } else {
+                feedback.innerHTML = '<div class="error">Incorrecto. La economía circular busca eliminar los residuos.</div>';
+            }
+        }
+
+        function checkGovernanceAnswer() {
+            const feedback = document.getElementById('governance-feedback');
+            if (selectedOption.governance === 'Venta de datos personales') {
+                feedback.innerHTML = '<div class="success">¡Correcto! La venta de datos personales viola principios éticos de gobernanza.</div>';
+                showContinueButton('governance');
+            } else {
+                feedback.innerHTML = '<div class="error">Incorrecto. Piensa en prácticas que respeten los derechos de los ciudadanos.</div>';
+            }
+        }
+
+        function checkCityAnswer() {
+            const answer = document.getElementById('city-answer').value.trim().toLowerCase();
+            const feedback = document.getElementById('city-feedback');
             
-            // Respuesta correcta (orden de prioridad)
-            const correctOrder = {
-                'proyecto1': '1', // Corredores verdes -> 1
-                'proyecto3': '2', // Paneles solares -> 2
-                'proyecto2': '3', // Recogida neumática -> 3
-                'proyecto4': '4'  // Digitalización trámites -> 4
+            if (answer === 'r') {
+                feedback.innerHTML = '<div class="success">¡Correcto! La ciudad es Barcelona. Has descifrado el código final.</div>';
+                showContinueButton('city');
+            } else {
+                feedback.innerHTML = '<div class="error">Incorrecto. La tercera letra de Barcelona es "r".</div>';
+            }
+        }
+
+        function checkRaeeAnswer() {
+            const feedback = document.getElementById('raee-feedback');
+            const correctAnswers = {
+                'punto-limpio': ['raee2', 'raee5'],
+                'tienda': ['raee4'],
+                'reparacion': ['raee1', 'raee3']
             };
             
-            // Verificar si el orden es correcto
+            let correct = true;
+            Object.keys(correctAnswers).forEach(tipo => {
+                if (raeeAnswers[tipo].length !== correctAnswers[tipo].length || 
+                    !correctAnswers[tipo].every(item => raeeAnswers[tipo].includes(item))) {
+                    correct = false;
+                }
+            });
+            
+            if (correct) {
+                feedback.innerHTML = '<div class="success">¡Correcto! Has gestionado correctamente los residuos electrónicos.</div>';
+                showContinueButton('raee');
+            } else {
+                feedback.innerHTML = '<div class="error">Clasificación incorrecta. Revisa dónde debe ir cada dispositivo.</div>';
+            }
+        }
+
+        function checkOrganicaAnswer() {
+            const feedback = document.getElementById('organica-feedback');
+            const correctAnswers = [
+                'Restos de fruta y verdura',
+                'Papel de cocina usado',
+                'Huesos de carne',
+                'Cáscaras de huevo',
+                'Posos de café',
+                'Pelo y uñas'
+            ];
+            
+            let correct = checkMultipleSelection(selectedOrganica, correctAnswers);
+            
+            if (correct) {
+                feedback.innerHTML = '<div class="success">¡Correcto! Has identificado correctamente los residuos orgánicos.</div>';
+                showContinueButton('organica');
+            } else {
+                feedback.innerHTML = '<div class="error">Selección incorrecta. Revisa qué materiales son compostables.</div>';
+            }
+        }
+
+        function checkPilasAnswer() {
+            const feedback = document.getElementById('pilas-feedback');
+            const correctPairs = {
+                'pila1': 'puntoA',
+                'pila2': 'puntoB',
+                'pila3': 'puntoC',
+                'pila4': 'puntoD'
+            };
+            
+            // Verificación más específica - solo verificar los pares que nos interesan
+            let correct = true;
+            for (const [item, target] of Object.entries(correctPairs)) {
+                if (matchingPairs[item] !== target) {
+                    correct = false;
+                    break;
+                }
+            }
+            
+            // Solo verificar que tenemos exactamente los 4 pares que necesitamos
+            const relevantPairs = Object.keys(matchingPairs).filter(key => key.startsWith('pila'));
+            const hasAllPairs = relevantPairs.length === Object.keys(correctPairs).length;
+            
+            if (correct && hasAllPairs) {
+                feedback.innerHTML = '<div class="success">¡Correcto! Has identificado correctamente los puntos de reciclaje.</div>';
+                showContinueButton('pilas');
+            } else {
+                feedback.innerHTML = '<div class="error">Emparejamientos incorrectos o incompletos. Intenta nuevamente.</div>';
+            }
+        }
+
+        function checkPlanificacionAnswer() {
+            const feedback = document.getElementById('planificacion-feedback');
+            const correctOrder = {
+                'proyecto1': '1',
+                'proyecto3': '2',
+                'proyecto2': '3',
+                'proyecto4': '4'
+            };
+            
             let correct = true;
             for (const [proyecto, orden] of Object.entries(correctOrder)) {
                 if (planificacionOrder[proyecto] !== orden) {
@@ -1799,136 +2338,23 @@
             }
             
             if (correct) {
-                feedback.innerHTML = '<div class="success">¡Correcto! Has priorizado correctamente los proyectos según criterios de sostenibilidad.</div>';
+                feedback.innerHTML = '<div class="success">¡Correcto! Has priorizado correctamente los proyectos.</div>';
                 showContinueButton('planificacion');
             } else {
-                feedback.innerHTML = '<div class="error">Orden incorrecto. Revisa la prioridad de cada proyecto según su impacto ambiental.</div>';
-                feedback.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                feedback.innerHTML = '<div class="error">Orden incorrecto. Revisa la prioridad de cada proyecto.</div>';
             }
         }
 
-        // Verificar respuesta de ciberseguridad
-        function checkSecurityAnswer() {
-            const feedback = document.getElementById('security-feedback');
-            
-            if (selectedOption.security === 'Compartir credenciales entre departamentos') {
-                feedback.innerHTML = '<div class="success">¡Correcto! Compartir credenciales aumenta el riesgo de brechas de seguridad.</div>';
-                showContinueButton('security');
-            } else {
-                feedback.innerHTML = '<div class="error">Incorrecto. Piensa en prácticas que aumenten el riesgo de seguridad.</div>';
-                feedback.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-        }
-
-        // Verificar respuesta de turismo
-        function checkTourismAnswer() {
-            const feedback = document.getElementById('tourism-feedback');
-            
-            if (selectedOption.tourism === 'Sensores de radiación nuclear') {
-                feedback.innerHTML = '<div class="success">¡Correcto! Los sensores de radiación nuclear no son relevantes para el turismo inteligente.</div>';
-                showContinueButton('tourism');
-            } else {
-                feedback.innerHTML = '<div class="error">Incorrecto. Piensa en tecnologías relevantes para la experiencia turística.</div>';
-                feedback.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-        }
-
-        // Verificar respuesta de salud
-        function checkHealthAnswer() {
-            const feedback = document.getElementById('health-feedback');
-            
-            if (selectedOption.health === 'Historial médico individual') {
-                feedback.innerHTML = '<div class="success">¡Correcto! El historial médico individual no es un indicador de salud urbana monitorizado públicamente.</div>';
-                showContinueButton('health');
-            } else {
-                feedback.innerHTML = '<div class="error">Incorrecto. Piensa en indicadores de salud pública, no datos médicos personales.</div>';
-                feedback.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-        }
-
-        // Verificar respuesta de economía circular
-        function checkCircularAnswer() {
-            const feedback = document.getElementById('circular-feedback');
-            
-            if (selectedOption.circular === 'Vertido en landfill') {
-                feedback.innerHTML = '<div class="success">¡Correcto! El vertido en landfill es contrario a los principios de economía circular.</div>';
-                showContinueButton('circular');
-            } else {
-                feedback.innerHTML = '<div class="error">Incorrecto. La economía circular busca eliminar los residuos.</div>';
-                feedback.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-        }
-
-        // Verificar respuesta de gobernanza
-        function checkGovernanceAnswer() {
-            const feedback = document.getElementById('governance-feedback');
-            
-            if (selectedOption.governance === 'Venta de datos personales') {
-                feedback.innerHTML = '<div class="success">¡Correcto! La venta de datos personales viola principios éticos de gobernanza.</div>';
-                showContinueButton('governance');
-            } else {
-                feedback.innerHTML = '<div class="error">Incorrecto. Piensa en prácticas que respeten los derechos de los ciudadanos.</div>';
-                feedback.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-        }
-
-        // Verificar respuesta de la ciudad
-        function checkCityAnswer() {
-            const answer = document.getElementById('city-answer').value.trim().toLowerCase();
-            const feedback = document.getElementById('city-feedback');
-            
-            if (answer === 'r' || answer === 'R') {
-                feedback.innerHTML = '<div class="success">¡Correcto! La ciudad es Barcelona. Has descifrado el código final.</div>';
-                showContinueButton('city');
-            } else {
-                feedback.innerHTML = '<div class="error">Incorrecto. La tercera letra de Barcelona es "r".</div>';
-                feedback.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-        }
-
-        // Verificar respuesta de pilas y baterías
-        function checkPilasAnswer() {
-            const feedback = document.getElementById('pilas-feedback');
-            
-            // Respuestas correctas
-            const correctPairs = {
-                'pila1': 'puntoA', // Pilas AA/AAA -> Contenedor específico en supermercados
-                'pila2': 'puntoB', // Batería de coche -> Taller mecánico o punto limpio
-                'pila3': 'puntoC', // Batería de móvil -> Tienda de electrónica o punto limpio
-                'pila4': 'puntoD'  // Batería de ordenador portátil -> Punto limpio o tienda especializada
-            };
-            
-            // Verificar si todos los emparejamientos son correctos
-            let correct = true;
-            for (const [item, target] of Object.entries(correctPairs)) {
-                if (matchingPairs[item] !== target) {
-                    correct = false;
-                    break;
-                }
-            }
-            
-            if (correct && Object.keys(matchingPairs).length === 4) {
-                feedback.innerHTML = '<div class="success">¡Correcto! Has identificado correctamente los puntos de reciclaje para cada tipo de pila/batería.</div>';
-                showContinueButton('pilas');
-            } else {
-                feedback.innerHTML = '<div class="error">Emparejamientos incorrectos o incompletos. Intenta nuevamente.</div>';
-                feedback.scrollIntoView({ behavior: 'smooth', block: 'center' });
-            }
-        }
-
-        // Verificar respuesta de MaaS
         function checkMaasAnswer() {
             const feedback = document.getElementById('maas-feedback');
-            
-            // Respuestas correctas
             const correctPairs = {
-                'caracteristica1': 'beneficioC', // Unificación de pagos -> Elimina la necesidad de múltiples apps
-                'caracteristica2': 'beneficioA', // Planificación de rutas multimodales -> Facilita uso combinado
-                'caracteristica3': 'beneficioB', // Información en tiempo real -> Permite optimizar tiempos
-                'caracteristica4': 'beneficioD'  // Sistema de reservas integrado -> Garantiza disponibilidad
+                'caracteristica1': 'beneficioC',
+                'caracteristica2': 'beneficioA', 
+                'caracteristica3': 'beneficioB',
+                'caracteristica4': 'beneficioD'
             };
             
-            // Verificar si todos los emparejamientos son correctos
+            // Verificación más específica - solo verificar los pares que nos interesan
             let correct = true;
             for (const [item, target] of Object.entries(correctPairs)) {
                 if (matchingPairs[item] !== target) {
@@ -1937,127 +2363,340 @@
                 }
             }
             
-            if (correct && Object.keys(matchingPairs).length === 4) {
-                feedback.innerHTML = '<div class="success">¡Correcto! Has relacionado correctamente las características de MaaS con sus beneficios.</div>';
+            // Solo verificar que tenemos exactamente los 4 pares que necesitamos
+            const relevantPairs = Object.keys(matchingPairs).filter(key => key.startsWith('caracteristica'));
+            const hasAllPairs = relevantPairs.length === Object.keys(correctPairs).length;
+            
+            if (correct && hasAllPairs) {
+                feedback.innerHTML = '<div class="success">¡Correcto! Has relacionado correctamente las características con sus beneficios.</div>';
                 showContinueButton('maas');
             } else {
                 feedback.innerHTML = '<div class="error">Emparejamientos incorrectos o incompletos. Intenta nuevamente.</div>';
-                feedback.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
         }
 
-        // Reiniciar juego
+        // Funciones para las nuevas pruebas tipo 7
+        function checkWaterAnswer() {
+            const answer = document.getElementById('water-answer').value;
+            const feedback = document.getElementById('water-feedback');
+            if (answer === 'A') {
+                feedback.innerHTML = '<div class="success">¡Correcto! Los sensores de presión permiten detectar fugas inmediatamente.</div>';
+                showContinueButton('water');
+            } else {
+                feedback.innerHTML = '<div class="error">Incorrecto. Piensa en tecnologías que permitan detección temprana.</div>';
+            }
+        }
+
+        function checkLightingAnswer() {
+            const answer = document.getElementById('lighting-answer').value;
+            const feedback = document.getElementById('lighting-feedback');
+            if (answer === 'A') {
+                feedback.innerHTML = '<div class="success">¡Correcto! Los LEDs con regulación inteligente adaptan el consumo a las necesidades reales.</div>';
+                showContinueButton('lighting');
+            } else {
+                feedback.innerHTML = '<div class="error">Incorrecto. Considera sistemas que adapten el consumo automáticamente.</div>';
+            }
+        }
+
+        function checkMobilityAnswer() {
+            const answer = document.getElementById('mobility-answer').value;
+            const feedback = document.getElementById('mobility-feedback');
+            if (answer === 'A') {
+                feedback.innerHTML = '<div class="success">¡Correcto! La combinación de restricciones y alternativas atractivas es más efectiva.</div>';
+                showContinueButton('mobility');
+            } else {
+                feedback.innerHTML = '<div class="error">Incorrecto. Piensa en medidas que ofrezcan alternativas reales al coche.</div>';
+            }
+        }
+
+        function checkGreenAnswer() {
+            const answer = document.getElementById('green-answer').value;
+            const feedback = document.getElementById('green-feedback');
+            if (answer === 'A') {
+                feedback.innerHTML = '<div class="success">¡Correcto! El riego por goteo con sensores optimiza el uso del agua.</div>';
+                showContinueButton('green');
+            } else {
+                feedback.innerHTML = '<div class="error">Incorrecto. Considera sistemas que adapten el riego a las condiciones reales.</div>';
+            }
+        }
+
+        function checkSolarAnswer() {
+            const answer = document.getElementById('solar-answer').value;
+            const feedback = document.getElementById('solar-feedback');
+            if (answer === 'A') {
+                feedback.innerHTML = '<div class="success">¡Correcto! Las cubiertas industriales ofrecen gran superficie sin ocupar suelo adicional.</div>';
+                showContinueButton('solar');
+            } else {
+                feedback.innerHTML = '<div class="error">Incorrecto. Piensa en ubicaciones con máxima exposición solar y mínimo impacto.</div>';
+            }
+        }
+
+        // Funciones para las nuevas pruebas tipo 17
+        function checkCompostAnswer() {
+            const feedback = document.getElementById('compost-feedback');
+            const correctAnswers = [
+                'Restos de poda de jardín',
+                'Cartón sin tintas tóxicas',
+                'Cáscaras de frutos secos',
+                'Hojas secas'
+            ];
+            
+            let correct = checkMultipleSelection(selectedCompost, correctAnswers);
+            
+            if (correct) {
+                feedback.innerHTML = '<div class="success">¡Correcto! Has identificado correctamente los materiales compostables.</div>';
+                showContinueButton('compost');
+            } else {
+                feedback.innerHTML = '<div class="error">Selección incorrecta. Revisa qué materiales pueden compostarse.</div>';
+            }
+        }
+
+        function checkGardenAnswer() {
+            const feedback = document.getElementById('garden-feedback');
+            const correctAnswers = [
+                'Rotación de cultivos',
+                'Asociación de plantas compatibles',
+                'Compostaje in situ de restos vegetales',
+                'Control biológico de plagas',
+                'Uso de plantas autóctonas'
+            ];
+            
+            let correct = checkMultipleSelection(selectedGarden, correctAnswers);
+            
+            if (correct) {
+                feedback.innerHTML = '<div class="success">¡Correcto! Has identificado correctamente las prácticas sostenibles.</div>';
+                showContinueButton('garden');
+            } else {
+                feedback.innerHTML = '<div class="error">Selección incorrecta. Revisa qué prácticas son realmente sostenibles.</div>';
+            }
+        }
+
+        function checkActiveAnswer() {
+            const feedback = document.getElementById('active-feedback');
+            const correctAnswers = [
+                'Carriles bici segregados del tráfico',
+                'Pasos de peatones elevados',
+                'Zonas 30 con prioridad peatonal',
+                'Señalización clara para ciclistas'
+            ];
+            
+            let correct = checkMultipleSelection(selectedActive, correctAnswers);
+            
+            if (correct) {
+                feedback.innerHTML = '<div class="success">¡Correcto! Has identificado correctamente las infraestructuras que fomentan la movilidad activa.</div>';
+                showContinueButton('active');
+            } else {
+                feedback.innerHTML = '<div class="error">Selección incorrecta. Revisa qué infraestructuras hacen más seguros los desplazamientos activos.</div>';
+            }
+        }
+
+        function checkEfficiencyAnswer() {
+            const feedback = document.getElementById('efficiency-feedback');
+            const correctAnswers = [
+                'Aislamiento térmico en fachadas y cubiertas',
+                'Ventanas de doble acristalamiento',
+                'Ventilación natural cruzada',
+                'Iluminación LED con sensores de presencia',
+                'Orientación optimizada para ganancia solar pasiva',
+                'Electrodomésticos de alta eficiencia energética'
+            ];
+            
+            let correct = checkMultipleSelection(selectedEfficiency, correctAnswers);
+            
+            if (correct) {
+                feedback.innerHTML = '<div class="success">¡Correcto! Has identificado correctamente las medidas de eficiencia energética.</div>';
+                showContinueButton('efficiency');
+            } else {
+                feedback.innerHTML = '<div class="error">Selección incorrecta. Revisa qué medidas reducen realmente el consumo energético.</div>';
+            }
+        }
+
+        function checkBiodiversityAnswer() {
+            const feedback = document.getElementById('biodiversity-feedback');
+            const correctAnswers = [
+                'Hoteles de insectos',
+                'Setos con especies autóctonas',
+                'Charcas para anfibios',
+                'Corredores verdes entre espacios naturales',
+                'Nidales para aves y murciélagos'
+            ];
+            
+            let correct = checkMultipleSelection(selectedBiodiversity, correctAnswers);
+            
+            if (correct) {
+                feedback.innerHTML = '<div class="success">¡Correcto! Has identificado correctamente las acciones que fomentan la biodiversidad.</div>';
+                showContinueButton('biodiversity');
+            } else {
+                feedback.innerHTML = '<div class="error">Selección incorrecta. Revisa qué acciones crean habitats para la fauna urbana.</div>';
+            }
+        }
+
+        // Función auxiliar para verificar selecciones múltiples
+        function checkMultipleSelection(selected, correctAnswers) {
+            if (selected.length !== correctAnswers.length) {
+                return false;
+            }
+            
+            for (let answer of correctAnswers) {
+                if (!selected.includes(answer)) {
+                    return false;
+                }
+            }
+            
+            return true;
+        }
+
+        // Funciones de reinicio
+        function resetMatchingGame(sceneNumber) {
+            matchingPairs = {};
+            
+            if (sceneNumber === 9) {
+                document.querySelectorAll('#scene-9 .matching-item').forEach(item => {
+                    item.classList.remove('matched');
+                    item.style.display = 'block';
+                    if (item.id === 'categoriaA') item.textContent = 'Movilidad sostenible';
+                    if (item.id === 'categoriaB') item.textContent = 'Gobierno digital';
+                    if (item.id === 'categoriaC') item.textContent = 'Infraestructura verde';
+                    if (item.id === 'categoriaD') item.textContent = 'Energía y medio ambiente';
+                });
+            } else if (sceneNumber === 18) {
+                document.querySelectorAll('#scene-18 .matching-item').forEach(item => {
+                    item.classList.remove('matched');
+                    item.style.display = 'block';
+                    if (item.id === 'puntoA') item.textContent = 'Contenedor específico en supermercados';
+                    if (item.id === 'puntoB') item.textContent = 'Taller mecánico o punto limpio';
+                    if (item.id === 'puntoC') item.textContent = 'Tienda de electrónica o punto limpio';
+                    if (item.id === 'puntoD') item.textContent = 'Punto limpio o tienda especializada';
+                });
+            } else if (sceneNumber === 20) {
+                document.querySelectorAll('#scene-20 .matching-item').forEach(item => {
+                    item.classList.remove('matched');
+                    item.style.display = 'block';
+                    if (item.id === 'beneficioA') item.textContent = 'Facilita el uso combinado de transporte público y privado';
+                    if (item.id === 'beneficioB') item.textContent = 'Permite optimizar tiempos de viaje';
+                    if (item.id === 'beneficioC') item.textContent = 'Elimina la necesidad de múltiples apps y suscripciones';
+                    if (item.id === 'beneficioD') item.textContent = 'Garantiza disponibilidad de medios de transporte';
+                });
+            }
+            
+            document.getElementById(`${getScenePrefix(sceneNumber)}-feedback`).innerHTML = '';
+            document.getElementById(`${getScenePrefix(sceneNumber)}-verify`).style.display = 'inline-block';
+            document.getElementById(`${getScenePrefix(sceneNumber)}-continue`).style.display = 'none';
+        }
+
+        function resetPlanificacion() {
+            const proyectos19 = [
+                {id: 'proyecto1', text: 'Crear corredores verdes que conecten parques urbanos', correctOrder: '1'},
+                {id: 'proyecto2', text: 'Implementar sistema de recogida neumática de residuos', correctOrder: '3'},
+                {id: 'proyecto3', text: 'Instalar paneles solares en edificios municipales', correctOrder: '2'},
+                {id: 'proyecto4', text: 'Digitalizar trámites municipales', correctOrder: '4'}
+            ];
+            shuffleArray(proyectos19);
+            const planificacionContainer = document.getElementById('planificacion-container');
+            planificacionContainer.innerHTML = '';
+            
+            planificacionOrder = {};
+            
+            proyectos19.forEach((proyecto, index) => {
+                const div = document.createElement('div');
+                div.style.display = 'flex';
+                div.style.alignItems = 'center';
+                div.style.background = 'rgba(23, 42, 70, 0.9)';
+                div.style.padding = '15px';
+                div.style.borderRadius = '8px';
+                div.style.marginBottom = '10px';
+                
+                const positionMarker = document.createElement('div');
+                positionMarker.className = 'position-marker';
+                positionMarker.style.marginRight = '15px';
+                positionMarker.style.fontSize = '1.5rem';
+                positionMarker.style.color = '#64ffda';
+                positionMarker.style.minWidth = '30px';
+                positionMarker.style.textAlign = 'center';
+                positionMarker.style.fontWeight = 'bold';
+                positionMarker.textContent = (index + 1).toString();
+                
+                const projectDiv = document.createElement('div');
+                projectDiv.id = proyecto.id;
+                projectDiv.className = 'matching-item';
+                projectDiv.style.flex = '1';
+                projectDiv.style.cursor = 'move';
+                projectDiv.draggable = true;
+                projectDiv.ondragstart = dragPlanificacion;
+                projectDiv.textContent = proyecto.text;
+                
+                div.appendChild(positionMarker);
+                div.appendChild(projectDiv);
+                planificacionContainer.appendChild(div);
+                
+                planificacionOrder[proyecto.id] = (index + 1).toString();
+            });
+            
+            document.getElementById('planificacion-feedback').innerHTML = '';
+            document.getElementById('planificacion-verify').style.display = 'inline-block';
+            document.getElementById('planificacion-continue').style.display = 'none';
+        }
+
+        function getScenePrefix(sceneNumber) {
+            switch(sceneNumber) {
+                case 9: return 'matching';
+                case 18: return 'pilas';
+                case 20: return 'maas';
+                default: return 'matching';
+            }
+        }
+
+        // Reiniciar juego completo
         function restartGame() {
             currentScene = 0;
-            wasteAnswers = {
-                yellow: [],
-                green: [],
-                blue: []
-            };
-            raeeAnswers = {
-                'punto-limpio': [],
-                'tienda': [],
-                'reparacion': []
-            };
+            wasteAnswers = { yellow: [], green: [], blue: [] };
+            raeeAnswers = { 'punto-limpio': [], 'tienda': [], 'reparacion': [] };
             selectedOption = {
-                sensor: null,
-                security: null,
-                tourism: null,
-                health: null,
-                circular: null,
-                governance: null
+                sensor: null, security: null, tourism: null, health: null, circular: null, governance: null
             };
             selectedOrganica = [];
+            selectedCompost = [];
+            selectedGarden = [];
+            selectedActive = [];
+            selectedEfficiency = [];
+            selectedBiodiversity = [];
             matchingPairs = {};
-            planificacionOrder = {
-                'proyecto1': '1',
-                'proyecto2': '2', 
-                'proyecto3': '3',
-                'proyecto4': '4'
-            };
+            planificacionOrder = {};
             
-            // Resetear todas las escenas
             document.querySelectorAll('.scene').forEach(scene => {
                 scene.classList.remove('active');
             });
             
             document.getElementById('scene-intro').classList.add('active');
-            
-            // Resetear inputs
             document.querySelectorAll('input, select').forEach(input => {
                 input.value = '';
             });
-            
-            // Resetear contenedores de residuos
             document.querySelectorAll('.bin').forEach(bin => {
                 bin.innerHTML = '';
             });
-            
-            // Volver a colocar los elementos de residuos en sus contenedores originales
-            const scene3Container = document.getElementById('waste-items-container-3');
-            document.querySelectorAll('#scene-3 .waste-item').forEach(item => {
-                scene3Container.appendChild(item);
-            });
-            
-            const scene16Container = document.getElementById('waste-items-container-16');
-            document.querySelectorAll('#scene-16 .waste-item').forEach(item => {
-                scene16Container.appendChild(item);
-            });
-            
-            // Resetear selecciones
             document.querySelectorAll('.selected').forEach(el => {
                 el.classList.remove('selected');
             });
-            
-            // Resetear juego de emparejamiento
             document.querySelectorAll('.matching-item').forEach(item => {
                 item.classList.remove('matched');
                 item.style.display = 'block';
-                
-                // Restaurar texto original según la escena
-                if (item.id.startsWith('categoria')) {
-                    if (item.id === 'categoriaA') item.textContent = 'Movilidad sostenible';
-                    if (item.id === 'categoriaB') item.textContent = 'Gobierno digital';
-                    if (item.id === 'categoriaC') item.textContent = 'Infraestructura verde';
-                    if (item.id === 'categoriaD') item.textContent = 'Energía y medio ambiente';
-                } else if (item.id.startsWith('punto')) {
-                    if (item.id === 'puntoA') item.textContent = 'Contenedor específico en supermercados';
-                    if (item.id === 'puntoB') item.textContent = 'Taller mecánico o punto limpio';
-                    if (item.id === 'puntoC') item.textContent = 'Tienda de electrónica o punto limpio';
-                    if (item.id === 'puntoD') item.textContent = 'Punto limpio o tienda especializada';
-                } else if (item.id.startsWith('beneficio')) {
-                    if (item.id === 'beneficioA') item.textContent = 'Facilita el uso combinado de transporte público y privado';
-                    if (item.id === 'beneficioB') item.textContent = 'Permite optimizar tiempos de viaje';
-                    if (item.id === 'beneficioC') item.textContent = 'Elimina la necesidad de múltiples apps y suscripciones';
-                    if (item.id === 'beneficioD') item.textContent = 'Garantiza disponibilidad de medios de transporte';
-                }
             });
-            
-            // Resetear planificación
-            resetPlanificacion();
-            
-            // Resetear feedback
             document.querySelectorAll('[id$="feedback"]').forEach(el => {
                 el.innerHTML = '';
             });
-            
-            // Resetear botones
             document.querySelectorAll('[id$="verify"]').forEach(btn => {
                 btn.style.display = 'inline-block';
             });
             document.querySelectorAll('[id$="continue"]').forEach(btn => {
                 btn.style.display = 'none';
             });
-            
-            // Resetear progreso
             document.getElementById('progress').style.width = '0%';
-            
-            // Ocultar todas las pistas
             document.querySelectorAll('.hint').forEach(hint => {
                 hint.style.display = 'none';
             });
             
-            // Desplazar al inicio
+            initializeRandomOptions();
+            
             setTimeout(() => {
                 document.getElementById('scene-intro').scrollIntoView({ behavior: 'smooth', block: 'start' });
             }, 300);
@@ -2065,7 +2704,6 @@
 
         // Inicializar eventos de arrastrar y soltar para planificación
         document.addEventListener('DOMContentLoaded', function() {
-            // Añadir eventos a los contenedores de planificación
             const planificacionContainer = document.getElementById('planificacion-container');
             if (planificacionContainer) {
                 planificacionContainer.addEventListener('drop', dropPlanificacion);
