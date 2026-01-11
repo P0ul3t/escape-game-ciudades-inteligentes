@@ -1213,7 +1213,7 @@
         let currentScene = 0;
         let timerInterval;
         let timeLeft;
-        const total_time = 1800;
+        const total_time = 20;
         let totalScenes = 30;
         let startTime;
         let wasteAnswers = {
@@ -1243,8 +1243,48 @@
         let matchingPairs = {};
         let planificacionOrder = {};
 
+        // Función para reproducir sonidos con multiplicadores de volumen
+        function playSound(soundId) {
+            const sound = document.getElementById(soundId);
+            const volumeSlider = document.getElementById('volumeSlider');
+            
+            if (sound && volumeSlider) {
+                sound.currentTime = 0;
+                
+                // 1. Obtener el volumen base del control deslizante (0-100)
+                const baseVolume = parseInt(volumeSlider.value) / 100; // Convertir a 0-1
+                
+                // 2. Multiplicadores relativos para cada tipo de sonido
+                const volumeMultipliers = {
+                    'sonidoBotonJugar': 0.7,
+                    'sonidoBotonContinuar': 0.9,
+                    'sonidoRespuestaCorrecta': 1.0,
+                    'sonidoRespuestaIncorrecta': 2.0,
+                    'sonidoUrgencia': 0.5
+                };
+                
+                // 3. Calcular volumen final con límites
+                const multiplier = volumeMultipliers[soundId] || 1.0;
+                let finalVolume = baseVolume * multiplier;
+                
+                // 4. Asegurar que no exceda 1.0 (máximo volumen permitido)
+                finalVolume = Math.min(finalVolume, 1.0);
+                
+                // 5. Aplicar el volumen calculado
+                sound.volume = finalVolume;
+                
+                // 6. Reproducir (con manejo de errores)
+                sound.play().catch(e => {
+                    console.log('Error reproduciendo sonido:', e);
+                });
+            }
+        }
+
         // Iniciar el juego
         function startGame() {
+            
+            playSound('sonidoBotonJugar');
+
             currentScene = 1;
             document.getElementById('scene-intro').classList.remove('active');
             document.getElementById('scene-1').classList.add('active');
@@ -1799,6 +1839,10 @@
             if (timeLeft <= 10) {
                 document.getElementById('timer').style.color = '#ff6b6b';
                 document.getElementById('timer').style.animation = 'pulse 0.5s infinite';
+                // Reproducir sonido de urgencia cuando llega a 10 segundos
+                if (timeLeft === 10) {
+                    playSound('sonidoUrgencia');
+                }
             } else {
                 document.getElementById('timer').style.color = '#e6f1ff';
                 document.getElementById('timer').style.animation = 'none';
@@ -1842,6 +1886,9 @@
 
         // Avanzar a la siguiente escena
         function nextSceneWithScroll() {
+
+            playSound('sonidoBotonContinuar');
+
             if (timeLeft <= 0) {
                 return;
             }
@@ -2062,9 +2109,11 @@
             
             if (answer === '64') {
                 feedback.innerHTML = '<div class="success">¡Correcto! El patrón es multiplicar por 2 cada vez.</div>';
+                playSound('sonidoRespuestaCorrecta');
                 showContinueButton('transport');
             } else {
                 feedback.innerHTML = '<div class="error">Incorrecto. Intenta nuevamente.</div>';
+                playSound('sonidoRespuestaIncorrecta');
             }
         }
 
@@ -2074,9 +2123,11 @@
             
             if (answer === '200') {
                 feedback.innerHTML = '<div class="success">¡Correcto! 40% de 500 MWh es 200 MWh.</div>';
+                playSound('sonidoRespuestaCorrecta');
                 showContinueButton('energy');
             } else {
                 feedback.innerHTML = '<div class="error">Incorrecto. Recuerda: porcentaje × total / 100.</div>';
+                playSound('sonidoRespuestaIncorrecta');
             }
         }
 
@@ -2098,9 +2149,11 @@
             
             if (correct) {
                 feedback.innerHTML = '<div class="success">¡Correcto! Has clasificado correctamente los residuos.</div>';
+                playSound('sonidoRespuestaCorrecta');
                 showContinueButton('waste');
             } else {
                 feedback.innerHTML = '<div class="error">Clasificación incorrecta. Revisa en qué contenedor va cada residuo.</div>';
+                playSound('sonidoRespuestaIncorrecta');
             }
         }
 
@@ -2108,9 +2161,11 @@
             const feedback = document.getElementById('sensor-feedback');
             if (selectedOption.sensor === 'Sensor de temperatura corporal') {
                 feedback.innerHTML = '<div class="success">¡Correcto! El sensor de temperatura corporal no se utiliza en redes de ciudad inteligente.</div>';
+                playSound('sonidoRespuestaCorrecta');
                 showContinueButton('sensor');
             } else {
                 feedback.innerHTML = '<div class="error">Incorrecto. Piensa en qué sensores se utilizan para monitorizar infraestructuras urbanas.</div>';
+                playSound('sonidoRespuestaIncorrecta');
             }
         }
 
@@ -2120,9 +2175,11 @@
             
             if (answer === '6' || answer === '6.67' || answer === '7') {
                 feedback.innerHTML = '<div class="success">¡Correcto! 300 km / 45 km/día ≈ 6.67 días.</div>';
+                playSound('sonidoRespuestaCorrecta');
                 showContinueButton('ev');
             } else {
                 feedback.innerHTML = '<div class="error">Incorrecto. Divide la autonomía total entre el consumo diario.</div>';
+                playSound('sonidoRespuestaIncorrecta');
             }
         }
 
@@ -2132,9 +2189,11 @@
             
             if (answer === '150') {
                 feedback.innerHTML = '<div class="success">¡Correcto! (125+180+95+210+140)/5 = 150 MWh.</div>';
+                playSound('sonidoRespuestaCorrecta');
                 showContinueButton('data');
             } else {
                 feedback.innerHTML = '<div class="error">Incorrecto. Calcula la suma de todos los valores y divide entre 5.</div>';
+                playSound('sonidoRespuestaIncorrecta');
             }
         }
 
@@ -2144,9 +2203,11 @@
             
             if (answer === 'D') {
                 feedback.innerHTML = '<div class="success">¡Correcto! La plaza central con alta afluencia necesita mayor capacidad de red.</div>';
+                playSound('sonidoRespuestaCorrecta');
                 showContinueButton('antenna');
             } else {
                 feedback.innerHTML = '<div class="error">Incorrecto. Piensa en dónde se necesita mayor capacidad de red.</div>';
+                playSound('sonidoRespuestaIncorrecta');
             }
         }
 
@@ -2156,9 +2217,11 @@
             
             if (answer === '1700') {
                 feedback.innerHTML = '<div class="success">¡Correcto! 2000 kWh - 15% = 1700 kWh.</div>';
+                playSound('sonidoRespuestaCorrecta');
                 showContinueButton('building');
             } else {
                 feedback.innerHTML = '<div class="error">Incorrecto. Calcula el 15% de 2000 y réstalo.</div>';
+                playSound('sonidoRespuestaIncorrecta');
             }
         }
 
@@ -2199,9 +2262,11 @@
             
             if (correct && Object.keys(matchingPairs).length === Object.keys(correctPairs).length) {
                 feedback.innerHTML = '<div class="success">¡Correcto! Has relacionado correctamente todos los elementos.</div>';
+                playSound('sonidoRespuestaCorrecta');
                 showContinueButton('matching');
             } else {
                 feedback.innerHTML = '<div class="error">Emparejamientos incorrectos o incompletos. Intenta nuevamente.</div>';
+                playSound('sonidoRespuestaIncorrecta');
             }
         }
 
@@ -2209,9 +2274,11 @@
             const feedback = document.getElementById('security-feedback');
             if (selectedOption.security === 'Compartir credenciales entre departamentos') {
                 feedback.innerHTML = '<div class="success">¡Correcto! Compartir credenciales aumenta el riesgo de brechas de seguridad.</div>';
+                playSound('sonidoRespuestaCorrecta');
                 showContinueButton('security');
             } else {
                 feedback.innerHTML = '<div class="error">Incorrecto. Piensa en prácticas que aumenten el riesgo de seguridad.</div>';
+                playSound('sonidoRespuestaIncorrecta');
             }
         }
 
@@ -2219,9 +2286,11 @@
             const feedback = document.getElementById('tourism-feedback');
             if (selectedOption.tourism === 'Sensores de radiación nuclear') {
                 feedback.innerHTML = '<div class="success">¡Correcto! Los sensores de radiación nuclear no son relevantes para el turismo inteligente.</div>';
+                playSound('sonidoRespuestaCorrecta');
                 showContinueButton('tourism');
             } else {
                 feedback.innerHTML = '<div class="error">Incorrecto. Piensa en tecnologías relevantes para la experiencia turística.</div>';
+                playSound('sonidoRespuestaIncorrecta');
             }
         }
 
@@ -2229,9 +2298,11 @@
             const feedback = document.getElementById('health-feedback');
             if (selectedOption.health === 'Historial médico individual') {
                 feedback.innerHTML = '<div class="success">¡Correcto! El historial médico individual no es un indicador de salud urbana.</div>';
+                playSound('sonidoRespuestaCorrecta');
                 showContinueButton('health');
             } else {
                 feedback.innerHTML = '<div class="error">Incorrecto. Piensa en indicadores de salud pública, no datos médicos personales.</div>';
+                playSound('sonidoRespuestaIncorrecta');
             }
         }
 
@@ -2239,9 +2310,11 @@
             const feedback = document.getElementById('circular-feedback');
             if (selectedOption.circular === 'Vertido en un desagüe') {
                 feedback.innerHTML = '<div class="success">¡Correcto! El vertido en un desagüe es contrario a los principios de economía circular.</div>';
+                playSound('sonidoRespuestaCorrecta');
                 showContinueButton('circular');
             } else {
                 feedback.innerHTML = '<div class="error">Incorrecto. La economía circular busca eliminar los residuos.</div>';
+                playSound('sonidoRespuestaIncorrecta');
             }
         }
 
@@ -2249,9 +2322,11 @@
             const feedback = document.getElementById('governance-feedback');
             if (selectedOption.governance === 'Venta de datos personales') {
                 feedback.innerHTML = '<div class="success">¡Correcto! La venta de datos personales viola principios éticos de gobernanza.</div>';
+                playSound('sonidoRespuestaCorrecta');
                 showContinueButton('governance');
             } else {
                 feedback.innerHTML = '<div class="error">Incorrecto. Piensa en prácticas que respeten los derechos de los ciudadanos.</div>';
+                playSound('sonidoRespuestaIncorrecta');
             }
         }
 
@@ -2261,9 +2336,11 @@
             
             if (answer === 'r') {
                 feedback.innerHTML = '<div class="success">¡Correcto! La ciudad es Barcelona. Has descifrado el código final.</div>';
+                playSound('sonidoRespuestaCorrecta');
                 showContinueButton('city');
             } else {
                 feedback.innerHTML = '<div class="error">Incorrecto. La tercera letra de Barcelona es "r".</div>';
+                playSound('sonidoRespuestaIncorrecta');
             }
         }
 
@@ -2285,9 +2362,11 @@
             
             if (correct) {
                 feedback.innerHTML = '<div class="success">¡Correcto! Has gestionado correctamente los residuos electrónicos.</div>';
+                playSound('sonidoRespuestaCorrecta');
                 showContinueButton('raee');
             } else {
                 feedback.innerHTML = '<div class="error">Clasificación incorrecta. Revisa dónde debe ir cada dispositivo.</div>';
+                playSound('sonidoRespuestaIncorrecta');
             }
         }
 
@@ -2306,9 +2385,11 @@
             
             if (correct) {
                 feedback.innerHTML = '<div class="success">¡Correcto! Has identificado correctamente los residuos orgánicos.</div>';
+                playSound('sonidoRespuestaCorrecta');
                 showContinueButton('organica');
             } else {
                 feedback.innerHTML = '<div class="error">Selección incorrecta. Revisa qué materiales son compostables.</div>';
+                playSound('sonidoRespuestaIncorrecta');
             }
         }
 
@@ -2336,9 +2417,11 @@
             
             if (correct && hasAllPairs) {
                 feedback.innerHTML = '<div class="success">¡Correcto! Has identificado correctamente los puntos de reciclaje.</div>';
+                playSound('sonidoRespuestaCorrecta');
                 showContinueButton('pilas');
             } else {
                 feedback.innerHTML = '<div class="error">Emparejamientos incorrectos o incompletos. Intenta nuevamente.</div>';
+                playSound('sonidoRespuestaIncorrecta');
             }
         }
 
@@ -2361,9 +2444,11 @@
             
             if (correct) {
                 feedback.innerHTML = '<div class="success">¡Correcto! Has priorizado correctamente los proyectos.</div>';
+                playSound('sonidoRespuestaCorrecta');
                 showContinueButton('planificacion');
             } else {
                 feedback.innerHTML = '<div class="error">Orden incorrecto. Revisa la prioridad de cada proyecto.</div>';
+                playSound('sonidoRespuestaIncorrecta');
             }
         }
 
@@ -2391,9 +2476,11 @@
             
             if (correct && hasAllPairs) {
                 feedback.innerHTML = '<div class="success">¡Correcto! Has relacionado correctamente las características con sus beneficios.</div>';
+                playSound('sonidoRespuestaCorrecta');
                 showContinueButton('maas');
             } else {
                 feedback.innerHTML = '<div class="error">Emparejamientos incorrectos o incompletos. Intenta nuevamente.</div>';
+                playSound('sonidoRespuestaIncorrecta');
             }
         }
 
@@ -2402,9 +2489,11 @@
             const feedback = document.getElementById('water-feedback');
             if (answer === 'A') {
                 feedback.innerHTML = '<div class="success">¡Correcto! Los sensores de presión permiten detectar fugas inmediatamente.</div>';
+                playSound('sonidoRespuestaCorrecta');
                 showContinueButton('water');
             } else {
                 feedback.innerHTML = '<div class="error">Incorrecto. Piensa en tecnologías que permitan detección temprana.</div>';
+                playSound('sonidoRespuestaIncorrecta');
             }
         }
 
@@ -2413,9 +2502,11 @@
             const feedback = document.getElementById('lighting-feedback');
             if (answer === 'A') {
                 feedback.innerHTML = '<div class="success">¡Correcto! Los LEDs con regulación inteligente adaptan el consumo a las necesidades reales.</div>';
+                playSound('sonidoRespuestaCorrecta');
                 showContinueButton('lighting');
             } else {
                 feedback.innerHTML = '<div class="error">Incorrecto. Considera sistemas que adapten el consumo automáticamente.</div>';
+                playSound('sonidoRespuestaIncorrecta');
             }
         }
 
@@ -2424,9 +2515,11 @@
             const feedback = document.getElementById('mobility-feedback');
             if (answer === 'A') {
                 feedback.innerHTML = '<div class="success">¡Correcto! La combinación de restricciones y alternativas atractivas es más efectiva.</div>';
+                playSound('sonidoRespuestaCorrecta');
                 showContinueButton('mobility');
             } else {
                 feedback.innerHTML = '<div class="error">Incorrecto. Piensa en medidas que ofrezcan alternativas reales al coche.</div>';
+                playSound('sonidoRespuestaIncorrecta');
             }
         }
 
@@ -2435,9 +2528,11 @@
             const feedback = document.getElementById('green-feedback');
             if (answer === 'A') {
                 feedback.innerHTML = '<div class="success">¡Correcto! El riego por goteo con sensores optimiza el uso del agua.</div>';
+                playSound('sonidoRespuestaCorrecta');
                 showContinueButton('green');
             } else {
                 feedback.innerHTML = '<div class="error">Incorrecto. Considera sistemas que adapten el riego a las condiciones reales.</div>';
+                playSound('sonidoRespuestaIncorrecta');
             }
         }
 
@@ -2446,9 +2541,11 @@
             const feedback = document.getElementById('solar-feedback');
             if (answer === 'A') {
                 feedback.innerHTML = '<div class="success">¡Correcto! Las cubiertas industriales ofrecen gran superficie sin ocupar suelo adicional.</div>';
+                playSound('sonidoRespuestaCorrecta');
                 showContinueButton('solar');
             } else {
                 feedback.innerHTML = '<div class="error">Incorrecto. Piensa en ubicaciones con máxima exposición solar y mínimo impacto.</div>';
+                playSound('sonidoRespuestaIncorrecta');
             }
         }
 
@@ -2465,9 +2562,11 @@
             
             if (correct) {
                 feedback.innerHTML = '<div class="success">¡Correcto! Has identificado correctamente los materiales compostables.</div>';
+                playSound('sonidoRespuestaCorrecta');
                 showContinueButton('compost');
             } else {
                 feedback.innerHTML = '<div class="error">Selección incorrecta. Revisa qué materiales pueden compostarse.</div>';
+                playSound('sonidoRespuestaIncorrecta');
             }
         }
 
@@ -2485,9 +2584,11 @@
             
             if (correct) {
                 feedback.innerHTML = '<div class="success">¡Correcto! Has identificado correctamente las prácticas sostenibles.</div>';
+                playSound('sonidoRespuestaCorrecta');
                 showContinueButton('garden');
             } else {
                 feedback.innerHTML = '<div class="error">Selección incorrecta. Revisa qué prácticas son realmente sostenibles.</div>';
+                playSound('sonidoRespuestaIncorrecta');
             }
         }
 
@@ -2504,9 +2605,11 @@
             
             if (correct) {
                 feedback.innerHTML = '<div class="success">¡Correcto! Has identificado correctamente las infraestructuras que fomentan la movilidad activa.</div>';
+                playSound('sonidoRespuestaCorrecta');
                 showContinueButton('active');
             } else {
                 feedback.innerHTML = '<div class="error">Selección incorrecta. Revisa qué infraestructuras hacen más seguros los desplazamientos activos.</div>';
+                playSound('sonidoRespuestaIncorrecta');
             }
         }
 
@@ -2525,9 +2628,11 @@
             
             if (correct) {
                 feedback.innerHTML = '<div class="success">¡Correcto! Has identificado correctamente las medidas de eficiencia energética.</div>';
+                playSound('sonidoRespuestaCorrecta');
                 showContinueButton('efficiency');
             } else {
                 feedback.innerHTML = '<div class="error">Selección incorrecta. Revisa qué medidas reducen realmente el consumo energético.</div>';
+                playSound('sonidoRespuestaIncorrecta');
             }
         }
 
@@ -2545,9 +2650,11 @@
             
             if (correct) {
                 feedback.innerHTML = '<div class="success">¡Correcto! Has identificado correctamente las acciones que fomentan la biodiversidad.</div>';
+                playSound('sonidoRespuestaCorrecta');
                 showContinueButton('biodiversity');
             } else {
                 feedback.innerHTML = '<div class="error">Selección incorrecta. Revisa qué acciones crean habitats para la fauna urbana.</div>';
+                playSound('sonidoRespuestaIncorrecta');
             }
         }
 
@@ -2668,6 +2775,9 @@
 
         // Reiniciar juego completo
         function restartGame() {
+            
+            playSound('sonidoBotonJugar');
+
             // Detener el temporizador si está corriendo
             if (timerInterval) {
                 clearInterval(timerInterval);
@@ -2760,9 +2870,29 @@
         </div>
     </div>
 
-    <!-- Musica de fondo -->
+    <!-- Sonido -->
     <audio id="backgroundMusic" loop preload="auto">
         <source src="Musica de fondo.mp3" type="audio/mpeg">
+        Tu navegador no soporta audio HTML5.
+    </audio>
+    <audio id="sonidoBotonJugar" preload="auto">
+        <source src="boton_jugar.mp3" type="audio/mpeg">
+        Tu navegador no soporta audio HTML5.
+    </audio>
+    <audio id="sonidoBotonContinuar" preload="auto">
+        <source src="boton_continuar.mp3" type="audio/mpeg">
+        Tu navegador no soporta audio HTML5.
+    </audio>
+    <audio id="sonidoRespuestaCorrecta" preload="auto">
+        <source src="respuesta_correcta.mp3" type="audio/mpeg">
+        Tu navegador no soporta audio HTML5.
+    </audio>
+    <audio id="sonidoRespuestaIncorrecta" preload="auto">
+        <source src="respuesta_incorrecta.mp3" type="audio/mpeg">
+        Tu navegador no soporta audio HTML5.
+    </audio>
+    <audio id="sonidoUrgencia" preload="auto">
+        <source src="urgencia.mp3" type="audio/mpeg">
         Tu navegador no soporta audio HTML5.
     </audio>
 
@@ -3018,10 +3148,20 @@
             }
         }
         
-        // Actualizar volumen de la música
+        // Actualizar volumen de los sonidos
         function updateMusicVolume(value) {
             const volume = value / 100;
-            music.volume = volume;
+            
+            // Actualizar volumen de TODOS los sonidos
+            const allSounds = document.querySelectorAll('audio');
+            allSounds.forEach(sound => {
+                // Solo actualizar si no es la música de fondo
+                if (sound.id !== 'backgroundMusic') {
+                    sound.volume = volume;
+                } else {
+                    sound.volume = volume; // La música ya se actualiza aparte
+                }
+            });
             
             // Guardar último volumen si no está muteado
             if (value > 0) {
@@ -3458,6 +3598,11 @@
             .volume-control:hover .volume-slider-container {
                 width: 80px;
             }
+        }
+
+        .audio-muted {
+            filter: grayscale(100%);
+            opacity: 0.5;
         }
     </style>
 </body>
